@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -12,7 +13,7 @@ public class MyGdxGame extends Game {
 	
 	@Override
 	public void create () {
-	    setScreen(new Play());
+	    setScreen(new Play(new Engine()));
 	}
 
 	@Override
