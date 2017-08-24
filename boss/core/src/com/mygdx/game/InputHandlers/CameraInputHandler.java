@@ -93,8 +93,7 @@ public class CameraInputHandler extends InputAdapter {
     @Override
     public boolean scrolled (int amount) {
         OrthographicCamera OCamera = Mappers.camera.get(camera).getCamera();
-        System.out.println(OCamera.zoom);
-        OCamera.zoom = Math.max(1, Math.min(OCamera.zoom + amount, 2));
+        OCamera.zoom = Math.max(1, Math.min(OCamera.zoom + 0.01f * amount, 2));
         return false;
     }
 
