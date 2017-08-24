@@ -13,9 +13,9 @@ public class RTSCamera extends Entity{
 
     public RTSCamera(float x, float y){
         PositionComponent pos = new PositionComponent();
-        pos.x = x; pos.y = y;
+        pos.pos.x = x; pos.pos.y = y;
         VelocityComponent vel = new VelocityComponent();
-        OrthographicCamera camera = new OrthographicCamera(pos.x, pos.y);
+        OrthographicCamera camera = new OrthographicCamera(pos.pos.x, pos.pos.y);
         add(vel).add(pos).add(new CameraComponent(camera));
     }
 }

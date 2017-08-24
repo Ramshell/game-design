@@ -10,6 +10,7 @@ public class MovementSystem extends EntitySystem {
 
     private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
     private ComponentMapper<VelocityComponent> vm = ComponentMapper.getFor(VelocityComponent.class);
+    private final float maxVelocity = 3000;
 
     public MovementSystem() {}
 
@@ -21,9 +22,14 @@ public class MovementSystem extends EntitySystem {
         for (Entity entity : entities) {
             PositionComponent position = pm.get(entity);
             VelocityComponent velocity = vm.get(entity);
-
-            position.x += velocity.x * deltaTime;
-            position.y += velocity.y * deltaTime;
+            position.pos
+                    .add(velocity.accel.cpy().scl(1/2 * deltaTime * deltaTime)
+                    .add(velocity.pos.cpy().scl(deltaTime)));
+            velocity.pos.add(velocity.accel.cpy().scl(deltaTime));
+            velocity.pos.x = Math.min(velocity.pos.x, maxVelocity);
+            velocity.pos.y = Math.min(velocity.pos.y, maxVelocity);
+            velocity.pos.x = Math.max(velocity.pos.x, -maxVelocity);
+            velocity.pos.y = Math.max(velocity.pos.y, -maxVelocity);
         }
     }
 }

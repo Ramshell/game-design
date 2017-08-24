@@ -4,8 +4,10 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
@@ -31,6 +33,8 @@ public class Play implements Screen {
 
     @Override
     public void show() {
+//        Cursor customCursor = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("cursor/real.png")), 0, 0);
+//        Gdx.graphics.setCursor(customCursor);
         TmxMapLoader loader = new TmxMapLoader();
         map = loader.load("example_map.tmx");
         renderer = new IsometricTiledMapRenderer(map);

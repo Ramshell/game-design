@@ -21,8 +21,8 @@ public class CameraSystem extends EntitySystem {
             PositionComponent position = pm.get(entity);
             CameraComponent camera = cm.get(entity);
 
-            camera.getCamera().position.x = position.x;
-            camera.getCamera().position.y = position.y;
+            camera.getCamera().position.x = position.pos.x;
+            camera.getCamera().position.y = position.pos.y;
             camera.getCamera().update();
         }
     }
