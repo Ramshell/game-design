@@ -3,7 +3,6 @@ package com.mygdx.game.Systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Components.PositionComponent;
 import com.mygdx.game.Components.VelocityComponent;
 
@@ -27,8 +26,7 @@ public class MovementSystem extends EntitySystem {
             Vector2 v = position.pos.cpy()
                     .add(velocity.accel.cpy().scl(1/2 * deltaTime * deltaTime)
                     .add(velocity.pos.cpy().scl(deltaTime)));
-            float[] check = screenToIso(v.x, v.y);
-            if(check[0] < 0 || check[0] > 128 || check[1] > 0 || check[1] < -128) continue;
+            if(outsideWorld(screenToIso(v))) continue;
             position.pos = v;
             velocity.pos.add(velocity.accel.cpy().scl(deltaTime));
             velocity.pos.x = Math.min(velocity.pos.x, maxVelocity);
@@ -38,12 +36,27 @@ public class MovementSystem extends EntitySystem {
         }
     }
 
-    public float[] screenToIso(float screenX, float screenY){
-        float[] res = new float[2];
-        float isoX = screenY / 32 + screenX / (64);
-        float isoY = screenY / 32 - screenX / (64);
-        res[0] = isoX;
-        res[1] = isoY;
-        return res;
+    public static Vector2 screenToIso(float screenX, float screenY){
+        return new Vector2(- screenY + screenX * 0.5f, screenY + screenX * 0.5f);
+    }
+
+    public static Vector2 screenToIso(Vector2 v){
+        return new Vector2(- v.y + v.x * 0.5f,v.y + v.x * 0.5f );
+    }
+
+    public static Vector2 isoToScreen(float isoScreenX, float isoScreenY){
+        return new Vector2(isoScreenX + isoScreenY,(- isoScreenX + isoScreenY) * 0.5f );
+    }
+
+    public static Vector2 isoToScreen(Vector2 v){
+        return new Vector2(v.x + v.y,(- v.x + v.y) * 0.5f );
+    }
+
+    public static boolean outsideWorld(Vector2 check){
+        return check.y < 0 || check.y > 128 * 32 || check.x < 0 || check.x > 128 * 32;
+    }
+
+    public static boolean outsideWorld(float x, float y){
+        return y < 0 || y > 128 * 32 || x < 0 || x > 128 * 32;
     }
 }

@@ -14,16 +14,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Components.PlayerComponent;
+import com.mygdx.game.Mappers.Mappers;
 import com.sun.javafx.scene.control.skin.ButtonSkin;
 
 
 public class HUDComponent implements Component {
     public Stage stage;
     private Viewport viewport;
+    public PlayerComponent player;
 
-    private Skin skin = new Skin(Gdx.files.internal("HUD/skins/gdx-skins-master/freezing/skin/freezing-ui.json"));
+    public Skin skin = new Skin(Gdx.files.internal("HUD/skins/gdx-skins-master/freezing/skin/freezing-ui.json"));
 
-    public HUDComponent(){
+    public Label selectedObjectLabel;
+
+    public HUDComponent(PlayerComponent player){
+        this.player = player;
+        selectedObjectLabel = new Label(player.selectedObject.objectName,skin);
         OrthographicCamera camera = new OrthographicCamera(512, 384);
         viewport = new FitViewport(camera.viewportWidth, camera.viewportHeight, camera);
         stage = new Stage(viewport);
@@ -45,9 +52,11 @@ public class HUDComponent implements Component {
         Label resources = new Label("resources:",skin);
         topTable.add(rts).expandX();
         topTable.add(resources).expandX();
-        bottomTable.add(new Label("Aca irian las ordenes:",skin)).expandX();
+        HorizontalGroup topMostBottomBar = new HorizontalGroup().expand();
+        topMostBottomBar.left().addActor(selectedObjectLabel);
+        bottomTable.add(topMostBottomBar).expandX().left();
         bottomTable.row();
-        bottomTable.add(new Label("Yayz",skin));
+        bottomTable.add(new Label("Aca irian las ordenes:",skin)).expandX();
         TextureRegionDrawable t = new TextureRegionDrawable();
         t.setRegion(new TextureRegion(new Texture("HUD/resourceBar.png")));
         TextureRegionDrawable t2 = new TextureRegionDrawable();

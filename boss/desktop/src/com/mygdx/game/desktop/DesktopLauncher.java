@@ -1,5 +1,7 @@
 package com.mygdx.game.desktop;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.game.MyGdxGame;
@@ -7,6 +9,10 @@ import com.mygdx.game.MyGdxGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new MyGdxGame(), config);
+//        config.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
+//        config.resizable = false;
+//        config.samples = 4;
+//        config.vSyncEnabled = true;
+        new LwjglApplication(new MyGdxGame(), config);
 	}
 }
