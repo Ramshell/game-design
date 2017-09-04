@@ -31,6 +31,7 @@ public class BuildingEntity extends Entity {
                 ResourceMapper.tileWidh,
                 ResourceMapper.tileHeight);
         Array<CellComponent> cells = new Array<CellComponent>();
+        t.getProperties().put("blocked", true);
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
         cell.setTile(t);
         CellComponent cellComponent = new CellComponent();

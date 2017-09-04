@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.MapComponent;
 import com.mygdx.game.Mappers.Mappers;
@@ -30,9 +31,23 @@ public class RenderHudSystem extends EntitySystem {
     }
 
     private void updateHudComponent(HUDComponent hud) {
+        drawSelectedName(hud);
+        drawResources(hud);
+        drawButtons(hud);
+    }
+
+    private void drawSelectedName(HUDComponent hud){
         hud.selectedObjectLabel.setText(
                 hud.player.selectedObject.objectName.equals("") ?
                         "Nothing Selected" :
                         hud.player.selectedObject.objectName);
+    }
+
+    private void drawResources(HUDComponent hud) {
+        hud.resourcesLabel.setText("    " + Integer.toString(hud.player.resources));
+    }
+
+    private void drawButtons(HUDComponent hud) {
+
     }
 }
