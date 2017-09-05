@@ -11,12 +11,10 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.*;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
+import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Entities.PlayerEntity;
 import com.mygdx.game.Entities.RTSCamera;
 import com.mygdx.game.Mappers.AssetsMapper;
@@ -76,10 +74,7 @@ public class UserInputHandler extends InputAdapter {
                 addVelocity(velocityComponent, new Vector2(0, -velocity), new Vector2(0, -accel));
                 break;
             case Input.Keys.ESCAPE:
-                if(!pm.get(player).selectedObject.objectName.equals("")){
-                    pm.get(player).selectedObject.currentlySelected = false;
-                    pm.get(player).selectedObject = ResourceMapper.invalidWoComponent;
-                }
+                pm.get(player).selectedObject.deselect();
                 break;
         }
         return true;
@@ -157,7 +152,7 @@ public class UserInputHandler extends InputAdapter {
     public boolean touchDragged (int screenX, int screenY, int pointer) {
         if(selection.selection != null) {
             Vector3 v = Mappers.camera.get(camera).getCamera().unproject(new Vector3(screenX, screenY, 0));
-            Vector2 v2 = MovementSystem.screenToIso(v.x, v.y).add(10, -10);
+            Vector2 v2 = MovementSystem.screenToIso(v.x, v.y);
             selection.selection.width = v.x - selection.selection.x;
             selection.selection.height = v.y - selection.selection.y;
             return true;
@@ -168,7 +163,7 @@ public class UserInputHandler extends InputAdapter {
     public boolean touchDown(int screenX, int screenY, int pointer, int button){
         if(button == Input.Buttons.LEFT) {
             Vector3 v = Mappers.camera.get(camera).getCamera().unproject(new Vector3(screenX, screenY, 0));
-            Vector2 v2 = MovementSystem.screenToIso(v.x, v.y).add(10, -10);
+            Vector2 v2 = MovementSystem.screenToIso(v.x, v.y);
             selection.selection = new Rectangle(v.x, v.y, 0, 0);
             return true;
         }
@@ -189,7 +184,7 @@ public class UserInputHandler extends InputAdapter {
                                 myRectangle,
                                 rectToPolygon(wo.bounds.getRectangle()))){
                     wo.currentlySelected = true;
-                    pm.get(player).selectedObject = wo;
+                    pm.get(player).selectedObject.add(wo);
                 }
             }
             selection.selection = null;
@@ -215,7 +210,7 @@ public class UserInputHandler extends InputAdapter {
         return r;
     }
 
-    private Polygon rectToScreenPolygon(Rectangle rect){
+    public static Polygon rectToScreenPolygon(Rectangle rect){
         float[] vertices = new float[8];
         vertices[0] = 0; vertices[1] = 0;
         Vector2 v = MovementSystem.isoToScreen(rect.width, 0);
@@ -230,7 +225,7 @@ public class UserInputHandler extends InputAdapter {
         return pol;
     }
 
-    private Polygon rectToIsoPolygon(Rectangle rect){
+    public static Polygon rectToIsoPolygon(Rectangle rect){
         float[] vertices = new float[8];
         vertices[0] = 0; vertices[1] = 0;
         Vector2 v = MovementSystem.screenToIso(rect.width, 0);

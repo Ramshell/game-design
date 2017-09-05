@@ -37,10 +37,7 @@ public class RenderHudSystem extends EntitySystem {
     }
 
     private void drawSelectedName(HUDComponent hud){
-        hud.selectedObjectLabel.setText(
-                hud.player.selectedObject.objectName.equals("") ?
-                        "Nothing Selected" :
-                        hud.player.selectedObject.objectName);
+        hud.selectedObjectLabel.setText(hud.player.selectedObject.getName());
     }
 
     private void drawResources(HUDComponent hud) {

@@ -2,17 +2,9 @@ package com.mygdx.game.Systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
+import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Mappers.Mappers;
 
 public class MapRendererSystem extends EntitySystem {

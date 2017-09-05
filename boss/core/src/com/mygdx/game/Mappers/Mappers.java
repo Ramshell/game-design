@@ -3,6 +3,7 @@ package com.mygdx.game.Mappers;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
+import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 
 public class Mappers {
     public static final ComponentMapper<PositionComponent> position = ComponentMapper.getFor(PositionComponent.class);

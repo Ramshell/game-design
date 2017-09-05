@@ -4,23 +4,13 @@ package com.mygdx.game.Systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
-import com.mygdx.game.Entities.PlayerEntity;
-import com.mygdx.game.Mappers.Mappers;
+import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Mappers.ResourceMapper;
-
-import java.awt.*;
 
 public class BuildingMakingSystem extends EntitySystem{
     private ImmutableArray<Entity> entities;

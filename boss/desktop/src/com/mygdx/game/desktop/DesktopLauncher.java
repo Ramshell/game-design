@@ -13,6 +13,7 @@ public class DesktopLauncher {
 //        config.resizable = false;
 //        config.samples = 4;
 //        config.vSyncEnabled = true;
+        config.title = "Essence of Life";
         new LwjglApplication(new MyGdxGame(), config);
 	}
 }

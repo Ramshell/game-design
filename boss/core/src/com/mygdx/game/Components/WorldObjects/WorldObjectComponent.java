@@ -1,4 +1,4 @@
-package com.mygdx.game.Components;
+package com.mygdx.game.Components.WorldObjects;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;

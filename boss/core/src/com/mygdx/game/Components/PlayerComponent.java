@@ -1,7 +1,9 @@
 package com.mygdx.game.Components;
 
 import com.badlogic.ashley.core.Component;
+import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Entities.BuildingEntity;
+import com.mygdx.game.OOP.SelectedWO;
 
 public class PlayerComponent implements Component {
 
@@ -11,7 +13,7 @@ public class PlayerComponent implements Component {
 
     public boolean human;
     public int resources = 0;
-    public WorldObjectComponent selectedObject = new WorldObjectComponent();
+    public SelectedWO selectedObject = new SelectedWO();
     public PlayerState state = PlayerState.Normal;
     public BuildingEntity tryingBuilding;
 }

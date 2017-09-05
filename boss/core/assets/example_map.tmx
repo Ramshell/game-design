@@ -15,12 +15,6 @@
    eJztwQEBAAAAgJD+r+4ICgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGoADwAB
   </data>
  </layer>
- <objectgroup name="selection_layer" opacity="0.3">
-  <object id="26" x="1752.5" y="2675.5"/>
-  <object id="27" x="1752.5" y="2675.5"/>
-  <object id="28" x="1752" y="2676"/>
-  <object id="29" x="1752" y="2676"/>
- </objectgroup>
  <layer name="foreground" width="128" height="128">
   <data encoding="base64" compression="zlib">
    eJztwQEBAAAAgJD+r+4ICgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGoADwAB
@@ -32,6 +26,11 @@
   </data>
  </layer>
  <layer name="wrong_layer" width="128" height="128" opacity="0.29">
+  <data encoding="base64" compression="zlib">
+   eJztwQEBAAAAgJD+r+4ICgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGoADwAB
+  </data>
+ </layer>
+ <layer name="selection_layer" width="128" height="128" opacity="0.37">
   <data encoding="base64" compression="zlib">
    eJztwQEBAAAAgJD+r+4ICgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGoADwAB
   </data>

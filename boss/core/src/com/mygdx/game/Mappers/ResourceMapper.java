@@ -1,6 +1,6 @@
 package com.mygdx.game.Mappers;
 
-import com.mygdx.game.Components.WorldObjectComponent;
+import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 
 public class ResourceMapper {
     public static int tileWidh = 32, tileHeight = 32;

@@ -2,32 +2,18 @@ package com.mygdx.game.Components.HUD;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.Builders.WallBuilder;
 import com.mygdx.game.Components.PlayerComponent;
-import com.mygdx.game.Components.WorldObjectComponent;
-import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Play;
-import com.mygdx.game.Systems.MovementSystem;
-import com.sun.javafx.scene.control.skin.ButtonSkin;
 
 
 public class HUDComponent implements Component {
@@ -43,7 +29,7 @@ public class HUDComponent implements Component {
 
     public HUDComponent(final PlayerComponent player,final Play p){
         this.player = player;
-        selectedObjectLabel = new Label(player.selectedObject.objectName,skin);
+        selectedObjectLabel = new Label(player.selectedObject.getName(),skin);
         resourcesLabel = new Label("    " + Integer.toString(player.resources),skin);
         OrthographicCamera camera = new OrthographicCamera(512, 384);
         viewport = new FitViewport(camera.viewportWidth, camera.viewportHeight, camera);
