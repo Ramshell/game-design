@@ -36,8 +36,8 @@ public class SelectionRenderSystem extends EntitySystem{
     }
 
     public void update(float delta){
-//        Gdx.gl.glEnable(GL20.GL_BLEND);
-//        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.setProjectionMatrix(camera.combined);
         this.entities = engine.getEntitiesFor(Family.all(WorldObjectComponent.class).get());
         for(Entity e: entities){
@@ -48,11 +48,11 @@ public class SelectionRenderSystem extends EntitySystem{
                     0,
                     1,
                     0,
-                    0.25f));
+                    0.75f));
             shapeRenderer.polygon(UserInputHandler.rectToScreenPolygon(r).getTransformedVertices());
             shapeRenderer.end();
         }
-//        Gdx.gl.glDisable(GL20.GL_BLEND);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
 
         if(selection.selection == null) return;
         Gdx.gl.glEnable(GL20.GL_BLEND);

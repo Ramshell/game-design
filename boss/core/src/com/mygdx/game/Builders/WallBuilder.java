@@ -7,9 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Entities.BuildingEntity;
 
-/**
- * Created by ramshell on 02/09/17.
- */
+
 public class WallBuilder{
     private TiledMapTileLayer background;
     private TiledMapTile wallTile;

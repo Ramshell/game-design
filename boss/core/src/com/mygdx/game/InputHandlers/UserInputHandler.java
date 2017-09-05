@@ -174,9 +174,10 @@ public class UserInputHandler extends InputAdapter {
     public boolean touchUp (int screenX, int screenY, int pointer, int button) {
         ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(WorldObjectComponent.class).get());
         Vector3 v = Mappers.camera.get(camera).getCamera().unproject(new Vector3(screenX, screenY, 0));
-        Vector2 v2 = MovementSystem.screenToIso(v.x, v.y).add(10, -10);
+        Vector2 v2 = MovementSystem.screenToIso(v.x, v.y);
         if(button == Input.Buttons.LEFT){
             Polygon myRectangle = rectToIsoPolygon(normalize(selection.selection));
+            pm.get(player).selectedObject.deselect();
             for(Entity e : entities){
                 WorldObjectComponent wo = wm.get(e);
                 if(wo.bounds.getRectangle().contains(v2.x, v2.y) ||

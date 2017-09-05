@@ -2,6 +2,9 @@ package com.mygdx.game.Systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
@@ -10,28 +13,44 @@ import com.mygdx.game.Mappers.Mappers;
 public class MapRendererSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;
     private ImmutableArray<Entity> worldBuildings;
+    private ImmutableArray<Entity> worldUnits;
     private ComponentMapper<MapComponent> cm = ComponentMapper.getFor(MapComponent.class);
     private ComponentMapper<CellsComponent> cellsMapper = ComponentMapper.getFor(CellsComponent.class);
     private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
     private ComponentMapper<PlayerComponent> playerMapper = ComponentMapper.getFor(PlayerComponent.class);
     private Engine engine;
+    private int[] before_units = {0, 1};
+    private int[] after_units = {2,3,4,5};
 
 
     public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(Family.all(MapComponent.class, HUDComponent.class).get());
         worldBuildings = engine.getEntitiesFor(Family.all(CellsComponent.class, RenderableComponent.class).get());
+        worldUnits = engine.getEntitiesFor(Family.all(TextureComponent.class, WorldObjectComponent.class, AnimationComponent.class).get());
+
         this.engine = engine;
     }
 
     public void update(float deltaTime) {
         worldBuildings = engine.getEntitiesFor(Family.all(CellsComponent.class, RenderableComponent.class).get());
+        worldUnits = engine.getEntitiesFor(Family.all(TextureComponent.class, WorldObjectComponent.class, AnimationComponent.class).get());
         for(Entity e : entities){
             MapComponent mapComponent = cm.get(e);
-            mapComponent.renderer.setView(mapComponent.camera);
-            mapComponent.renderer.getBatch().begin();
             updateMap();
+            mapComponent.renderer.setView(mapComponent.camera);
+            mapComponent.renderer.render(before_units);
+            mapComponent.renderer.getBatch().begin();
+            for(Entity worldUnit : worldUnits) {
+                TextureComponent regionComponent = Mappers.texture.get(worldUnit);
+                WorldObjectComponent unit = Mappers.world.get(worldUnit);
+                Vector2 v = MovementSystem.isoToScreen(unit.bounds.getRectangle().x, unit.bounds.getRectangle().y);
+                mapComponent.renderer.getBatch().draw(
+                        regionComponent.region,
+                        v.x + unit.bounds.getRectangle().width / 2 - regionComponent.region.getRegionWidth() / 2,
+                        v.y + unit.bounds.getRectangle().height / 2 - regionComponent.region.getRegionHeight() / 2);
+            }
             mapComponent.renderer.getBatch().end();
-            mapComponent.renderer.render();
+            mapComponent.renderer.render(after_units);
         }
     }
 

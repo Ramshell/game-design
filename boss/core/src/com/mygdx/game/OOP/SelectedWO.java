@@ -13,7 +13,7 @@ public class SelectedWO {
         selectedObjects = new OrderedSet<WorldObjectComponent>();
     }
 
-    public Boolean selected(){
+    private Boolean selected(){
         return selectedObjects.size > 0;
     }
 
