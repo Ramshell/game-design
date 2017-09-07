@@ -2,7 +2,10 @@ package com.mygdx.game;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
+import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -20,6 +23,9 @@ import com.mygdx.game.InputHandlers.TryingBuildingInputHandler;
 import com.mygdx.game.InputHandlers.UserInputHandler;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
+import com.mygdx.game.PathfindingUtils.ManhattanDistanceHeuristic;
+import com.mygdx.game.PathfindingUtils.MapGraph;
+import com.mygdx.game.PathfindingUtils.TiledNode;
 import com.mygdx.game.Systems.*;
 
 import java.util.Iterator;
@@ -40,6 +46,8 @@ public class Play implements Screen {
     public void show() {
         TmxMapLoader loader = new TmxMapLoader();
         map = loader.load("example_map.tmx");
+        createGraph();
+
         Gdx.graphics.setCursor(Gdx.graphics.newCursor(AssetsMapper.nm, 0, 0));
         renderer = new IsometricTiledMapRenderer(map);
         wallBuilder = new WallBuilder(renderer);
@@ -73,6 +81,34 @@ public class Play implements Screen {
         multiplexer.addProcessor(p.stage);
         multiplexer.addProcessor(new UserInputHandler(rtsCamera, player,mapComponent, engine));
         Gdx.input.setInputProcessor(multiplexer);
+    }
+
+    private void createGraph() {
+        Integer mapWidth = map.getProperties().get("width", Integer.class);
+        Integer mapHeight = map.getProperties().get("height", Integer.class);
+//        MapLayer oLayer = map.getLayers().get("collision_layer");
+        MapGraph mapGraph = new MapGraph(mapWidth, mapHeight);
+        for(int i = 0; i < mapWidth; i++){
+            for(int j = 0; j < mapHeight; j++){
+                TiledNode from = mapGraph.getNode(i, j);
+                if(nodeWithinBounds(mapWidth, mapHeight, i + 1, j))
+                    from.addConnection(mapGraph.getNode(i + 1, j)); //right
+                if(nodeWithinBounds(mapWidth, mapHeight, i - 1, j))
+                    from.addConnection(mapGraph.getNode(i - 1, j)); //left
+                if(nodeWithinBounds(mapWidth, mapHeight, i, j + 1))
+                    from.addConnection(mapGraph.getNode(i, j + 1)); //right
+                if(nodeWithinBounds(mapWidth, mapHeight, i, j - 1))
+                    from.addConnection(mapGraph.getNode(i, j - 1)); //down
+            }
+        }
+        IndexedAStarPathFinder<TiledNode> pathFinder = new IndexedAStarPathFinder<TiledNode>(mapGraph);
+        DefaultGraphPath<TiledNode> path = new DefaultGraphPath<TiledNode>();
+        pathFinder.searchNodePath(mapGraph.getNode(0), mapGraph.getNode(mapWidth*mapHeight - 1),new ManhattanDistanceHeuristic(),path);
+        System.out.println(path.getCount());
+    }
+
+    private Boolean nodeWithinBounds(Integer mapWidth, Integer mapHeight, Integer x, Integer y) {
+        return !(y < 0 || y >= mapHeight || x >= mapWidth || x < 0);
     }
 
     @Override

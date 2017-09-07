@@ -20,8 +20,8 @@ public class BuildingEntity extends Entity {
         wo.objectName = "Wall";
         wo.sellValue = 900;
         wo.bounds = new RectangleMapObject(
-                pos.x * ResourceMapper.tileWidh + 16,
-                pos.y * ResourceMapper.tileHeight - 16,
+                pos.x * ResourceMapper.tileWidh - 16,
+                pos.y * ResourceMapper.tileHeight + 16,
                 ResourceMapper.tileWidh,
                 ResourceMapper.tileHeight);
         Array<CellComponent> cells = new Array<CellComponent>();

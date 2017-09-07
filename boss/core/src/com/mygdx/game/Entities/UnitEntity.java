@@ -17,7 +17,7 @@ public class UnitEntity extends Entity{
                       float height, float textureWidth, float textureHeight, int initialState,
                       AnimationComponent anim){
         WorldObjectComponent wo = new WorldObjectComponent(name);
-        wo.bounds = new RectangleMapObject(posX - 16, posY + 16, width, height);
+        wo.bounds = new RectangleMapObject(posX - width / 2, posY + height / 2, width, height);
         wo.cost = 10;
         wo.hitPoints = 30;
         wo.maxHitPoints = 30;
