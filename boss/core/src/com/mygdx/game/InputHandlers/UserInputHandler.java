@@ -20,6 +20,8 @@ import com.mygdx.game.Entities.RTSCamera;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
+import com.mygdx.game.OOP.Actions.MoveAction;
+import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Systems.MovementSystem;
 import com.mygdx.game.Systems.SelectionRenderSystem;
 
@@ -42,13 +44,15 @@ public class UserInputHandler extends InputAdapter {
 
     private SelectionComponent selection = new SelectionComponent();
     private MapLayer objectLayer;
+    private MapGraph mapGraph;
 
 
-    public UserInputHandler(RTSCamera camera, PlayerEntity player, MapComponent map, Engine engine){
+    public UserInputHandler(RTSCamera camera, PlayerEntity player, MapComponent map, Engine engine, MapGraph mapGraph){
         this.player = player;
         this.camera = camera;
         this.map = map;
         this.engine = engine;
+        this.mapGraph = mapGraph;
         objectLayer = map.map.getLayers().get("selection_layer");
         engine.addSystem(new SelectionRenderSystem(selection, Mappers.camera.get(camera).getCamera()));
     }
@@ -161,11 +165,15 @@ public class UserInputHandler extends InputAdapter {
     }
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button){
+        Vector3 v = Mappers.camera.get(camera).getCamera().unproject(new Vector3(screenX, screenY, 0));
+        Vector2 v2 = MovementSystem.screenToIso(v.x, v.y);
         if(button == Input.Buttons.LEFT) {
-            Vector3 v = Mappers.camera.get(camera).getCamera().unproject(new Vector3(screenX, screenY, 0));
-            Vector2 v2 = MovementSystem.screenToIso(v.x, v.y);
             selection.selection = new Rectangle(v.x, v.y, 0, 0);
             return true;
+        }
+        if(button == Input.Buttons.RIGHT) {
+            System.out.println("ouch");
+            Mappers.player.get(player).selectedObject.act(new MoveAction(v2.x, v2.y,mapGraph));
         }
         return false;
     }
@@ -184,8 +192,7 @@ public class UserInputHandler extends InputAdapter {
                         Intersector.overlapConvexPolygons(
                                 myRectangle,
                                 rectToPolygon(wo.bounds.getRectangle()))){
-                    wo.currentlySelected = true;
-                    pm.get(player).selectedObject.add(wo);
+                    pm.get(player).selectedObject.add(e);
                 }
             }
             selection.selection = null;

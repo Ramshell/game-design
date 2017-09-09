@@ -16,7 +16,7 @@ public class ElementalBuilder {
         AnimationComponent anim = new AnimationComponent();
         anim.animations.put(ElementalState.Normal.ordinal(), AssetsMapper.skeletonStandAnim);
         return new UnitEntity(player, "elemental", posX, posY,
-                8, 8,128, 128,
+                16, 16,128, 128,
                 ElementalState.Normal.ordinal(), anim);
     }
 }

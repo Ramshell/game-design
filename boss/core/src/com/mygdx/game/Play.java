@@ -3,6 +3,8 @@ package com.mygdx.game;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
+import com.badlogic.gdx.ai.pfa.PathSmoother;
+import com.badlogic.gdx.ai.pfa.SmoothableGraphPath;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.maps.MapLayer;
@@ -23,9 +25,7 @@ import com.mygdx.game.InputHandlers.TryingBuildingInputHandler;
 import com.mygdx.game.InputHandlers.UserInputHandler;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
-import com.mygdx.game.PathfindingUtils.ManhattanDistanceHeuristic;
-import com.mygdx.game.PathfindingUtils.MapGraph;
-import com.mygdx.game.PathfindingUtils.TiledNode;
+import com.mygdx.game.PathfindingUtils.*;
 import com.mygdx.game.Systems.*;
 
 import java.util.Iterator;
@@ -39,6 +39,7 @@ public class Play implements Screen {
     private CameraComponent cameraComponent;
     private Engine engine;
     public WallBuilder wallBuilder;
+    public MapGraph mapGraph;
 
     public Play(Engine engine) { this.engine = engine; }
 
@@ -62,6 +63,7 @@ public class Play implements Screen {
         PlayerEntity player = new PlayerEntity(p, playerComponent);
         camera = Mappers.camera.get(rtsCamera).getCamera();
         BuildingEntity buildingEntity = wallBuilder.getWall(playerComponent,10, 10);
+        mapGraph.setBuildingColision(10, 10);
         engine.addEntity(new ElementalBuilder().elemental(playerComponent,32, 32));
         engine.addEntity(buildingEntity);
         engine.addEntity(player);
@@ -73,42 +75,40 @@ public class Play implements Screen {
         engine.addSystem(new StateSystem());
         engine.addSystem(new CameraSystem());
         engine.addSystem(new MovementSystem());
+        engine.addSystem(new UnitsMovementSystem());
+        engine.addSystem(new UnitsVelocitySystem());
         engine.addSystem(new RenderHudSystem());
         engine.addSystem(new BuildingMakingSystem(playerComponent));
         stage = p.stage;
         InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(new TryingBuildingInputHandler(playerComponent, engine));
+        multiplexer.addProcessor(new TryingBuildingInputHandler(playerComponent, engine, mapGraph));
         multiplexer.addProcessor(p.stage);
-        multiplexer.addProcessor(new UserInputHandler(rtsCamera, player,mapComponent, engine));
+        multiplexer.addProcessor(new UserInputHandler(rtsCamera, player,mapComponent, engine, mapGraph));
         Gdx.input.setInputProcessor(multiplexer);
     }
 
     private void createGraph() {
         Integer mapWidth = map.getProperties().get("width", Integer.class);
         Integer mapHeight = map.getProperties().get("height", Integer.class);
-//        MapLayer oLayer = map.getLayers().get("collision_layer");
-        MapGraph mapGraph = new MapGraph(mapWidth, mapHeight);
-        for(int i = 0; i < mapWidth; i++){
-            for(int j = 0; j < mapHeight; j++){
-                TiledNode from = mapGraph.getNode(i, j);
-                if(nodeWithinBounds(mapWidth, mapHeight, i + 1, j))
-                    from.addConnection(mapGraph.getNode(i + 1, j)); //right
-                if(nodeWithinBounds(mapWidth, mapHeight, i - 1, j))
-                    from.addConnection(mapGraph.getNode(i - 1, j)); //left
-                if(nodeWithinBounds(mapWidth, mapHeight, i, j + 1))
-                    from.addConnection(mapGraph.getNode(i, j + 1)); //right
-                if(nodeWithinBounds(mapWidth, mapHeight, i, j - 1))
-                    from.addConnection(mapGraph.getNode(i, j - 1)); //down
-            }
-        }
-        IndexedAStarPathFinder<TiledNode> pathFinder = new IndexedAStarPathFinder<TiledNode>(mapGraph);
-        DefaultGraphPath<TiledNode> path = new DefaultGraphPath<TiledNode>();
-        pathFinder.searchNodePath(mapGraph.getNode(0), mapGraph.getNode(mapWidth*mapHeight - 1),new ManhattanDistanceHeuristic(),path);
-        System.out.println(path.getCount());
-    }
+        mapGraph = new MapGraph(1, map);
 
-    private Boolean nodeWithinBounds(Integer mapWidth, Integer mapHeight, Integer x, Integer y) {
-        return !(y < 0 || y >= mapHeight || x >= mapWidth || x < 0);
+        IndexedAStarPathFinder<TiledNode> pathFinder = new IndexedAStarPathFinder<TiledNode>(mapGraph);
+        TiledSmoothableGraphPath<TiledNode> path = new TiledSmoothableGraphPath<TiledNode>();
+        PathSmoother pathSmoother = new PathSmoother(new TiledRayCastCollisionDetection(mapGraph));
+        pathFinder.searchNodePath(mapGraph.getNode(0), mapGraph.getNode(mapWidth*mapHeight - 4),new ManhattanDistanceHeuristic(),path);
+        System.out.println(path.getCount());
+        System.out.print(path.get(0).getX());
+        System.out.print("  ,");
+        System.out.println(path.get(0).getY());
+        pathSmoother.smoothPath(path);
+        System.out.println(path.getCount());
+        System.out.print(path.get(0).getX());
+        System.out.print("  ,");
+        System.out.println(path.get(0).getY());
+        System.out.print(path.get(1).getX());
+        System.out.print("  ,");
+        System.out.println(path.get(1).getY());
+
     }
 
     @Override

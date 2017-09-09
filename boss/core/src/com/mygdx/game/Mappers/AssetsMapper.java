@@ -25,12 +25,12 @@ public class AssetsMapper {
         bm = new Pixmap(Gdx.files.internal("cursor/bottom_movement.png"));
         Pixmap lm = new Pixmap(Gdx.files.internal("cursor/left_movement.png"));
         Pixmap tm = new Pixmap(Gdx.files.internal("cursor/top_movement.png"));
-        skeleton = loadTexture("characters/elemental_1.png");
+        skeleton = loadTexture("characters/elemental_2.png");
         skeletonStandAnim = new Animation<TextureRegion>(0.4f,
-                new TextureRegion(skeleton, 0, 0, 128, 128),
-                new TextureRegion(skeleton, 128, 0, 128, 128),
-                new TextureRegion(skeleton, 256, 0, 128, 128),
-                new TextureRegion(skeleton, 384, 0, 128, 128));
+                new TextureRegion(skeleton, 0, 0, 64, 64),
+                new TextureRegion(skeleton, 64, 0, 64, 64),
+                new TextureRegion(skeleton, 128, 0, 64, 64),
+                new TextureRegion(skeleton, 192, 0, 64, 64));
 
     }
 }

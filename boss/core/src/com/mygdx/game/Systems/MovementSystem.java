@@ -2,16 +2,17 @@ package com.mygdx.game.Systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Components.PositionComponent;
 import com.mygdx.game.Components.VelocityComponent;
+import com.mygdx.game.Mappers.ResourceMapper;
 
 public class MovementSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;
 
     private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
     private ComponentMapper<VelocityComponent> vm = ComponentMapper.getFor(VelocityComponent.class);
-    private final float maxVelocity = 3000;
 
     public MovementSystem() {}
 
@@ -28,11 +29,7 @@ public class MovementSystem extends EntitySystem {
                     .add(velocity.pos.cpy().scl(deltaTime)));
             if(outsideWorld(screenToIso(v))) continue;
             position.pos = v;
-            velocity.pos.add(velocity.accel.cpy().scl(deltaTime));
-            velocity.pos.x = Math.min(velocity.pos.x, maxVelocity);
-            velocity.pos.y = Math.min(velocity.pos.y, maxVelocity);
-            velocity.pos.x = Math.max(velocity.pos.x, -maxVelocity);
-            velocity.pos.y = Math.max(velocity.pos.y, -maxVelocity);
+            velocity.increment(deltaTime);
         }
     }
 
@@ -54,6 +51,12 @@ public class MovementSystem extends EntitySystem {
 
     public static boolean outsideWorld(Vector2 check){
         return check.y < 0 || check.y > 128 * 32 || check.x < 0 || check.x > 128 * 32;
+    }
+
+    public static boolean outsideWorld(Vector2 check, float xoffset, float yoffset){
+
+        return outsideWorld(check.x - xoffset, check.y) || outsideWorld(check.x + xoffset, check.y) ||
+                outsideWorld(check.x, check.y - yoffset) || outsideWorld(check.x, check.y + yoffset);
     }
 
     public static boolean outsideWorld(float x, float y){

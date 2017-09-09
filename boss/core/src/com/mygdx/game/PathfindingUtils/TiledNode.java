@@ -8,6 +8,10 @@ import com.mygdx.game.Mappers.ResourceMapper;
 
 public class TiledNode {
 
+    public static int TILE_FLOOR = 1;
+    public static int TILE_WALL = 2;
+    public int type;
+
     private int x;
     private int y;
     private int height;
@@ -15,12 +19,18 @@ public class TiledNode {
     private IntMap<Integer> alreadyConnected;
 
     public TiledNode(int x, int y, int height){
+        this(x, y, height, TILE_FLOOR);
+    }
+
+    public TiledNode(int x, int y, int height, int type){
         this.x = x;
         this.y = y;
         this.height = height;
         connections = new Array<Connection<TiledNode>>(4);
         alreadyConnected = new IntMap<Integer>();
+        this.type = type;
     }
+
 
     public int getIndex(){
         return x * height + y;

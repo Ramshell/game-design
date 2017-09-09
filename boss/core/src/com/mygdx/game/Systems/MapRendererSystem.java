@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
+import com.mygdx.game.Components.WorldObjects.IsoPositionComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Mappers.Mappers;
 
@@ -26,7 +27,8 @@ public class MapRendererSystem extends EntitySystem {
     public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(Family.all(MapComponent.class, HUDComponent.class).get());
         worldBuildings = engine.getEntitiesFor(Family.all(CellsComponent.class, RenderableComponent.class).get());
-        worldUnits = engine.getEntitiesFor(Family.all(TextureComponent.class, WorldObjectComponent.class, AnimationComponent.class).get());
+        worldUnits = engine.getEntitiesFor(Family.all(TextureComponent.class, WorldObjectComponent.class,
+                AnimationComponent.class, PositionComponent.class).get());
 
         this.engine = engine;
     }
@@ -43,11 +45,12 @@ public class MapRendererSystem extends EntitySystem {
             for(Entity worldUnit : worldUnits) {
                 TextureComponent regionComponent = Mappers.texture.get(worldUnit);
                 WorldObjectComponent unit = Mappers.world.get(worldUnit);
-                Vector2 v = MovementSystem.isoToScreen(unit.bounds.getRectangle().x, unit.bounds.getRectangle().y);
+                IsoPositionComponent pos = Mappers.isoPosition.get(worldUnit);
+                Vector2 v = MovementSystem.isoToScreen(pos.position.x, pos.position.y);
                 mapComponent.renderer.getBatch().draw(
                         regionComponent.region,
-                        v.x + unit.bounds.getRectangle().width / 2 - regionComponent.region.getRegionWidth() / 2,
-                        v.y + unit.bounds.getRectangle().height / 2 - regionComponent.region.getRegionHeight() / 2);
+                        v.x - regionComponent.region.getRegionWidth() / 2,
+                        v.y);
             }
             mapComponent.renderer.getBatch().end();
             mapComponent.renderer.render(after_units);

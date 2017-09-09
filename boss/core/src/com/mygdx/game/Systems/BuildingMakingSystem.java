@@ -40,13 +40,13 @@ public class BuildingMakingSystem extends EntitySystem{
                 TiledMapTileLayer wLayer = (TiledMapTileLayer)mapComponent.map.getLayers().get("wrong_layer");
                 for(CellComponent c : cellsComponent.cells) {
                     Vector3 v = mapComponent.camera.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0));
-                    Vector2 v2 = MovementSystem.screenToIso(v.x - ResourceMapper.tileWidh / 2, v.y- ResourceMapper.tileHeight / 2);
+                    Vector2 v2 = MovementSystem.screenToIso(v.x - ResourceMapper.tileWidth / 2, v.y- ResourceMapper.tileHeight / 2);
                     if(MovementSystem.outsideWorld(v2)) continue;
                     TiledMapTileLayer.Cell wrongCell = new TiledMapTileLayer.Cell();
                     wrongCell.setTile(mapComponent.map.getTileSets().getTileSet("wrong").getTile(241));
                     layer.setCell((int) c.position.x, (int) c.position.y, null);
                     wLayer.setCell((int)c.position.x, (int)c.position.y, null);
-                    c.position.x = v2.x / ResourceMapper.tileWidh;
+                    c.position.x = v2.x / ResourceMapper.tileWidth;
                     c.position.y = v2.y / ResourceMapper.tileHeight;
                     if(isBlocked(c))
                         wLayer.setCell((int)c.position.x, (int)c.position.y, wrongCell);
@@ -58,6 +58,14 @@ public class BuildingMakingSystem extends EntitySystem{
 
     public static boolean isBlocked(CellComponent c) {
         return c.layer.getCell((int)c.position.x, (int)c.position.y) != null && c.layer.getCell((int)c.position.x, (int)c.position.y).getTile().getProperties().get("blocked") != null;
+    }
+
+    public static boolean isBlocked(CellsComponent cells) {
+        boolean res = false;
+        for(CellComponent c : cells.cells){
+            res = res || isBlocked(c);
+        }
+        return res;
     }
 
 }

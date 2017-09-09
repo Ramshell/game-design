@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Mappers.ResourceMapper;
+import com.mygdx.game.OOP.WorldMapObject;
 
 public class BuildingEntity extends Entity {
     public BuildingEntity(PlayerComponent p, Vector2 pos, TiledMapTile t,
@@ -19,10 +20,10 @@ public class BuildingEntity extends Entity {
         wo.maxHitPoints = 100;
         wo.objectName = "Wall";
         wo.sellValue = 900;
-        wo.bounds = new RectangleMapObject(
-                pos.x * ResourceMapper.tileWidh - 16,
-                pos.y * ResourceMapper.tileHeight + 16,
-                ResourceMapper.tileWidh,
+        wo.bounds = new WorldMapObject(
+                pos.x * ResourceMapper.tileWidth,
+                pos.y * ResourceMapper.tileHeight,
+                ResourceMapper.tileWidth,
                 ResourceMapper.tileHeight);
         Array<CellComponent> cells = new Array<CellComponent>();
         t.getProperties().put("blocked", true);
