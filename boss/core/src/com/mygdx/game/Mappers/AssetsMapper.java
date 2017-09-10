@@ -15,6 +15,9 @@ public class AssetsMapper {
     public static Texture skeleton;
     public static Animation<TextureRegion> skeletonStandAnim;
 
+    public static Texture harlandWorker;
+    public static Animation<TextureRegion> harlandWorkerAnim;
+
     public static Texture loadTexture (String file) {
         return new Texture(Gdx.files.internal(file));
     }
@@ -31,6 +34,11 @@ public class AssetsMapper {
                 new TextureRegion(skeleton, 64, 0, 64, 64),
                 new TextureRegion(skeleton, 128, 0, 64, 64),
                 new TextureRegion(skeleton, 192, 0, 64, 64));
+        harlandWorker = loadTexture("characters/harlandWorker.png");
+        harlandWorkerAnim = new Animation<TextureRegion>(0.8f,
+                new TextureRegion(harlandWorker, 0, 0, 64, 64),
+                new TextureRegion(harlandWorker, 64, 0, 64, 64));
+
 
     }
 }

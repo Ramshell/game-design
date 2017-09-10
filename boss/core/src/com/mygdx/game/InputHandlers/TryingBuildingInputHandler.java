@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Components.CellComponent;
 import com.mygdx.game.Components.CellsComponent;
 import com.mygdx.game.Components.MapComponent;
@@ -40,11 +41,9 @@ public class TryingBuildingInputHandler extends InputAdapter {
         if(concerned()) {
             if (button == Input.Buttons.LEFT && !BuildingMakingSystem.isBlocked(cellsMapper.get(player.tryingBuilding), mapGraph)) {
                 for (CellComponent c : cellsMapper.get(player.tryingBuilding).cells) {
-                    Rectangle r = Mappers.world.get(player.tryingBuilding).bounds.getRectangle();
-                    r.setPosition(((int)c.position.x) * ResourceMapper.tileWidth, ((int)c.position.y) * ResourceMapper.tileHeight);
                     TiledMapTileLayer toDelete = (TiledMapTileLayer)Mappers.map.get(engine.getEntitiesFor(Family.all(MapComponent.class).get()).get(0)).map.getLayers().get("trying_building");
                     toDelete.setCell((int)c.position.x, (int)c.position.y, null);
-                    mapGraph.setBuildingColision(c.position.x, c.position.y);
+                    if(c.blocked) mapGraph.setBuildingColision(c.position.x, c.position.y);
                 }
                 player.state = PlayerComponent.PlayerState.Normal;
                 engine.addEntity(player.tryingBuilding);

@@ -6,12 +6,13 @@ import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Components.WorldObjects.TargetComponent;
 import com.mygdx.game.Mappers.Mappers;
+import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.PathfindingUtils.*;
 
 
 public class MoveAction extends Action<Entity>{
-    float x;
-    float y;
+    int x;
+    int y;
     MapGraph mapGraph;
     IndexedAStarPathFinder<TiledNode> pathFinder;
     TiledSmoothableGraphPath<TiledNode> path;
@@ -23,8 +24,8 @@ public class MoveAction extends Action<Entity>{
      * x and y should be isoScreen coordinates;
      * **/
     public MoveAction(float x, float y, MapGraph mapGraph) {
-        this.x = x;
-        this.y = y;
+        this.x = (int) (x / ResourceMapper.tileWidth);
+        this.y = (int) (y / ResourceMapper.tileHeight);
         this.mapGraph = mapGraph;
         pathFinder = new IndexedAStarPathFinder<TiledNode>(mapGraph);
         pathSmoother = new PathSmoother(new TiledRayCastCollisionDetection(mapGraph));
@@ -42,7 +43,7 @@ public class MoveAction extends Action<Entity>{
         }
         pathFinder.searchNodePath(
                 mapGraph.getNodeFromScreen(pos.position.x, pos.position.y),
-                mapGraph.getNodeFromScreen(x, y),
+                mapGraph.getNode(x, y),
                 heuristic,path);
         pathSmoother.smoothPath(path);
         target.changePath(path);

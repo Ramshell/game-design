@@ -13,8 +13,7 @@ import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.OOP.WorldMapObject;
 
 public class BuildingEntity extends Entity {
-    public BuildingEntity(PlayerComponent p, Vector2 pos, TiledMapTile t,
-                          TiledMapTileLayer background){
+    public BuildingEntity(PlayerComponent p, Vector2 pos, CellsComponent cellsComponent){
         WorldObjectComponent wo = new WorldObjectComponent();
         wo.cost = 10;
         wo.hitPoints = 100;
@@ -24,18 +23,8 @@ public class BuildingEntity extends Entity {
         wo.bounds = new RectangleMapObject(
                 pos.x * ResourceMapper.tileWidth,
                 pos.y * ResourceMapper.tileHeight,
-                ResourceMapper.tileWidth,
-                ResourceMapper.tileHeight);
-        Array<CellComponent> cells = new Array<CellComponent>();
-        t.getProperties().put("blocked", true);
-        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-        cell.setTile(t);
-        CellComponent cellComponent = new CellComponent();
-        cellComponent.layer = background;
-        cellComponent.position = pos;
-        cellComponent.cell = cell;
-        cells.add(cellComponent);
-        CellsComponent c = new CellsComponent(cells);
-        add(wo).add(p).add(c).add(new RenderableComponent());
+                ResourceMapper.tileWidth *  cellsComponent.width,
+                ResourceMapper.tileHeight * cellsComponent.height);
+        add(wo).add(p).add(cellsComponent).add(new RenderableComponent());
     }
 }

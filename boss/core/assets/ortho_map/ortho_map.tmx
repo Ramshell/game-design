@@ -2,14 +2,15 @@
 <map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="128" height="128" tilewidth="64" tileheight="64" nextobjectid="1">
  <tileset firstgid="1" source="aliens.tsx"/>
  <tileset firstgid="193" source="wrong.tsx"/>
+ <tileset firstgid="194" source="ortho_tileset.tsx"/>
  <layer name="basic" width="128" height="128">
   <data encoding="base64" compression="zlib">
-   eJztwwENAAAMw6BamH+zF3JIWDVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVXfP2JnQD0=
+   eJzt07EJACAMBMDsP5YWrmVjIWJjY0CvOEK6h09aRDQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADhUhuwc3FWXyV/qRnYm7vc/79mZyLkB/w8Ab+vHrsKe
   </data>
  </layer>
  <layer name="background" width="128" height="128">
   <data encoding="base64" compression="zlib">
-   eJzt0cENQEAQhlFBBaICNCDRAR3Qfy3m4LB3iRHeS75s5vYnW1UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPfUURO12UNI0V1vn7qCp6zRVtz+/1/26CjuIRqjKWcO8LA5ewCvsVwB8E0nBC4Chg==
+   eJztwQEBAAAAgJD+r+4ICgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGoADwAB
   </data>
  </layer>
  <objectgroup name="collision_layer"/>

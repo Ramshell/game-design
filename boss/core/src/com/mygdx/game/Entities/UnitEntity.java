@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
+import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.OOP.WorldMapObject;
 
 public class UnitEntity extends Entity{
@@ -13,7 +14,7 @@ public class UnitEntity extends Entity{
                       float height, float textureWidth, float textureHeight, int initialState,
                       AnimationComponent anim){
         WorldObjectComponent wo = new WorldObjectComponent(name);
-        wo.bounds = new RectangleMapObject(posX, posY, width, height);
+        wo.bounds = new RectangleMapObject(posX * ResourceMapper.tileWidth, posY * ResourceMapper.tileHeight, width, height);
         wo.cost = 10;
         wo.hitPoints = 30;
         wo.maxHitPoints = 30;

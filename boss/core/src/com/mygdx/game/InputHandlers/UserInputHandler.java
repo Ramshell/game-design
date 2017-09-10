@@ -170,7 +170,6 @@ public class UserInputHandler extends InputAdapter {
             return true;
         }
         if(button == Input.Buttons.RIGHT) {
-            System.out.println("ouch");
             Mappers.player.get(player).selectedObject.act(new MoveAction(v.x, v.y,mapGraph));
         }
         return false;

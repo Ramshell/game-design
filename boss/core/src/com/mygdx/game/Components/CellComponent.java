@@ -8,4 +8,6 @@ public class CellComponent implements Component{
     public TiledMapTileLayer.Cell cell;
     public Vector2 position;
     public TiledMapTileLayer layer;
+    public int xOffset, yOffset;
+    public boolean blocked = false;
 }

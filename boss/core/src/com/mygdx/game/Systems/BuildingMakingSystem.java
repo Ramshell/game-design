@@ -40,20 +40,20 @@ public class BuildingMakingSystem extends EntitySystem{
         if(player.state.equals(PlayerComponent.PlayerState.Building)){
             CellsComponent cellsComponent = cellsMapper.get(player.tryingBuilding);
             WorldObjectComponent wo = Mappers.world.get(player.tryingBuilding);
-            WorldPositionComponent worldPositionComponent = Mappers.worldPosition.get(player.tryingBuilding);
             for(Entity e : entities){
                 MapComponent mapComponent = cm.get(e);
                 TiledMapTileLayer layer = (TiledMapTileLayer)mapComponent.map.getLayers().get("trying_building");
                 TiledMapTileLayer wLayer = (TiledMapTileLayer)mapComponent.map.getLayers().get("wrong_layer");
+                Vector3 v = mapComponent.camera.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0));
+                if(MovementSystem.outsideWorld(new Vector2(((int)v.x / ResourceMapper.tileWidth) * ResourceMapper.tileWidth, ((int)v.y / ResourceMapper.tileHeight) * ResourceMapper.tileHeight), wo.bounds.getRectangle().width, wo.bounds.getRectangle().height)) continue;
+                wo.bounds.getRectangle().setPosition(((int)v.x / ResourceMapper.tileWidth) * ResourceMapper.tileWidth, ((int)v.y / ResourceMapper.tileHeight) * ResourceMapper.tileHeight);
                 for(CellComponent c : cellsComponent.cells) {
-                    Vector3 v = mapComponent.camera.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0));
-                    if(MovementSystem.outsideWorld(new Vector2(v.x, v.y), wo.bounds.getRectangle().width, wo.bounds.getRectangle().height)) continue;
                     TiledMapTileLayer.Cell wrongCell = new TiledMapTileLayer.Cell();
                     wrongCell.setTile(mapComponent.map.getTileSets().getTileSet("wrong").getTile(193));
                     layer.setCell((int) c.position.x, (int) c.position.y, null);
                     wLayer.setCell((int)c.position.x, (int)c.position.y, null);
-                    c.position.x = v.x / ResourceMapper.tileWidth;
-                    c.position.y = v.y / ResourceMapper.tileHeight;
+                    c.position.x = v.x / ResourceMapper.tileWidth + c.xOffset;
+                    c.position.y = v.y / ResourceMapper.tileHeight + c.yOffset;
                     if(isBlocked(c, mapGraph))
                         wLayer.setCell((int)c.position.x, (int)c.position.y, wrongCell);
                     layer.setCell((int) c.position.x, (int) c.position.y, c.cell);
