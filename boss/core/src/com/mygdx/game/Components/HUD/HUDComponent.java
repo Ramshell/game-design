@@ -2,28 +2,35 @@ package com.mygdx.game.Components.HUD;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.sun.javafx.scene.control.skin.ButtonSkin;
+import com.mygdx.game.Components.PlayerComponent;
+import com.mygdx.game.Play;
 
 
 public class HUDComponent implements Component {
     public Stage stage;
     private Viewport viewport;
+    public PlayerComponent player;
 
-    private Skin skin = new Skin(Gdx.files.internal("HUD/skins/gdx-skins-master/freezing/skin/freezing-ui.json"));
+    public Skin skin = new Skin(Gdx.files.internal("HUD/skins/gdx-skins-master/freezing/skin/freezing-ui.json"));
 
-    public HUDComponent(){
+    public Label selectedObjectLabel;
+    public Label resourcesLabel;
+    public TextButton createWall = new TextButton("Crear Wall",skin);
+
+    public HUDComponent(final PlayerComponent player,final Play p){
+        this.player = player;
+        selectedObjectLabel = new Label(player.selectedObject.getName(),skin);
+        resourcesLabel = new Label("    " + Integer.toString(player.resources),skin);
         OrthographicCamera camera = new OrthographicCamera(512, 384);
         viewport = new FitViewport(camera.viewportWidth, camera.viewportHeight, camera);
         stage = new Stage(viewport);
@@ -43,11 +50,22 @@ public class HUDComponent implements Component {
         rootTable.add(bottomTable).fillX().expandX();
         Label rts = new Label("rts",skin);
         Label resources = new Label("resources:",skin);
+        HorizontalGroup resourcesBar = new HorizontalGroup();
+        resourcesBar.expand().addActor(resources);
+        resourcesBar.addActor(resourcesLabel);
         topTable.add(rts).expandX();
-        topTable.add(resources).expandX();
-        bottomTable.add(new Label("Aca irian las ordenes:",skin)).expandX();
+        topTable.add(resourcesBar).expandX();
+        HorizontalGroup topMostBottomBar = new HorizontalGroup().expand();
+        topMostBottomBar.left().addActor(selectedObjectLabel);
+        bottomTable.add(topMostBottomBar).expandX().left();
         bottomTable.row();
-        bottomTable.add(new Label("Yayz",skin));
+        createWall.addListener(new ClickListener(){
+            public void clicked (InputEvent event, float x, float y) {
+                player.state = PlayerComponent.PlayerState.Building;
+                player.tryingBuilding = p.wallBuilder.getWall(player,0,0);
+            }
+        });
+        bottomTable.add(createWall);
         TextureRegionDrawable t = new TextureRegionDrawable();
         t.setRegion(new TextureRegion(new Texture("HUD/resourceBar.png")));
         TextureRegionDrawable t2 = new TextureRegionDrawable();
