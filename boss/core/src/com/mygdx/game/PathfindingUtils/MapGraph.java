@@ -26,7 +26,7 @@ public class MapGraph implements IndexedGraph<TiledNode>{
     public MapGraph(int multiplier, TiledMap map){
         this.mapWidth = map.getProperties().get("width", Integer.class);
         this.mapHeight = map.getProperties().get("height", Integer.class);
-        this.tileWidth = map.getProperties().get("tilewidth", Integer.class) / 2;
+        this.tileWidth = map.getProperties().get("tilewidth", Integer.class);
         this.tileHeight = map.getProperties().get("tileheight", Integer.class);
         this.width = mapWidth * multiplier;
         this.height = mapHeight * multiplier;

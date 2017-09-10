@@ -3,11 +3,8 @@ package com.mygdx.game.OOP.Actions;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.pfa.PathSmoother;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
-import com.mygdx.game.Components.PositionComponent;
-import com.mygdx.game.Components.WorldObjects.IsoPositionComponent;
+import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Components.WorldObjects.TargetComponent;
-import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
-import com.mygdx.game.Entities.UnitEntity;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.PathfindingUtils.*;
 
@@ -37,7 +34,7 @@ public class MoveAction extends Action<Entity>{
     @Override
     public void act(Entity e) {
         path = new TiledSmoothableGraphPath<TiledNode>();
-        IsoPositionComponent pos = Mappers.isoPosition.get(e);
+        WorldPositionComponent pos = Mappers.worldPosition.get(e);
         TargetComponent target = Mappers.target.get(e);
         if(pos == null) return;
         if(target == null){

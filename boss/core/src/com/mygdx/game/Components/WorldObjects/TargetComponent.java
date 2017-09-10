@@ -2,6 +2,7 @@ package com.mygdx.game.Components.WorldObjects;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.PathfindingUtils.TiledNode;
 import com.mygdx.game.PathfindingUtils.TiledSmoothableGraphPath;
 
@@ -23,7 +24,9 @@ public class TargetComponent implements Component{
 
     public void nextTarget(){
         if(path.getCount() > nextNode)
-            target = new Vector2(path.get(nextNode).getX() * 32, path.get(nextNode++).getY() * 32);
+            target = new Vector2(
+                    path.get(nextNode).getX() * ResourceMapper.tileWidth,
+                    path.get(nextNode++).getY() * ResourceMapper.tileHeight);
         else
             target = null;
     }

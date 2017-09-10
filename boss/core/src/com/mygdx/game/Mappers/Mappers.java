@@ -3,13 +3,13 @@ package com.mygdx.game.Mappers;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
-import com.mygdx.game.Components.WorldObjects.IsoPositionComponent;
+import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Components.WorldObjects.TargetComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 
 public class Mappers {
     public static final ComponentMapper<PositionComponent> position = ComponentMapper.getFor(PositionComponent.class);
-    public static final ComponentMapper<IsoPositionComponent> isoPosition = ComponentMapper.getFor(IsoPositionComponent.class);
+    public static final ComponentMapper<WorldPositionComponent> worldPosition = ComponentMapper.getFor(WorldPositionComponent.class);
     public static final ComponentMapper<VelocityComponent> velocity = ComponentMapper.getFor(VelocityComponent.class);
     public static final ComponentMapper<CameraComponent> camera = ComponentMapper.getFor(CameraComponent.class);
     public static final ComponentMapper<MapComponent> map = ComponentMapper.getFor(MapComponent.class);

@@ -16,7 +16,6 @@ import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Systems.BuildingMakingSystem;
 
-//((InputMultiplexer)Gdx.input.getInputProcessor()).addProcessor();
 public class TryingBuildingInputHandler extends InputAdapter {
     PlayerComponent player;
     Engine engine;
@@ -39,10 +38,10 @@ public class TryingBuildingInputHandler extends InputAdapter {
 
     public boolean touchUp (int screenX, int screenY, int pointer, int button) {
         if(concerned()) {
-            if (button == Input.Buttons.LEFT && !BuildingMakingSystem.isBlocked(cellsMapper.get(player.tryingBuilding))) {
+            if (button == Input.Buttons.LEFT && !BuildingMakingSystem.isBlocked(cellsMapper.get(player.tryingBuilding), mapGraph)) {
                 for (CellComponent c : cellsMapper.get(player.tryingBuilding).cells) {
                     Rectangle r = Mappers.world.get(player.tryingBuilding).bounds.getRectangle();
-                    r.setPosition(((int)c.position.x) * ResourceMapper.tileWidth - 16, ((int)c.position.y) * ResourceMapper.tileHeight + 16);
+                    r.setPosition(((int)c.position.x) * ResourceMapper.tileWidth, ((int)c.position.y) * ResourceMapper.tileHeight);
                     TiledMapTileLayer toDelete = (TiledMapTileLayer)Mappers.map.get(engine.getEntitiesFor(Family.all(MapComponent.class).get()).get(0)).map.getLayers().get("trying_building");
                     toDelete.setCell((int)c.position.x, (int)c.position.y, null);
                     mapGraph.setBuildingColision(c.position.x, c.position.y);

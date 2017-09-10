@@ -10,9 +10,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
+import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
+import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
+import com.mygdx.game.PathfindingUtils.MapGraph;
 
 public class BuildingMakingSystem extends EntitySystem{
+    private MapGraph mapGraph;
     private ImmutableArray<Entity> entities;
     private ImmutableArray<Entity> worldBuildings;
     private PlayerComponent player;
@@ -21,7 +25,8 @@ public class BuildingMakingSystem extends EntitySystem{
     private ComponentMapper<CellsComponent> cellsMapper = ComponentMapper.getFor(CellsComponent.class);
 
 
-    public BuildingMakingSystem(PlayerComponent player){
+    public BuildingMakingSystem(PlayerComponent player, MapGraph mapGraph){
+        this.mapGraph = mapGraph;
         this.player = player;
     }
 
@@ -34,21 +39,22 @@ public class BuildingMakingSystem extends EntitySystem{
     public void update(float deltaTime) {
         if(player.state.equals(PlayerComponent.PlayerState.Building)){
             CellsComponent cellsComponent = cellsMapper.get(player.tryingBuilding);
+            WorldObjectComponent wo = Mappers.world.get(player.tryingBuilding);
+            WorldPositionComponent worldPositionComponent = Mappers.worldPosition.get(player.tryingBuilding);
             for(Entity e : entities){
                 MapComponent mapComponent = cm.get(e);
                 TiledMapTileLayer layer = (TiledMapTileLayer)mapComponent.map.getLayers().get("trying_building");
                 TiledMapTileLayer wLayer = (TiledMapTileLayer)mapComponent.map.getLayers().get("wrong_layer");
                 for(CellComponent c : cellsComponent.cells) {
                     Vector3 v = mapComponent.camera.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0));
-                    Vector2 v2 = MovementSystem.screenToIso(v.x - ResourceMapper.tileWidth / 2, v.y- ResourceMapper.tileHeight / 2);
-                    if(MovementSystem.outsideWorld(v2)) continue;
+                    if(MovementSystem.outsideWorld(new Vector2(v.x, v.y), wo.bounds.getRectangle().width, wo.bounds.getRectangle().height)) continue;
                     TiledMapTileLayer.Cell wrongCell = new TiledMapTileLayer.Cell();
-                    wrongCell.setTile(mapComponent.map.getTileSets().getTileSet("wrong").getTile(241));
+                    wrongCell.setTile(mapComponent.map.getTileSets().getTileSet("wrong").getTile(193));
                     layer.setCell((int) c.position.x, (int) c.position.y, null);
                     wLayer.setCell((int)c.position.x, (int)c.position.y, null);
-                    c.position.x = v2.x / ResourceMapper.tileWidth;
-                    c.position.y = v2.y / ResourceMapper.tileHeight;
-                    if(isBlocked(c))
+                    c.position.x = v.x / ResourceMapper.tileWidth;
+                    c.position.y = v.y / ResourceMapper.tileHeight;
+                    if(isBlocked(c, mapGraph))
                         wLayer.setCell((int)c.position.x, (int)c.position.y, wrongCell);
                     layer.setCell((int) c.position.x, (int) c.position.y, c.cell);
                 }
@@ -56,14 +62,16 @@ public class BuildingMakingSystem extends EntitySystem{
         }
     }
 
-    public static boolean isBlocked(CellComponent c) {
-        return c.layer.getCell((int)c.position.x, (int)c.position.y) != null && c.layer.getCell((int)c.position.x, (int)c.position.y).getTile().getProperties().get("blocked") != null;
+    public static boolean isBlocked(CellComponent c, MapGraph mapGraph) {
+        return  (c.layer.getCell((int)c.position.x, (int)c.position.y) != null &&
+                c.layer.getCell((int)c.position.x, (int)c.position.y).getTile().getProperties().get("blocked") != null) ||
+                mapGraph.colideO1((int)c.position.x, (int)c.position.y);
     }
 
-    public static boolean isBlocked(CellsComponent cells) {
+    public static boolean isBlocked(CellsComponent cells, MapGraph mapGraph) {
         boolean res = false;
         for(CellComponent c : cells.cells){
-            res = res || isBlocked(c);
+            res = res || isBlocked(c, mapGraph);
         }
         return res;
     }

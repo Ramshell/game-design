@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -25,6 +26,7 @@ import com.mygdx.game.InputHandlers.TryingBuildingInputHandler;
 import com.mygdx.game.InputHandlers.UserInputHandler;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
+import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.PathfindingUtils.*;
 import com.mygdx.game.Systems.*;
 
@@ -32,8 +34,8 @@ import java.util.Iterator;
 
 public class Play implements Screen {
 
-    private TiledMap map;
-    private IsometricTiledMapRenderer renderer;
+    public TiledMap map;
+    private OrthogonalTiledMapRenderer renderer;
     public OrthographicCamera camera;
     private Stage stage;
     private CameraComponent cameraComponent;
@@ -46,11 +48,15 @@ public class Play implements Screen {
     @Override
     public void show() {
         TmxMapLoader loader = new TmxMapLoader();
-        map = loader.load("example_map.tmx");
+        map = loader.load("ortho_map/ortho_map.tmx");
+        ResourceMapper.width = map.getProperties().get("width", Integer.class);
+        ResourceMapper.height = map.getProperties().get("height", Integer.class);
+        ResourceMapper.tileWidth = map.getProperties().get("tilewidth", Integer.class);
+        ResourceMapper.tileHeight = map.getProperties().get("tileheight", Integer.class);
         createGraph();
 
         Gdx.graphics.setCursor(Gdx.graphics.newCursor(AssetsMapper.nm, 0, 0));
-        renderer = new IsometricTiledMapRenderer(map);
+        renderer = new OrthogonalTiledMapRenderer(map);
         wallBuilder = new WallBuilder(renderer);
         RTSCamera rtsCamera = new RTSCamera();
         PlayerComponent playerComponent = new PlayerComponent();
@@ -62,9 +68,9 @@ public class Play implements Screen {
         MapComponent mapComponent = Mappers.map.get(rendererEntity);
         PlayerEntity player = new PlayerEntity(p, playerComponent);
         camera = Mappers.camera.get(rtsCamera).getCamera();
-        BuildingEntity buildingEntity = wallBuilder.getWall(playerComponent,10, 10);
-        mapGraph.setBuildingColision(10, 10);
-        engine.addEntity(new ElementalBuilder().elemental(playerComponent,32, 32));
+        BuildingEntity buildingEntity = wallBuilder.getWall(playerComponent,0, 0);
+        mapGraph.setBuildingColision(0, 0);
+//        engine.addEntity(new ElementalBuilder().elemental(playerComponent,32, 32));
         engine.addEntity(buildingEntity);
         engine.addEntity(player);
         engine.addEntity(rendererEntity);
@@ -78,7 +84,7 @@ public class Play implements Screen {
         engine.addSystem(new UnitsMovementSystem());
         engine.addSystem(new UnitsVelocitySystem());
         engine.addSystem(new RenderHudSystem());
-        engine.addSystem(new BuildingMakingSystem(playerComponent));
+        engine.addSystem(new BuildingMakingSystem(playerComponent, mapGraph));
         stage = p.stage;
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(new TryingBuildingInputHandler(playerComponent, engine, mapGraph));

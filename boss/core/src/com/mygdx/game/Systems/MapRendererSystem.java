@@ -2,12 +2,10 @@ package com.mygdx.game.Systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
-import com.mygdx.game.Components.WorldObjects.IsoPositionComponent;
+import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Mappers.Mappers;
 
@@ -45,12 +43,11 @@ public class MapRendererSystem extends EntitySystem {
             for(Entity worldUnit : worldUnits) {
                 TextureComponent regionComponent = Mappers.texture.get(worldUnit);
                 WorldObjectComponent unit = Mappers.world.get(worldUnit);
-                IsoPositionComponent pos = Mappers.isoPosition.get(worldUnit);
-                Vector2 v = MovementSystem.isoToScreen(pos.position.x, pos.position.y);
+                WorldPositionComponent pos = Mappers.worldPosition.get(worldUnit);
                 mapComponent.renderer.getBatch().draw(
                         regionComponent.region,
-                        v.x - regionComponent.region.getRegionWidth() / 2,
-                        v.y);
+                        pos.position.x,
+                        pos.position.y);
             }
             mapComponent.renderer.getBatch().end();
             mapComponent.renderer.render(after_units);

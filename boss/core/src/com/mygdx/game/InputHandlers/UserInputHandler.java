@@ -54,7 +54,7 @@ public class UserInputHandler extends InputAdapter {
         this.engine = engine;
         this.mapGraph = mapGraph;
         objectLayer = map.map.getLayers().get("selection_layer");
-        engine.addSystem(new SelectionRenderSystem(selection, Mappers.camera.get(camera).getCamera()));
+        engine.addSystem(new SelectionRenderSystem(selection, map.camera));
     }
 
     @Override
@@ -135,11 +135,11 @@ public class UserInputHandler extends InputAdapter {
             addVelocity(velocityComponent, new Vector2(velocity, 0), new Vector2(accel, 0));
             Gdx.graphics.setCursor(Gdx.graphics.newCursor(rm, 0, 0));
         }
-        if (screenY < 45 && velocityComponent.pos.y == 0) {
+        if (screenY < 20 && velocityComponent.pos.y == 0) {
             addVelocity(velocityComponent, new Vector2(0, velocity), new Vector2(0, accel));
             Gdx.graphics.setCursor(Gdx.graphics.newCursor(tm, 0, 0));
         }
-        if (screenY > OCamera.viewportHeight - 70 && velocityComponent.pos.y == 0) {
+        if (screenY > OCamera.viewportHeight - 20 && velocityComponent.pos.y == 0) {
             addVelocity(velocityComponent, new Vector2(0, -velocity), new Vector2(0, -accel));
             Gdx.graphics.setCursor(Gdx.graphics.newCursor(bm, 0, 0));
         }
@@ -156,7 +156,6 @@ public class UserInputHandler extends InputAdapter {
     public boolean touchDragged (int screenX, int screenY, int pointer) {
         if(selection.selection != null) {
             Vector3 v = Mappers.camera.get(camera).getCamera().unproject(new Vector3(screenX, screenY, 0));
-            Vector2 v2 = MovementSystem.screenToIso(v.x, v.y);
             selection.selection.width = v.x - selection.selection.x;
             selection.selection.height = v.y - selection.selection.y;
             return true;
@@ -166,14 +165,13 @@ public class UserInputHandler extends InputAdapter {
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button){
         Vector3 v = Mappers.camera.get(camera).getCamera().unproject(new Vector3(screenX, screenY, 0));
-        Vector2 v2 = MovementSystem.screenToIso(v.x, v.y);
         if(button == Input.Buttons.LEFT) {
             selection.selection = new Rectangle(v.x, v.y, 0, 0);
             return true;
         }
         if(button == Input.Buttons.RIGHT) {
             System.out.println("ouch");
-            Mappers.player.get(player).selectedObject.act(new MoveAction(v2.x, v2.y,mapGraph));
+            Mappers.player.get(player).selectedObject.act(new MoveAction(v.x, v.y,mapGraph));
         }
         return false;
     }
@@ -182,16 +180,15 @@ public class UserInputHandler extends InputAdapter {
     public boolean touchUp (int screenX, int screenY, int pointer, int button) {
         ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(WorldObjectComponent.class).get());
         Vector3 v = Mappers.camera.get(camera).getCamera().unproject(new Vector3(screenX, screenY, 0));
-        Vector2 v2 = MovementSystem.screenToIso(v.x, v.y);
         if(button == Input.Buttons.LEFT){
-            Polygon myRectangle = rectToIsoPolygon(normalize(selection.selection));
             pm.get(player).selectedObject.deselect();
+            normalize(selection.selection);
             for(Entity e : entities){
                 WorldObjectComponent wo = wm.get(e);
-                if(wo.bounds.getRectangle().contains(v2.x, v2.y) ||
-                        Intersector.overlapConvexPolygons(
-                                myRectangle,
-                                rectToPolygon(wo.bounds.getRectangle()))){
+                if(wo.bounds.getRectangle().contains(v.x, v.y) ||
+                        Intersector.overlaps(
+                                selection.selection,
+                                wo.bounds.getRectangle())){
                     pm.get(player).selectedObject.add(e);
                 }
             }
@@ -216,42 +213,5 @@ public class UserInputHandler extends InputAdapter {
             r.height = -1 * r.height;
         }
         return r;
-    }
-
-    public static Polygon rectToScreenPolygon(Rectangle rect){
-        float[] vertices = new float[8];
-        vertices[0] = 0; vertices[1] = 0;
-        Vector2 v = MovementSystem.isoToScreen(rect.width, 0);
-        vertices[2] = v.x; vertices[3] = v.y;
-        v = MovementSystem.isoToScreen(rect.width, rect.height);
-        vertices[4] = v.x; vertices[5] = v.y;
-        v = MovementSystem.isoToScreen(0, rect.height);
-        vertices[6] = v.x; vertices[7] = v.y;
-        Polygon pol = new Polygon(vertices);
-        v = MovementSystem.isoToScreen(rect.x, rect.y);
-        pol.setPosition(v.x, v.y);
-        return pol;
-    }
-
-    public static Polygon rectToIsoPolygon(Rectangle rect){
-        float[] vertices = new float[8];
-        vertices[0] = 0; vertices[1] = 0;
-        Vector2 v = MovementSystem.screenToIso(rect.width, 0);
-        vertices[2] = v.x; vertices[3] = v.y;
-        v = MovementSystem.screenToIso(rect.width, rect.height);
-        vertices[4] = v.x; vertices[5] = v.y;
-        v = MovementSystem.screenToIso(0, rect.height);
-        vertices[6] = v.x; vertices[7] = v.y;
-        Polygon pol = new Polygon(vertices);
-        v = MovementSystem.screenToIso(rect.x, rect.y);
-        pol.setPosition(v.x, v.y);
-        return pol;
-    }
-
-    private Polygon rectToPolygon(Rectangle r){
-        Polygon rPoly = new Polygon(new float[] { 0, 0, r.width, 0, r.width,
-                r.height, 0, r.height });
-        rPoly.setPosition(r.x, r.y);
-        return rPoly;
     }
 }

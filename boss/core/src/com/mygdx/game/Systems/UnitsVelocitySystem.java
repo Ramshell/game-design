@@ -5,9 +5,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Components.*;
-import com.mygdx.game.Components.WorldObjects.IsoPositionComponent;
+import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Components.WorldObjects.TargetComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Mappers.Mappers;
@@ -28,9 +27,9 @@ public class UnitsVelocitySystem extends EntitySystem{
     public void update(float deltaTime) {
         worldBuildings = engine.getEntitiesFor(Family.all(CellsComponent.class, RenderableComponent.class).get());
         worldUnits = engine.getEntitiesFor(Family.all(AnimationComponent.class,
-                VelocityComponent.class, IsoPositionComponent.class, TargetComponent.class).get());
+                VelocityComponent.class, WorldPositionComponent.class, TargetComponent.class).get());
         for(Entity e : worldUnits){
-            IsoPositionComponent pos = Mappers.isoPosition.get(e);
+            WorldPositionComponent pos = Mappers.worldPosition.get(e);
             VelocityComponent velocity = Mappers.velocity.get(e);
             TargetComponent target = Mappers.target.get(e);
             if(target.target == null){

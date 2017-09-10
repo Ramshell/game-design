@@ -13,19 +13,21 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Components.PlayerComponent;
+import com.mygdx.game.OOP.MiniMap;
 import com.mygdx.game.Play;
 
 
 public class HUDComponent implements Component {
+    public MiniMap miniMap;
     public Stage stage;
     private Viewport viewport;
     public PlayerComponent player;
 
-    public Skin skin = new Skin(Gdx.files.internal("HUD/skins/gdx-skins-master/freezing/skin/freezing-ui.json"));
+    public Skin skin = new Skin(Gdx.files.internal("HUD/skins/gdx-skins-master/star-soldier/skin/star-soldier-ui.json"));
 
     public Label selectedObjectLabel;
     public Label resourcesLabel;
-    public TextButton createWall = new TextButton("Crear Wall",skin);
+    public TextButton createWall = new TextButton("create wall",skin);
 
     public HUDComponent(final PlayerComponent player,final Play p){
         this.player = player;
@@ -49,7 +51,7 @@ public class HUDComponent implements Component {
         rootTable.row();
         rootTable.add(bottomTable).fillX().expandX();
         Label rts = new Label("rts",skin);
-        Label resources = new Label("resources:",skin);
+        Label resources = new Label("EoL:",skin);
         HorizontalGroup resourcesBar = new HorizontalGroup();
         resourcesBar.expand().addActor(resources);
         resourcesBar.addActor(resourcesLabel);

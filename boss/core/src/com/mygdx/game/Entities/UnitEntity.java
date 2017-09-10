@@ -3,9 +3,8 @@ package com.mygdx.game.Entities;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.game.Components.*;
-import com.mygdx.game.Components.WorldObjects.IsoPositionComponent;
+import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
-import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.OOP.WorldMapObject;
 
 public class UnitEntity extends Entity{
@@ -14,7 +13,7 @@ public class UnitEntity extends Entity{
                       float height, float textureWidth, float textureHeight, int initialState,
                       AnimationComponent anim){
         WorldObjectComponent wo = new WorldObjectComponent(name);
-        wo.bounds = new WorldMapObject(posX - width / 2, posY - height / 2, width, height);
+        wo.bounds = new RectangleMapObject(posX, posY, width, height);
         wo.cost = 10;
         wo.hitPoints = 30;
         wo.maxHitPoints = 30;
@@ -25,7 +24,7 @@ public class UnitEntity extends Entity{
         state.set(initialState);
         TextureComponent t = new TextureComponent();
         t.region = anim.animations.get(initialState).getKeyFrame(0);
-        add(wo).add(t).add(anim).add(state).add(new IsoPositionComponent(posX,posY))
+        add(wo).add(t).add(anim).add(state).add(new WorldPositionComponent(posX,posY))
         .add(velocityComponent).add(player);
     }
 }

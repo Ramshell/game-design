@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Components.*;
@@ -20,7 +21,7 @@ public class BuildingEntity extends Entity {
         wo.maxHitPoints = 100;
         wo.objectName = "Wall";
         wo.sellValue = 900;
-        wo.bounds = new WorldMapObject(
+        wo.bounds = new RectangleMapObject(
                 pos.x * ResourceMapper.tileWidth,
                 pos.y * ResourceMapper.tileHeight,
                 ResourceMapper.tileWidth,

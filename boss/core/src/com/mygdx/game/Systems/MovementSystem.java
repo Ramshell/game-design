@@ -27,7 +27,7 @@ public class MovementSystem extends EntitySystem {
             Vector2 v = position.pos.cpy()
                     .add(velocity.accel.cpy().scl(1/2 * deltaTime * deltaTime)
                     .add(velocity.pos.cpy().scl(deltaTime)));
-            if(outsideWorld(screenToIso(v))) continue;
+            if(outsideWorld(v)) continue;
             position.pos = v;
             velocity.increment(deltaTime);
         }
@@ -37,29 +37,26 @@ public class MovementSystem extends EntitySystem {
         return new Vector2(- screenY + screenX * 0.5f, screenY + screenX * 0.5f);
     }
 
-    public static Vector2 screenToIso(Vector2 v){
-        return new Vector2(- v.y + v.x * 0.5f,v.y + v.x * 0.5f );
-    }
-
     public static Vector2 isoToScreen(float isoScreenX, float isoScreenY){
         return new Vector2(isoScreenX + isoScreenY,(- isoScreenX + isoScreenY) * 0.5f );
     }
 
-    public static Vector2 isoToScreen(Vector2 v){
-        return new Vector2(v.x + v.y,(- v.x + v.y) * 0.5f );
-    }
-
+    /**
+     * @param check is a vector unprojected to the camera position
+     * **/
     public static boolean outsideWorld(Vector2 check){
-        return check.y < 0 || check.y > 128 * 32 || check.x < 0 || check.x > 128 * 32;
+        return  outsideWorld(check.x, check.y);
     }
 
-    public static boolean outsideWorld(Vector2 check, float xoffset, float yoffset){
-
-        return outsideWorld(check.x - xoffset, check.y) || outsideWorld(check.x + xoffset, check.y) ||
-                outsideWorld(check.x, check.y - yoffset) || outsideWorld(check.x, check.y + yoffset);
+    public static boolean outsideWorld(Vector2 check, float width, float height){
+        return  outsideWorld(check.x, check.y)              ||
+                outsideWorld(check.x + width, check.y)   ||
+                outsideWorld(check.x, check.y + height)  ||
+                outsideWorld(check.x + width, check.y + height);
     }
 
     public static boolean outsideWorld(float x, float y){
-        return y < 0 || y > 128 * 32 || x < 0 || x > 128 * 32;
+        return  y < 0 || y > ResourceMapper.tileHeight * ResourceMapper.height ||
+                x < 0 || x > ResourceMapper.tileWidth * ResourceMapper.width;
     }
 }

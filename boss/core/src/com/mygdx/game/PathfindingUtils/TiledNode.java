@@ -57,7 +57,10 @@ public class TiledNode {
 
     public void removeConnection(TiledNode toNode){
         if(alreadyConnected.containsKey(toNode.getIndex())){
-            connections.removeIndex(alreadyConnected.get(toNode.getIndex()));
+            for(int i = 0 ; i < connections.size; ++i) if(connections.get(i).getToNode().equals(toNode)){
+                connections.removeIndex(i);
+                break;
+            }
             alreadyConnected.remove(toNode.getIndex());
         }
     }

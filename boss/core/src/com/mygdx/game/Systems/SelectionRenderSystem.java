@@ -42,14 +42,15 @@ public class SelectionRenderSystem extends EntitySystem{
         this.entities = engine.getEntitiesFor(Family.all(WorldObjectComponent.class).get());
         for(Entity e: entities){
             if(!Mappers.world.get(e).currentlySelected) continue;
+            Gdx.gl.glLineWidth(4);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             Rectangle r = Mappers.world.get(e).bounds.getRectangle();
             shapeRenderer.setColor(new Color(
                     0,
                     1,
                     0,
-                    0.75f));
-            shapeRenderer.polygon(UserInputHandler.rectToScreenPolygon(r).getTransformedVertices());
+                    ResourceMapper.opacySelectionColor));
+            shapeRenderer.ellipse(r.x, r.y, r.width, r.height);
             shapeRenderer.end();
         }
         Gdx.gl.glDisable(GL20.GL_BLEND);

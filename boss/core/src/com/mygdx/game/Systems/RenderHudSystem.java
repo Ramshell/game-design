@@ -26,6 +26,7 @@ public class RenderHudSystem extends EntitySystem {
             HUDComponent hud = Mappers.hud.get(e);
             mapComponent.renderer.getBatch().setProjectionMatrix(hud.stage.getCamera().combined);
             updateHudComponent(hud);
+            hud.stage.act(delta);
             hud.stage.draw();
         }
     }
