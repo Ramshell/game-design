@@ -92,27 +92,7 @@ public class Play implements Screen {
     }
 
     private void createGraph() {
-        Integer mapWidth = map.getProperties().get("width", Integer.class);
-        Integer mapHeight = map.getProperties().get("height", Integer.class);
         mapGraph = new MapGraph(1, map);
-
-        IndexedAStarPathFinder<TiledNode> pathFinder = new IndexedAStarPathFinder<TiledNode>(mapGraph);
-        TiledSmoothableGraphPath<TiledNode> path = new TiledSmoothableGraphPath<TiledNode>();
-        PathSmoother pathSmoother = new PathSmoother(new TiledRayCastCollisionDetection(mapGraph));
-        pathFinder.searchNodePath(mapGraph.getNode(0), mapGraph.getNode(mapWidth*mapHeight - 4),new ManhattanDistanceHeuristic(),path);
-        System.out.println(path.getCount());
-        System.out.print(path.get(0).getX());
-        System.out.print("  ,");
-        System.out.println(path.get(0).getY());
-        pathSmoother.smoothPath(path);
-        System.out.println(path.getCount());
-        System.out.print(path.get(0).getX());
-        System.out.print("  ,");
-        System.out.println(path.get(0).getY());
-        System.out.print(path.get(1).getX());
-        System.out.print("  ,");
-        System.out.println(path.get(1).getY());
-
     }
 
     @Override

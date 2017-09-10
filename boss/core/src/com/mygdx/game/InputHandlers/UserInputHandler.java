@@ -170,7 +170,9 @@ public class UserInputHandler extends InputAdapter {
             return true;
         }
         if(button == Input.Buttons.RIGHT) {
+            if(MovementSystem.outsideWorld(v.x, v.y)) return false;
             Mappers.player.get(player).selectedObject.act(new MoveAction(v.x, v.y,mapGraph));
+            return true;
         }
         return false;
     }
