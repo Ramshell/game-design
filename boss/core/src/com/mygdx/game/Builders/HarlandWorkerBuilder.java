@@ -17,7 +17,7 @@ public class HarlandWorkerBuilder{
         AnimationComponent anim = new AnimationComponent();
         anim.animations.put(IDLE, AssetsMapper.harlandWorkerAnim);
         return new UnitEntity(player, "Harland Worker", posX, posY,
-                64, 64,64, 64,
+                32, 32,32, 64,
                 IDLE, anim);
     }
 }

@@ -30,8 +30,8 @@ public class AssetsMapper {
         tm = new Pixmap(Gdx.files.internal("cursor/top_movement.png"));
         harlandWorker = loadTexture("characters/harlandWorker.png");
         harlandWorkerAnim = new Animation<TextureRegion>(0.8f,
-                new TextureRegion(harlandWorker, 0, 0, 64, 64),
-                new TextureRegion(harlandWorker, 64, 0, 64, 64));
+                new TextureRegion(harlandWorker, 16, 0, 32, 64),
+                new TextureRegion(harlandWorker, 80, 0, 32, 64));
 
 
     }

@@ -5,7 +5,7 @@
  <tileset firstgid="194" source="ortho_tileset.tsx"/>
  <layer name="basic" width="128" height="128">
   <data encoding="base64" compression="zlib">
-   eJzt07EJACAMBMDsP5YWrmVjIWJjY0CvOEK6h09aRDQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADhUhuwc3FWXyV/qRnYm7vc/79mZyLkB/w8Ab+vHrsKe
+   eJzt2DEOwCAIBVDuf6x6sa5Nk9KlkQbe8GaNH9C4ImIBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfOxIVO+N2rrYvZ4a/I+Ks79nrgZm5X/N3AwAgH3cufN4c83zlLkamCH795N/f2+5y7+3rN/1f39m/2xyB5jnBLNWwoM=
   </data>
  </layer>
  <layer name="background" width="128" height="128">

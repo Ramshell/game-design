@@ -9,10 +9,11 @@ import com.mygdx.game.MyGdxGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-//        config.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
-//        config.resizable = false;
-//        config.samples = 4;
-//        config.vSyncEnabled = true;
+        config.setFromDisplayMode(LwjglApplicationConfiguration.getDesktopDisplayMode());
+
+        config.resizable = false;
+        config.samples = 4;
+        config.vSyncEnabled = true;
         config.title = "Essence of Life";
         new LwjglApplication(new MyGdxGame(), config);
 	}

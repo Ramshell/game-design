@@ -20,7 +20,7 @@ public class UnitEntity extends Entity{
         wo.maxHitPoints = 30;
         wo.sellValue = 10;
         VelocityComponent velocityComponent = new VelocityComponent();
-        velocityComponent.maxSpeed = 40;
+        velocityComponent.maxSpeed = 60;
         StateComponent state = new StateComponent();
         state.set(initialState);
         TextureComponent t = new TextureComponent();

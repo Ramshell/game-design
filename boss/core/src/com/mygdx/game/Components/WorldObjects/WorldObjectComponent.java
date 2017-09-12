@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Array;
 public class WorldObjectComponent implements Component{
     public String objectName = "";
     public int cost, sellValue, hitPoints, maxHitPoints;
-    public Array<String> actions = new Array<String>();
     public boolean currentlySelected = false;
     public RectangleMapObject bounds;
 

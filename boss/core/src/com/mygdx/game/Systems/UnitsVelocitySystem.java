@@ -38,8 +38,8 @@ public class UnitsVelocitySystem extends EntitySystem{
                 continue;
             }
             if (pos.position.epsilonEquals(target.target, 0.3f) ) {
-                pos.position.x = pos.position.x + 0.3f;
-                pos.position.y = pos.position.y + 0.3f;
+                pos.position.x = target.target.x;
+                pos.position.y = target.target.y;
                 target.nextTarget();
                 if(target.target == null){
                     velocity.pos.setZero();
