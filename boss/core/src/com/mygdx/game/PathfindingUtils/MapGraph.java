@@ -71,7 +71,13 @@ public class MapGraph implements IndexedGraph<TiledNode>{
 
     @Override
     public Array<Connection<TiledNode>> getConnections(TiledNode fromNode) {
-        return fromNode.getConnections();
+        Array<Connection<TiledNode>> res = new Array<Connection<TiledNode>>();
+        for(Connection<TiledNode> conn:fromNode.getConnections()){
+            if(!colideO1(conn.getToNode().getIndex())){
+                res.add(conn);
+            }
+        }
+        return res;
     }
 
     public TiledNode getNode(int index){
@@ -108,23 +114,19 @@ public class MapGraph implements IndexedGraph<TiledNode>{
         return colide;
     }
 
-    public Boolean colideO1(Integer x, Integer y){
-        if(colide.get(getNode(x, y).getIndex())) {
-            System.out.print(x);
-            System.out.print("  ,");
-            System.out.println(y);
-        }
-        return (colide.get(getNode(x, y).getIndex()));
+    public Boolean colideO1(Integer index){
+        return (index < 0 || index > width * height) ||
+                (colide.get(index));
     }
 
-    public void setBuildingColision(float x, float y) {
+    public Boolean colideO1(Integer x, Integer y){
+        return (x < 0 || y < 0 || x >= width || y >=  height) ||
+                (colide.get(getNode(x, y).getIndex()));
+    }
+
+    public void setCollision(float x, float y, boolean collision) {
         Integer realX = (int)x * multiplier;
         Integer realY = (int)y * multiplier;
-        colide.set(getNode(realX, realY).getIndex(), true);
-        TiledNode t = getNode(realX, realY);
-        if(nodeWithinBounds(realX + 1, realY)) getNode(realX + 1,realY).removeConnection(t);
-        if(nodeWithinBounds(realX - 1, realY)) getNode(realX - 1,realY).removeConnection(t);
-        if(nodeWithinBounds(realX, realY + 1)) getNode(realX,realY + 1).removeConnection(t);
-        if(nodeWithinBounds(realX, realY - 1)) getNode(realX,realY - 1).removeConnection(t);
+        colide.set(getNode(realX, realY).getIndex(), collision);
     }
 }

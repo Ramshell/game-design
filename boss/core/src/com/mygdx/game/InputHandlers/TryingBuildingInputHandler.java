@@ -34,36 +34,37 @@ public class TryingBuildingInputHandler extends InputAdapter {
     }
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button){
+        if(concerned() && button == Input.Buttons.RIGHT){
+            toNormal();
+            return true;
+        }
         return concerned() && button == Input.Buttons.LEFT;
     }
 
+    private void toNormal() {
+        player.state = PlayerComponent.PlayerState.Normal;
+        if(player.tryingBuilding != null) for (CellComponent c : cellsMapper.get(player.tryingBuilding).cells) {
+            TiledMapTileLayer toDelete = (TiledMapTileLayer)Mappers.map.get(engine.getEntitiesFor(Family.all(MapComponent.class).get()).get(0)).map.getLayers().get("trying_building");
+            toDelete.setCell((int)c.position.x, (int)c.position.y, null);
+        }
+        player.tryingBuilding = null;
+        player.action = null;
+    }
+
     public boolean touchUp (int screenX, int screenY, int pointer, int button) {
-        if(concerned()) {
-            if (button == Input.Buttons.LEFT && !BuildingMakingSystem.isBlocked(cellsMapper.get(player.tryingBuilding), mapGraph)) {
-                for (CellComponent c : cellsMapper.get(player.tryingBuilding).cells) {
-                    TiledMapTileLayer toDelete = (TiledMapTileLayer)Mappers.map.get(engine.getEntitiesFor(Family.all(MapComponent.class).get()).get(0)).map.getLayers().get("trying_building");
-                    toDelete.setCell((int)c.position.x, (int)c.position.y, null);
-                    if(c.blocked) mapGraph.setBuildingColision(c.position.x, c.position.y);
-                }
-                player.state = PlayerComponent.PlayerState.Normal;
-                engine.addEntity(player.tryingBuilding);
-                player.tryingBuilding = null;
-            }
+        if (concerned() && button == Input.Buttons.LEFT){
+            player.selectedObject.act(player.action.getAction(screenX, screenY));
+            toNormal();
             return true;
         }
         return false;
     }
 
     public boolean keyDown(int keycode) {
-        if(concerned() && player.tryingBuilding != null) {
+        if(concerned()) {
             switch (keycode) {
                 case Input.Keys.ESCAPE:
-                    player.state = PlayerComponent.PlayerState.Normal;
-                    for (CellComponent c : cellsMapper.get(player.tryingBuilding).cells) {
-                        TiledMapTileLayer toDelete = (TiledMapTileLayer)Mappers.map.get(engine.getEntitiesFor(Family.all(MapComponent.class).get()).get(0)).map.getLayers().get("trying_building");
-                        toDelete.setCell((int)c.position.x, (int)c.position.y, null);
-                    }
-                    player.tryingBuilding = null;
+                    toNormal();
                     break;
             }
             return true;
@@ -73,6 +74,6 @@ public class TryingBuildingInputHandler extends InputAdapter {
 
 
     private boolean concerned() {
-        return player.state == PlayerComponent.PlayerState.Building;
+        return player.action != null;
     }
 }

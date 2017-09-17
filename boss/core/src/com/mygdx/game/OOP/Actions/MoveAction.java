@@ -3,6 +3,8 @@ package com.mygdx.game.OOP.Actions;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.pfa.PathSmoother;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
+import com.mygdx.game.Components.WorldObjects.Tasks.MovementTask;
+import com.mygdx.game.Components.WorldObjects.Tasks.TasksComponent;
 import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Components.WorldObjects.TargetComponent;
 import com.mygdx.game.Mappers.Mappers;
@@ -11,9 +13,9 @@ import com.mygdx.game.PathfindingUtils.*;
 
 
 public class MoveAction extends Action<Entity>{
-    int x;
-    int y;
-    MapGraph mapGraph;
+    protected int x;
+    protected int y;
+    protected MapGraph mapGraph;
     IndexedAStarPathFinder<TiledNode> pathFinder;
     TiledSmoothableGraphPath<TiledNode> path;
     PathSmoother pathSmoother;

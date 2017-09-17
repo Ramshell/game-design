@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
+import com.mygdx.game.Components.WorldObjects.SpawnComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Mappers.Mappers;
@@ -28,15 +29,16 @@ public class BuildingMakingSystem extends EntitySystem{
     private ComponentMapper<CellsComponent> cellsMapper = ComponentMapper.getFor(CellsComponent.class);
     private ShapeRenderer shapeRenderer;
 
-    public BuildingMakingSystem(PlayerComponent player, MapGraph mapGraph){
-        this.mapGraph = mapGraph;
-        this.player = player;
+    public BuildingMakingSystem(){
         shapeRenderer = new ShapeRenderer();
     }
 
     public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(Family.all(MapComponent.class, HUDComponent.class).get());
         worldBuildings = engine.getEntitiesFor(Family.all(WorldObjectComponent.class, CellsComponent.class, RenderableComponent.class).get());
+        this.mapGraph = Mappers.graph.get(engine.getEntitiesFor(Family.one(MapGraphComponent.class).get())
+                .first()).mapGraph;
+        this.player = Mappers.player.get(engine.getEntitiesFor(Family.all(PlayerComponent.class).get()).first());
     }
 
 
@@ -48,8 +50,20 @@ public class BuildingMakingSystem extends EntitySystem{
                 MapComponent mapComponent = cm.get(e);
                 TiledMapTileLayer layer = (TiledMapTileLayer)mapComponent.map.getLayers().get("trying_building");
                 Vector3 v = mapComponent.camera.unproject(new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0));
-                if(MovementSystem.outsideWorld(new Vector2(((int)v.x / ResourceMapper.tileWidth) * ResourceMapper.tileWidth, ((int)v.y / ResourceMapper.tileHeight) * ResourceMapper.tileHeight), wo.bounds.getRectangle().width, wo.bounds.getRectangle().height)) continue;
+                if(MovementSystem.outsideWorld(new Vector2(
+                                ((int)v.x / ResourceMapper.tileWidth) *
+                                        ResourceMapper.tileWidth,
+                                ((int)v.y / ResourceMapper.tileHeight) *
+                                        ResourceMapper.tileHeight),
+                                    wo.bounds.getRectangle().width,
+                                    wo.bounds.getRectangle().height)) continue;
                 wo.bounds.getRectangle().setPosition(((int)v.x / ResourceMapper.tileWidth) * ResourceMapper.tileWidth, ((int)v.y / ResourceMapper.tileHeight) * ResourceMapper.tileHeight);
+                Mappers.spawn.get(player.tryingBuilding).setPos(
+                        (int)v.x / ResourceMapper.tileWidth,
+                        (int)v.y / ResourceMapper.tileHeight);
+                Mappers.worldPosition.get(player.tryingBuilding).position.set(
+                        ((int)v.x / ResourceMapper.tileWidth) * ResourceMapper.tileWidth,
+                        ((int)v.y / ResourceMapper.tileHeight) * ResourceMapper.tileHeight);
                 for(CellComponent c : cellsComponent.cells) {
                     layer.setCell((int) c.position.x, (int) c.position.y, null);
                     c.position.x = v.x / ResourceMapper.tileWidth + c.xOffset;

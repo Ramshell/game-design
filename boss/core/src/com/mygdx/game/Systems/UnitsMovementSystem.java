@@ -12,16 +12,22 @@ import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
+import com.mygdx.game.PathfindingUtils.MapGraph;
 
 public class UnitsMovementSystem extends EntitySystem{
+    private MapGraph mapGraph;
+
     private Engine engine;
     private ImmutableArray<Entity> worldUnits;
+
 
     public void addedToEngine(Engine engine) {
         worldUnits = engine.getEntitiesFor(Family.all(WorldObjectComponent.class, AnimationComponent.class,
                 WorldPositionComponent.class).get());
 
         this.engine = engine;
+        this.mapGraph = Mappers.graph.get(engine.getEntitiesFor(Family.one(MapGraphComponent.class).get())
+                .first()).mapGraph;
     }
 
     public void update(float deltaTime) {

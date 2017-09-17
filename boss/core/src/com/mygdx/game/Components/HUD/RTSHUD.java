@@ -1,14 +1,11 @@
 package com.mygdx.game.Components.HUD;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -18,10 +15,8 @@ import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.OOP.MiniMap;
 import com.mygdx.game.Play;
 
-
-public class HUDComponent implements Component {
+public class RTSHUD extends Stage{
     public MiniMap miniMap;
-    public Stage stage;
     private Viewport viewport;
     public PlayerComponent player;
 
@@ -29,36 +24,20 @@ public class HUDComponent implements Component {
 
     public Label selectedObjectLabel;
     public Label resourcesLabel;
+    public TextButton createWall = new TextButton("create wall",skin, "round");
     public Array<Array<ImageButton>> actionButtons = new Array<Array<ImageButton>>();
-    public Array<Array<ImageButton>> selectedObjects = new Array<Array<ImageButton>>();
 
-    public Table actionsTable;
-
-    public HUDComponent(final PlayerComponent player,final Play p){
+    public RTSHUD(final PlayerComponent player,final Play p){
         for(int i = 0; i < 3; i++) {
             actionButtons.add(new Array<ImageButton>());
-            for (int j = 0; j < 3; j++) {
-                ImageButton imgButton = new ImageButton(skin);
-                imgButton.setVisible(false);
-                actionButtons.get(i).add(imgButton);
-            }
+            for (int j = 0; j < 3; j++)
+                actionButtons.get(i).add(new ImageButton(skin));
         }
-
-        for(int i = 0; i < 3; i++) {
-            selectedObjects.add(new Array<ImageButton>());
-            for (int j = 0; j < 3; j++) {
-                ImageButton img = new ImageButton(skin);
-                img.setVisible(false);
-                selectedObjects.get(i).add(img);
-            }
-        }
-
         this.player = player;
         selectedObjectLabel = new Label(player.selectedObject.getName(),skin);
         resourcesLabel = new Label(Integer.toString(player.resources),skin);
         OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport = new FitViewport(camera.viewportWidth, camera.viewportHeight, camera);
-        stage = new Stage(viewport);
         Table rootTable = new Table();
         rootTable.setFillParent(true);
         Table topTable = new Table(skin);
@@ -79,40 +58,50 @@ public class HUDComponent implements Component {
         resourcesBar.expand().addActor(resources);
         resourcesBar.addActor(resourcesLabel);
         topTable.add(rts).left();
-        topTable.add(resourcesBar).expandX();
+        topTable.add(resourcesBar).padLeft(15).expandX();
         Table minimapTable = new Table(skin).left();
-//        minimapTable.add(AssetsMapper.moveButton);
         Table statsTable = new Table(skin).center();
-        actionsTable = new Table(skin).right();
-        for(int i = 0; i < 3; i++)
-            actionsTable.add(actionButtons.get(0).get(i)).center().expandX();
+        Table actionsTable = new Table(skin).right();
+
+        actionsTable.add(new ImageButton(skin)).right().expandX();actionsTable.add(new ImageButton(skin)).expandX();actionsTable.add(new ImageButton(skin)).expandX();
         actionsTable.row();
-        for(int i = 0; i < 3; i++)
-            actionsTable.add(actionButtons.get(1).get(i)).center().expandX();
+        actionsTable.add(new ImageButton(skin)).expandX();actionsTable.add(new ImageButton(skin)).expandX();actionsTable.add(new ImageButton(skin)).expandX();
         actionsTable.row();
-        for(int i = 0; i < 3; i++)
-            actionsTable.add(actionButtons.get(2).get(i)).center().expandX();
+        actionsTable.add(new ImageButton(skin)).expandX();actionsTable.add(new ImageButton(skin)).expandX();actionsTable.add(new ImageButton(skin)).expandX();
         HorizontalGroup topMostBottomBar = new HorizontalGroup();
         topMostBottomBar.addActor(selectedObjectLabel);
-        statsTable.add(topMostBottomBar).top();
-        statsTable.row();
-        for(int i = 0; i < 3; i++)
-            statsTable.add(selectedObjects.get(0).get(i)).center().expandX();
-        statsTable.row();
-        for(int i = 0; i < 3; i++)
-            statsTable.add(selectedObjects.get(1).get(i)).center().expandX();
-        statsTable.row();
-        for(int i = 0; i < 3; i++)
-            statsTable.add(selectedObjects.get(2).get(i)).center().expandX();
+        topMostBottomBar.addActor(new ImageButton(skin).center());
+        topMostBottomBar.addActor(new ImageButton(skin).left());
+        statsTable.add(topMostBottomBar);
+
+//        topMostBottomBar.left().addActor(selectedObjectLabel);
+//        bottomTable.add(topMostBottomBar).expandX().left();
+//        bottomTable.row();
+//        createWall.addListener(new ClickListener(){
+//            public void clicked (InputEvent event, float x, float y) {
+//                player.state = PlayerComponent.PlayerState.Building;
+//                player.tryingBuilding = p.wallBuilder.getWall(player,0,0);
+//            }
+//        });
+//        bottomTable.add(createWall);
         bottomTable.add(minimapTable).expandX();
         bottomTable.add(statsTable).expandX();
         bottomTable.add(actionsTable).expandX();
         TextureRegionDrawable t = new TextureRegionDrawable();
         t.setRegion(new TextureRegion(new Texture("HUD/resourceBar.png")));
         TextureRegionDrawable t2 = new TextureRegionDrawable();
-        t2.setRegion(new TextureRegion(new Texture("HUD/ordersBar.png")));
+        t2.setRegion(new TextureRegion(new Texture("HUD/transparentBar.png")));
         topTable.setBackground(t);
         bottomTable.setBackground(t2);
-        stage.addActor(rootTable);
+        addActor(rootTable);
+        setViewport(viewport);
+
     }
+
+    public void act (float deltaTime){
+        selectedObjectLabel.setText(player.selectedObject.getName());
+        resourcesLabel.setText(Integer.toString(player.resources));
+        super.act(deltaTime);
+    }
+
 }

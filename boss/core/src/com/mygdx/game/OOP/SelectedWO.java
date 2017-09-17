@@ -4,6 +4,8 @@ package com.mygdx.game.OOP;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.OrderedSet;
+import com.mygdx.game.Components.SelectionComponent;
+import com.mygdx.game.Components.WorldObjects.ActionComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.OOP.Actions.Action;
@@ -11,9 +13,14 @@ import com.mygdx.game.OOP.Actions.Action;
 public class SelectedWO {
     private OrderedSet<Entity> selectedObjects;
     private String name;
+    private OrderedSet<ActionComponent> actions = new OrderedSet<ActionComponent>();
 
     public SelectedWO(){
         selectedObjects = new OrderedSet<Entity>();
+    }
+
+    public OrderedSet<Entity> getSelectedObjects(){
+        return selectedObjects;
     }
 
     private Boolean selected(){
@@ -23,6 +30,10 @@ public class SelectedWO {
     public String getName(){
         if(!selected()) return "Nothing Selected";
         else return name;
+    }
+
+    public OrderedSet<ActionComponent> getActions(){
+        return actions;
     }
 
 
@@ -39,14 +50,21 @@ public class SelectedWO {
                 notContained){
             name = "Group";
         }
+        OrderedSet<ActionComponent> actions = new OrderedSet<ActionComponent>();
+        for(ActionComponent a : wo.actions){
+            if(selectedObjects.size == 0 || this.actions.contains(a)) actions.add(a);
+        }
+        this.actions = actions;
         selectedObjects.add(entity);
-        wo.currentlySelected = true;
+        entity.add(new SelectionComponent());
     }
     public void deselect(){
+
         for(Entity e : selectedObjects){
-            Mappers.world.get(e).currentlySelected = false;
+            e.remove(SelectionComponent.class);
         }
         name = "";
+        actions.clear();
         selectedObjects.clear();
     }
 

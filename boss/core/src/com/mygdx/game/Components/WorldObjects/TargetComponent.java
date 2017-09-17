@@ -8,8 +8,8 @@ import com.mygdx.game.PathfindingUtils.TiledSmoothableGraphPath;
 
 public class TargetComponent implements Component{
     public Vector2 target;
-    private TiledSmoothableGraphPath<TiledNode> path;
-    private int nextNode;
+    public TiledSmoothableGraphPath<TiledNode> path;
+    public int nextNode;
 
     public TargetComponent(TiledSmoothableGraphPath<TiledNode> path){
         init(path);

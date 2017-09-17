@@ -39,9 +39,8 @@ public class SelectionRenderSystem extends EntitySystem{
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.setProjectionMatrix(camera.combined);
-        this.entities = engine.getEntitiesFor(Family.all(WorldObjectComponent.class).get());
+        this.entities = engine.getEntitiesFor(Family.all(WorldObjectComponent.class, SelectionComponent.class).get());
         for(Entity e: entities){
-            if(!Mappers.world.get(e).currentlySelected) continue;
             Gdx.gl.glLineWidth(4);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             Rectangle r = Mappers.world.get(e).bounds.getRectangle();

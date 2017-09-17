@@ -1,5 +1,6 @@
 package com.mygdx.game.Builders;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -7,16 +8,25 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Components.CellComponent;
 import com.mygdx.game.Components.CellsComponent;
 import com.mygdx.game.Components.PlayerComponent;
+import com.mygdx.game.Components.WorldObjects.ActionComponent;
 import com.mygdx.game.Entities.BuildingEntity;
+import com.mygdx.game.Mappers.AssetsMapper;
+import com.mygdx.game.OOP.Actions.*;
+import com.mygdx.game.PathfindingUtils.MapGraph;
+import com.mygdx.game.Play;
 
 import java.util.Iterator;
 
 
 public class WallBuilder{
+    private Play play;
     private TiledMapTileLayer background;
     private TiledMapTileLayer foreground;
     private TiledMapTile wallTile;
@@ -36,7 +46,7 @@ public class WallBuilder{
     private TiledMapTile wallTile15;
     private TiledMapTile wallTile16;
 
-    public WallBuilder(OrthogonalTiledMapRenderer renderer){
+    public WallBuilder(OrthogonalTiledMapRenderer renderer, final Play play){
         this.background = (TiledMapTileLayer)renderer.getMap().getLayers().get("background");
         this.foreground = (TiledMapTileLayer)renderer.getMap().getLayers().get("foreground");
         TiledMapTileSet tileset = renderer.getMap().getTileSets().getTileSet("pisos1");
@@ -56,9 +66,19 @@ public class WallBuilder{
         wallTile14 = tileset.getTile(30);
         wallTile15 = tileset.getTile(31);
         wallTile16 = tileset.getTile(32);
+        this.play = play;
     }
 
-    public BuildingEntity getWall(PlayerComponent playerComponent, int x, int y){
+    public BuildingEntity getWall(final PlayerComponent playerComponent, int x, int y){
+        Array<ActionComponent> actions = new Array<ActionComponent>();
+        ActionComponent craftHarland = new ActionComponent();
+        craftHarland.button = AssetsMapper.craftHarlandWorkerButton;;
+        craftHarland.listener = new ClickListener(){
+            public void clicked (InputEvent event, float x, float y) {
+                playerComponent.selectedObject.act(new CreateHarlandWorkerAction(play.mapGraph, playerComponent, play));
+            }
+        };
+        actions.add(craftHarland);
         Array<CellComponent> cells = new Array<CellComponent>();
         Vector2 v = new Vector2(x, y);
         CellComponent cellComponent = create_cell(wallTile9, background, v, 0 ,1);
@@ -94,7 +114,7 @@ public class WallBuilder{
         cells.add(cellComponent13);cells.add(cellComponent14);
         cells.add(cellComponent15);cells.add(cellComponent16);
         CellsComponent cellsComponent = new CellsComponent(cells, 4, 4);
-        return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent);
+        return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent, actions);
     }
 
     private CellComponent create_cell(TiledMapTile t, TiledMapTileLayer layer,

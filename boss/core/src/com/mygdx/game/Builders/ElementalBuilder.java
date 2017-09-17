@@ -12,11 +12,11 @@ public class ElementalBuilder {
         Normal
     }
 
-    public UnitEntity elemental(PlayerComponent player, float posX, float posY){
-        AnimationComponent anim = new AnimationComponent();
-        anim.animations.put(ElementalState.Normal.ordinal(), AssetsMapper.skeletonStandAnim);
-        return new UnitEntity(player, "elemental", posX, posY,
-                16, 16,128, 128,
-                ElementalState.Normal.ordinal(), anim);
-    }
+//    public UnitEntity elemental(PlayerComponent player, float posX, float posY){
+//        AnimationComponent anim = new AnimationComponent();
+//        anim.animations.put(ElementalState.Normal.ordinal(), AssetsMapper.skeletonStandAnim);
+//        return new UnitEntity(player, "elemental", posX, posY,
+//                16, 16,128, 128,
+//                ElementalState.Normal.ordinal(), anim);
+//    }
 }

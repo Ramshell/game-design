@@ -19,10 +19,7 @@ import com.mygdx.game.Builders.HarlandWorkerBuilder;
 import com.mygdx.game.Builders.WallBuilder;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
-import com.mygdx.game.Entities.BuildingEntity;
-import com.mygdx.game.Entities.PlayerEntity;
-import com.mygdx.game.Entities.RTSCamera;
-import com.mygdx.game.Entities.RendererEntity;
+import com.mygdx.game.Entities.*;
 import com.mygdx.game.InputHandlers.TryingBuildingInputHandler;
 import com.mygdx.game.InputHandlers.UserInputHandler;
 import com.mygdx.game.Mappers.AssetsMapper;
@@ -40,8 +37,9 @@ public class Play implements Screen {
     public OrthographicCamera camera;
     private Stage stage;
     private CameraComponent cameraComponent;
-    private Engine engine;
+    public Engine engine;
     public WallBuilder wallBuilder;
+    public HarlandWorkerBuilder workerBuilder;
     public MapGraph mapGraph;
 
     public Play(Engine engine) { this.engine = engine; }
@@ -54,11 +52,11 @@ public class Play implements Screen {
         ResourceMapper.height = map.getProperties().get("height", Integer.class);
         ResourceMapper.tileWidth = map.getProperties().get("tilewidth", Integer.class);
         ResourceMapper.tileHeight = map.getProperties().get("tileheight", Integer.class);
-        createGraph();
-
+        MapGraphEntity mapGraphEntity = createGraph();
         Gdx.graphics.setCursor(Gdx.graphics.newCursor(AssetsMapper.nm, 0, 0));
         renderer = new OrthogonalTiledMapRenderer(map);
-        wallBuilder = new WallBuilder(renderer);
+        wallBuilder = new WallBuilder(renderer, this);
+        workerBuilder = new HarlandWorkerBuilder(this, mapGraph);
         RTSCamera rtsCamera = new RTSCamera();
         PlayerComponent playerComponent = new PlayerComponent();
         RendererEntity rendererEntity =
@@ -69,10 +67,11 @@ public class Play implements Screen {
         MapComponent mapComponent = Mappers.map.get(rendererEntity);
         PlayerEntity player = new PlayerEntity(p, playerComponent);
         camera = Mappers.camera.get(rtsCamera).getCamera();
-        engine.addEntity(new HarlandWorkerBuilder().getWorker(playerComponent,0, 0));
+        engine.addEntity(workerBuilder.getWorker(playerComponent,0, 0));
         engine.addEntity(player);
         engine.addEntity(rendererEntity);
         engine.addEntity(rtsCamera);
+        engine.addEntity(mapGraphEntity);
         engine.addSystem(new SetUpSystem());
         engine.addSystem(new MapRendererSystem());
         engine.addSystem(new AnimationSystem());
@@ -81,18 +80,20 @@ public class Play implements Screen {
         engine.addSystem(new MovementSystem());
         engine.addSystem(new UnitsMovementSystem());
         engine.addSystem(new UnitsVelocitySystem());
+        engine.addSystem(new ToBuildMakingSystem());
         engine.addSystem(new RenderHudSystem());
-        engine.addSystem(new BuildingMakingSystem(playerComponent, mapGraph));
+        engine.addSystem(new BuildingMakingSystem());
         stage = p.stage;
         InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
         multiplexer.addProcessor(new TryingBuildingInputHandler(playerComponent, engine, mapGraph));
-        multiplexer.addProcessor(p.stage);
         multiplexer.addProcessor(new UserInputHandler(rtsCamera, player,mapComponent, engine, mapGraph));
         Gdx.input.setInputProcessor(multiplexer);
     }
 
-    private void createGraph() {
+    private MapGraphEntity createGraph() {
         mapGraph = new MapGraph(1, map);
+        return new MapGraphEntity(mapGraph);
     }
 
     @Override

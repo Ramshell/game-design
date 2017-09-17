@@ -4,11 +4,14 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IntervalSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.OrderedSet;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.MapComponent;
+import com.mygdx.game.Components.WorldObjects.ActionComponent;
 import com.mygdx.game.Mappers.Mappers;
 
 public class RenderHudSystem extends EntitySystem {
@@ -32,20 +35,39 @@ public class RenderHudSystem extends EntitySystem {
     }
 
     private void updateHudComponent(HUDComponent hud) {
-        drawSelectedName(hud);
-        drawResources(hud);
-        drawButtons(hud);
+        updateSelectedName(hud);
+        updateResources(hud);
+        updateButtons(hud);
     }
 
-    private void drawSelectedName(HUDComponent hud){
+    private void updateSelectedName(HUDComponent hud){
         hud.selectedObjectLabel.setText(hud.player.selectedObject.getName());
     }
 
-    private void drawResources(HUDComponent hud) {
-        hud.resourcesLabel.setText("    " + Integer.toString(hud.player.resources));
+    private void updateResources(HUDComponent hud) {
+        hud.resourcesLabel.setText("   " + Integer.toString(hud.player.resources));
     }
 
-    private void drawButtons(HUDComponent hud) {
-
+    private void updateButtons(HUDComponent hud) {
+        Array<ActionComponent> iter = hud.player.selectedObject.getActions().orderedItems();
+        int curr = 0;
+        for(int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(curr >= iter.size) {
+                    hud.actionButtons.get(i).get(j).setVisible(false);
+                    if(hud.actionButtons.get(i).get(j).getListeners().size >= 2)
+                        hud.actionButtons.get(i).get(j).getListeners().removeIndex(1);
+                    continue;
+                }
+                ActionComponent action = iter.get(curr++);
+                if(!hud.actionButtons.get(i).get(j).getListeners().contains(action.listener, true)){
+                    if(hud.actionButtons.get(i).get(j).getListeners().size >= 2)
+                        hud.actionButtons.get(i).get(j).getListeners().removeIndex(1);
+                    hud.actionButtons.get(i).get(j).addListener(action.listener);
+                    hud.actionButtons.get(i).get(j).setVisible(true);
+                    hud.actionButtons.get(i).get(j).setStyle(action.button.getStyle());
+                }
+            }
+        }
     }
 }

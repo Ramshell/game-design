@@ -1,0 +1,44 @@
+package com.mygdx.game.OOP.Actions;
+
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Components.PlayerComponent;
+import com.mygdx.game.Components.PositionComponent;
+import com.mygdx.game.Components.WorldObjects.SpawnComponent;
+import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
+import com.mygdx.game.Entities.BuildingEntity;
+import com.mygdx.game.Mappers.Mappers;
+import com.mygdx.game.Mappers.ResourceMapper;
+import com.mygdx.game.PathfindingUtils.MapGraph;
+import com.mygdx.game.Play;
+
+public class CreateHarlandWorkerAction extends Action<Entity>{
+    private PlayerComponent player;
+    private MapGraph mapGraph;
+    private Play play;
+
+    public CreateHarlandWorkerAction(MapGraph mapGraph, PlayerComponent player, final Play play){
+        this.mapGraph = mapGraph;
+        this.player = player;
+        this.play = play;
+    }
+
+    @Override
+    public void act(Entity e) {
+        if(e.getClass() != BuildingEntity.class) return;
+        SpawnComponent sc = Mappers.spawn.get(e);
+        WorldObjectComponent wo = Mappers.world.get(e);
+        Vector2 v = nextSpawnTile(sc);
+        if(v == null) return;
+        play.engine.addEntity(play.workerBuilder.getWorker(player, (int)v.x,(int) v.y));
+    }
+
+    public Vector2 nextSpawnTile(SpawnComponent sc){
+        Vector2 v = sc.nextSpawnTile();
+        while(v != null && mapGraph.colideO1((int)v.x, (int)v.y)){
+            v = sc.nextSpawnTile();
+        }
+        return v;
+    }
+}
