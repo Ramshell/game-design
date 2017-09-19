@@ -91,7 +91,8 @@ public class BuildingMakingSystem extends EntitySystem{
     }
 
     public static boolean isBlocked(CellComponent c, MapGraph mapGraph) {
-        return c.blocked && mapGraph.colideO1((int)c.position.x, (int)c.position.y);
+        return c.blocked && (mapGraph.colideO1((int)c.position.x, (int)c.position.y) ||
+                mapGraph.colideO1Building((int)c.position.x, (int)c.position.y));
     }
 
     public static boolean isBlocked(CellsComponent cells, MapGraph mapGraph) {

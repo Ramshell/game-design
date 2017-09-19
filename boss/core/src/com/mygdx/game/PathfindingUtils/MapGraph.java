@@ -22,6 +22,7 @@ public class MapGraph implements IndexedGraph<TiledNode>{
     private Integer multiplier;
     private TiledMap map;
     Array<Boolean> colide;
+    Array<Boolean> colideBuilding;
 
     public MapGraph(int multiplier, TiledMap map){
         this.mapWidth = map.getProperties().get("width", Integer.class);
@@ -31,7 +32,11 @@ public class MapGraph implements IndexedGraph<TiledNode>{
         this.width = mapWidth * multiplier;
         this.height = mapHeight * multiplier;
         colide = new Array<Boolean>(width * height);
-        for(int i = 0; i < width * height; i++) colide.add(false);
+        colideBuilding = new Array<Boolean>(width * height);
+        for(int i = 0; i < width * height; i++) {
+            colide.add(false);
+            colideBuilding.add(false);
+        }
         this.map = map;
         this.multiplier = multiplier;
         graph = new Array<TiledNode>();
@@ -44,6 +49,9 @@ public class MapGraph implements IndexedGraph<TiledNode>{
         for(int i = 0; i < width; i++)
             for(int j = 0; j < height; j++)
                 colide.set(getNode(i, j).getIndex(), colide(i, j));
+        for(int i = 0; i < width; i++)
+            for(int j = 0; j < height; j++)
+                colideBuilding.set(getNode(i, j).getIndex(), false);
         for(int i = 0; i < width; i++){
             for(int j = 0; j < height; j++){
                 TiledNode from = getNode(i, j);
@@ -128,5 +136,16 @@ public class MapGraph implements IndexedGraph<TiledNode>{
         Integer realX = (int)x * multiplier;
         Integer realY = (int)y * multiplier;
         colide.set(getNode(realX, realY).getIndex(), collision);
+    }
+
+    public void setCollisionBuilding(float x, float y, boolean collision) {
+        Integer realX = (int)x * multiplier;
+        Integer realY = (int)y * multiplier;
+        colideBuilding.set(getNode(realX, realY).getIndex(), collision);
+    }
+
+    public boolean colideO1Building(int x, int y) {
+        return (x < 0 || y < 0 || x >= width || y >=  height) ||
+                (colideBuilding.get(getNode(x, y).getIndex()));
     }
 }

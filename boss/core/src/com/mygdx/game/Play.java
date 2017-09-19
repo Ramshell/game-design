@@ -2,19 +2,11 @@ package com.mygdx.game;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
-import com.badlogic.gdx.ai.pfa.PathSmoother;
-import com.badlogic.gdx.ai.pfa.SmoothableGraphPath;
-import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.*;
-import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.mygdx.game.Builders.ElementalBuilder;
+import com.mygdx.game.Builders.EoLBuilder;
 import com.mygdx.game.Builders.HarlandWorkerBuilder;
 import com.mygdx.game.Builders.WallBuilder;
 import com.mygdx.game.Components.*;
@@ -27,8 +19,6 @@ import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.PathfindingUtils.*;
 import com.mygdx.game.Systems.*;
-
-import java.util.Iterator;
 
 public class Play implements Screen {
 
@@ -47,7 +37,7 @@ public class Play implements Screen {
     @Override
     public void show() {
         TmxMapLoader loader = new TmxMapLoader();
-        map = loader.load("ortho_map/ortho_map2.tmx");
+        map = loader.load("ortho_map/harland_desert.tmx");
         ResourceMapper.width = map.getProperties().get("width", Integer.class);
         ResourceMapper.height = map.getProperties().get("height", Integer.class);
         ResourceMapper.tileWidth = map.getProperties().get("tilewidth", Integer.class);
@@ -68,12 +58,14 @@ public class Play implements Screen {
         PlayerEntity player = new PlayerEntity(p, playerComponent);
         camera = Mappers.camera.get(rtsCamera).getCamera();
         engine.addEntity(workerBuilder.getWorker(playerComponent,0, 0));
+        engine.addEntity(new EoLBuilder(this, mapGraph).getEoL(3,4,55000));
         engine.addEntity(player);
         engine.addEntity(rendererEntity);
         engine.addEntity(rtsCamera);
         engine.addEntity(mapGraphEntity);
         engine.addSystem(new SetUpSystem());
         engine.addSystem(new MapRendererSystem());
+        engine.addSystem(new UnitStateSystem());
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new StateSystem());
         engine.addSystem(new CameraSystem());
@@ -83,6 +75,9 @@ public class Play implements Screen {
         engine.addSystem(new ToBuildMakingSystem());
         engine.addSystem(new RenderHudSystem());
         engine.addSystem(new BuildingMakingSystem());
+        engine.addSystem(new ClickFeedbackSystem(camera));
+        engine.addSystem(new ResourcesSystem());
+        engine.addSystem(new GatheringStarterSystem());
         stage = p.stage;
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);

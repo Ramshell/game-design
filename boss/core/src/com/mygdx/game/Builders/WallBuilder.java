@@ -49,7 +49,7 @@ public class WallBuilder{
     public WallBuilder(OrthogonalTiledMapRenderer renderer, final Play play){
         this.background = (TiledMapTileLayer)renderer.getMap().getLayers().get("background");
         this.foreground = (TiledMapTileLayer)renderer.getMap().getLayers().get("foreground");
-        TiledMapTileSet tileset = renderer.getMap().getTileSets().getTileSet("pisos1");
+        TiledMapTileSet tileset = renderer.getMap().getTileSets().getTileSet("piso");
         wallTile = tileset.getTile(5);
         wallTile2 = tileset.getTile(6);
         wallTile3 = tileset.getTile(7);
@@ -113,7 +113,7 @@ public class WallBuilder{
         cells.add(cellComponent11);cells.add(cellComponent12);
         cells.add(cellComponent13);cells.add(cellComponent14);
         cells.add(cellComponent15);cells.add(cellComponent16);
-        CellsComponent cellsComponent = new CellsComponent(cells, 4, 4);
+        CellsComponent cellsComponent = new CellsComponent(cells, 4, 2);
         return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent, actions);
     }
 

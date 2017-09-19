@@ -12,6 +12,10 @@ public class StateComponent implements Component{
 
     public void set(int newState) {
         state = newState;
+    }
+
+    public void change(int newState) {
+        state = newState;
         time = 0.0f;
     }
 }
