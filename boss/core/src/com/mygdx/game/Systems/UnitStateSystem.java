@@ -43,6 +43,7 @@ public class UnitStateSystem extends EntitySystem{
                 Mappers.stateComponentMapper.get(e).set(HarlandWorkerBuilder.MOVE_RIGHT_BOTTOM);
             else Mappers.stateComponentMapper.get(e).set(HarlandWorkerBuilder.IDLE);
             if(Mappers.startGatheringComponentComponentMapper.get(e) != null &&
+                    Mappers.startGatheringComponentComponentMapper.get(e).gathering &&
                     working(Mappers.startGatheringComponentComponentMapper.get(e))){
                 Mappers.stateComponentMapper.get(e).set(HarlandWorkerBuilder.WATER_GATHERING);
             }

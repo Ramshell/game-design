@@ -24,7 +24,7 @@ public class ResourcesSystem extends EntitySystem{
     private void removeUselessResoureces() {
         for(Entity resource: resources) {
             ResourceComponent re = Mappers.resourceComponentMapper.get(resource);
-            if (re.currentResources == 0)
+            if (re.hitPoints == 0)
                 engine.removeEntity(resource);
         }
     }

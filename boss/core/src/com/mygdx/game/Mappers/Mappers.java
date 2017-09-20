@@ -25,5 +25,6 @@ public class Mappers {
     public static final ComponentMapper<ResourceComponent> resourceComponentMapper = ComponentMapper.getFor(ResourceComponent.class);
     public static final ComponentMapper<StartGatheringComponent> startGatheringComponentComponentMapper = ComponentMapper.getFor(StartGatheringComponent.class);
     public static final ComponentMapper<GatheringPowerComponent> gatheringComponentComponentMapper = ComponentMapper.getFor(GatheringPowerComponent.class);
+    public static final ComponentMapper<HealthComponent> healthComponentComponentMapper = ComponentMapper.getFor(HealthComponent.class);
 
 }

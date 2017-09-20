@@ -8,11 +8,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.Builders.EoLBuilder;
 import com.mygdx.game.Builders.HarlandWorkerBuilder;
-import com.mygdx.game.Builders.WallBuilder;
+import com.mygdx.game.Builders.MainBuildingBuilder;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Entities.*;
-import com.mygdx.game.InputHandlers.TryingBuildingInputHandler;
+import com.mygdx.game.InputHandlers.ActionsInputHandler;
 import com.mygdx.game.InputHandlers.UserInputHandler;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
@@ -28,7 +28,7 @@ public class Play implements Screen {
     private Stage stage;
     private CameraComponent cameraComponent;
     public Engine engine;
-    public WallBuilder wallBuilder;
+    public MainBuildingBuilder mainBuildingBuilder;
     public HarlandWorkerBuilder workerBuilder;
     public MapGraph mapGraph;
 
@@ -45,7 +45,7 @@ public class Play implements Screen {
         MapGraphEntity mapGraphEntity = createGraph();
         Gdx.graphics.setCursor(Gdx.graphics.newCursor(AssetsMapper.nm, 0, 0));
         renderer = new OrthogonalTiledMapRenderer(map);
-        wallBuilder = new WallBuilder(renderer, this);
+        mainBuildingBuilder = new MainBuildingBuilder(renderer, this);
         workerBuilder = new HarlandWorkerBuilder(this, mapGraph);
         RTSCamera rtsCamera = new RTSCamera();
         PlayerComponent playerComponent = new PlayerComponent();
@@ -58,7 +58,7 @@ public class Play implements Screen {
         PlayerEntity player = new PlayerEntity(p, playerComponent);
         camera = Mappers.camera.get(rtsCamera).getCamera();
         engine.addEntity(workerBuilder.getWorker(playerComponent,0, 0));
-        engine.addEntity(new EoLBuilder(this, mapGraph).getEoL(3,4,55000));
+        engine.addEntity(new EoLBuilder(this, mapGraph).getEoL(3,4,230));
         engine.addEntity(player);
         engine.addEntity(rendererEntity);
         engine.addEntity(rtsCamera);
@@ -78,10 +78,12 @@ public class Play implements Screen {
         engine.addSystem(new ClickFeedbackSystem(camera));
         engine.addSystem(new ResourcesSystem());
         engine.addSystem(new GatheringStarterSystem());
+        engine.addSystem(new HealthRenderSystem());
+        engine.addSystem(new ResourcesPercentageRenderSystem());
         stage = p.stage;
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
-        multiplexer.addProcessor(new TryingBuildingInputHandler(playerComponent, engine, mapGraph));
+        multiplexer.addProcessor(new ActionsInputHandler(playerComponent, engine, mapGraph));
         multiplexer.addProcessor(new UserInputHandler(rtsCamera, player,mapComponent, engine, mapGraph));
         Gdx.input.setInputProcessor(multiplexer);
     }

@@ -9,7 +9,7 @@ import com.mygdx.game.OOP.Actions.Action;
 
 public class WorldObjectComponent implements Component{
     public String objectName = "";
-    public int cost, sellValue, hitPoints, maxHitPoints;
+    public int cost, sellValue;
     public RectangleMapObject bounds;
     public Array<ActionComponent> actions = new Array<ActionComponent>();
 

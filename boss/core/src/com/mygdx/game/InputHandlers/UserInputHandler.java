@@ -20,6 +20,7 @@ import com.mygdx.game.Entities.RTSCamera;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
+import com.mygdx.game.OOP.Actions.CancelAcionsAction;
 import com.mygdx.game.OOP.Actions.MoveAction;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Systems.MovementSystem;
@@ -171,6 +172,7 @@ public class UserInputHandler extends InputAdapter {
         }
         if(button == Input.Buttons.RIGHT) {
             if(MovementSystem.outsideWorld(v.x, v.y)) return false;
+            ActionsInputHandler.cancelActions(Mappers.player.get(player),engine);
             Mappers.player.get(player).selectedObject.act(new MoveAction(v.x, v.y,mapGraph));
             return true;
         }

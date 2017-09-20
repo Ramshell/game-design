@@ -16,8 +16,8 @@ public class ResourceEntity extends Entity{
                           float posX, float posY, float width,
                           float height, int initialState,
                           AnimationComponent anim, int currResources){
-        ResourceComponent resourceComponent = new ResourceComponent();
-        resourceComponent.currentResources = currResources;
+        ResourceComponent resourceComponent = new ResourceComponent(5000);
+        resourceComponent.hitPoints = currResources;
         WorldObjectComponent wo = new WorldObjectComponent(name);
         wo.bounds = new RectangleMapObject(posX * ResourceMapper.tileWidth, posY * ResourceMapper.tileHeight,
                 width, height);

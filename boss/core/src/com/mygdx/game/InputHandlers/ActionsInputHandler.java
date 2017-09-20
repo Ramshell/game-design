@@ -14,16 +14,17 @@ import com.mygdx.game.Components.MapComponent;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
+import com.mygdx.game.OOP.Actions.CancelAcionsAction;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Systems.BuildingMakingSystem;
 
-public class TryingBuildingInputHandler extends InputAdapter {
+public class ActionsInputHandler extends InputAdapter {
     PlayerComponent player;
     Engine engine;
     MapGraph mapGraph;
     private ComponentMapper<CellsComponent> cellsMapper = ComponentMapper.getFor(CellsComponent.class);
 
-    public TryingBuildingInputHandler(PlayerComponent player, Engine engine, MapGraph mapGraph){
+    public ActionsInputHandler(PlayerComponent player, Engine engine, MapGraph mapGraph){
         this.player = player;
         this.engine = engine;
         this.mapGraph = mapGraph;
@@ -35,18 +36,15 @@ public class TryingBuildingInputHandler extends InputAdapter {
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button){
         if(concerned() && button == Input.Buttons.RIGHT){
-            toNormal();
+            cancelActions(player, engine);
+            toNormal(player);
             return true;
         }
         return concerned() && button == Input.Buttons.LEFT;
     }
 
-    private void toNormal() {
+    public static void toNormal(PlayerComponent player) {
         player.state = PlayerComponent.PlayerState.Normal;
-        if(player.tryingBuilding != null) for (CellComponent c : cellsMapper.get(player.tryingBuilding).cells) {
-            TiledMapTileLayer toDelete = (TiledMapTileLayer)Mappers.map.get(engine.getEntitiesFor(Family.all(MapComponent.class).get()).get(0)).map.getLayers().get("trying_building");
-            toDelete.setCell((int)c.position.x, (int)c.position.y, null);
-        }
         player.tryingBuilding = null;
         player.action = null;
     }
@@ -54,7 +52,7 @@ public class TryingBuildingInputHandler extends InputAdapter {
     public boolean touchUp (int screenX, int screenY, int pointer, int button) {
         if (concerned() && button == Input.Buttons.LEFT){
             player.selectedObject.act(player.action.getAction(screenX, screenY));
-            toNormal();
+            toNormal(player);
             return true;
         }
         return false;
@@ -64,7 +62,8 @@ public class TryingBuildingInputHandler extends InputAdapter {
         if(concerned()) {
             switch (keycode) {
                 case Input.Keys.ESCAPE:
-                    toNormal();
+                    toNormal(player);
+                    player.selectedObject.deselect();
                     break;
             }
             return true;
@@ -75,5 +74,9 @@ public class TryingBuildingInputHandler extends InputAdapter {
 
     private boolean concerned() {
         return player.action != null;
+    }
+
+    public static void cancelActions(PlayerComponent playerComponent, Engine engine) {
+        playerComponent.selectedObject.act(new CancelAcionsAction(engine));
     }
 }

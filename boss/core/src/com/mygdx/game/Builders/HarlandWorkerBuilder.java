@@ -9,6 +9,7 @@ import com.mygdx.game.Components.AnimationComponent;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Components.WorldObjects.ActionComponent;
 import com.mygdx.game.Components.WorldObjects.GatheringPowerComponent;
+import com.mygdx.game.Components.WorldObjects.HealthComponent;
 import com.mygdx.game.Entities.UnitEntity;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.OOP.Actions.*;
@@ -56,7 +57,7 @@ public class HarlandWorkerBuilder{
         craft.listener = new ClickListener(){
             public void clicked (InputEvent event, float x, float y) {
                 player.state = PlayerComponent.PlayerState.Building;
-                player.tryingBuilding = play.wallBuilder.getWall(player,0,0);
+                player.tryingBuilding = play.mainBuildingBuilder.getWall(player,0,0);
                 player.action = new ActionBuilder() {
                     @Override
                     public Action<Entity> getAction(float x, float y) {
@@ -89,8 +90,8 @@ public class HarlandWorkerBuilder{
         anim.animations.put(WATER_GATHERING, AssetsMapper.waterGatheringAnim);
         GatheringPowerComponent gPower = new GatheringPowerComponent();
         gPower.capacity = 50;
-        gPower.resourcesPerTick = 5;
+        gPower.resourcesPerTick = 1;
         return new UnitEntity(player, "Harland Worker", posX, posY,
-                32, 32, IDLE, anim, actions).add(gPower);
+                32, 32, IDLE, anim, actions, new HealthComponent(45)).add(gPower);
     }
 }

@@ -3,10 +3,10 @@ package com.mygdx.game.Components.WorldObjects;
 import com.badlogic.ashley.core.Component;
 import com.mygdx.game.Components.PercentageComponent;
 
-public class ResourceComponent extends PercentageComponent{
-    public ResourceComponent(int maxResources){
-        maxHitPoints = maxResources;
+public class HealthComponent extends PercentageComponent{
+    public HealthComponent(float maxHitPoints){
         hitPoints = maxHitPoints;
+        this.maxHitPoints = maxHitPoints;
         damageTaken = 0;
     }
 }

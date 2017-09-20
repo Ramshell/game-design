@@ -16,6 +16,7 @@ import com.mygdx.game.Components.CellComponent;
 import com.mygdx.game.Components.CellsComponent;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Components.WorldObjects.ActionComponent;
+import com.mygdx.game.Components.WorldObjects.HealthComponent;
 import com.mygdx.game.Entities.BuildingEntity;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.OOP.Actions.*;
@@ -25,7 +26,7 @@ import com.mygdx.game.Play;
 import java.util.Iterator;
 
 
-public class WallBuilder{
+public class MainBuildingBuilder {
     private Play play;
     private TiledMapTileLayer background;
     private TiledMapTileLayer foreground;
@@ -46,7 +47,7 @@ public class WallBuilder{
     private TiledMapTile wallTile15;
     private TiledMapTile wallTile16;
 
-    public WallBuilder(OrthogonalTiledMapRenderer renderer, final Play play){
+    public MainBuildingBuilder(OrthogonalTiledMapRenderer renderer, final Play play){
         this.background = (TiledMapTileLayer)renderer.getMap().getLayers().get("background");
         this.foreground = (TiledMapTileLayer)renderer.getMap().getLayers().get("foreground");
         TiledMapTileSet tileset = renderer.getMap().getTileSets().getTileSet("piso");
@@ -114,7 +115,7 @@ public class WallBuilder{
         cells.add(cellComponent13);cells.add(cellComponent14);
         cells.add(cellComponent15);cells.add(cellComponent16);
         CellsComponent cellsComponent = new CellsComponent(cells, 4, 2);
-        return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent, actions);
+        return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent, actions, new HealthComponent(1500));
     }
 
     private CellComponent create_cell(TiledMapTile t, TiledMapTileLayer layer,

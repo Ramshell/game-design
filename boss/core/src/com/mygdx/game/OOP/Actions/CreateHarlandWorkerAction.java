@@ -29,16 +29,8 @@ public class CreateHarlandWorkerAction extends Action<Entity>{
         if(e.getClass() != BuildingEntity.class) return;
         SpawnComponent sc = Mappers.spawn.get(e);
         WorldObjectComponent wo = Mappers.world.get(e);
-        Vector2 v = nextSpawnTile(sc);
+        Vector2 v = sc.nextSpawnTile(mapGraph);
         if(v == null) return;
         play.engine.addEntity(play.workerBuilder.getWorker(player, (int)v.x,(int) v.y));
-    }
-
-    public Vector2 nextSpawnTile(SpawnComponent sc){
-        Vector2 v = sc.nextSpawnTile();
-        while(v != null && mapGraph.colideO1((int)v.x, (int)v.y)){
-            v = sc.nextSpawnTile();
-        }
-        return v;
     }
 }

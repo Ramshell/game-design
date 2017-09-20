@@ -2,6 +2,7 @@ package com.mygdx.game.Components.WorldObjects;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.PathfindingUtils.MapGraph;
 
 public class SpawnComponent implements Component{
     public int spawn_side = 0, x, y, width, height, currX = 0, currY = 0;
@@ -15,11 +16,17 @@ public class SpawnComponent implements Component{
         currX = x - 1; currY = y - 1;
     }
 
-    public Vector2 nextSpawnTile(){
+
+    public Vector2 nextSpawnTile(MapGraph mapGraph){
+        spawn_side = 0; currX = x - 1; currY = y - 1;
+        while(spawn_side != 4 && mapGraph.colideO1(currX, currY)){
+            tick();
+        }
+        return spawn_side == 4 ? null : new Vector2(currX, currY);
+    }
+
+    private void tick(){
         update();
-        Vector2 res = new Vector2(
-                currX,
-                currY);
         if(spawn_side == 0)
             this.currX += 1;
         else if(spawn_side == 1)
@@ -28,8 +35,6 @@ public class SpawnComponent implements Component{
             this.currX -= 1;
         else if(spawn_side == 3)
             this.currY -= 1;
-        else return null;
-        return res;
     }
 
     private void update() {
