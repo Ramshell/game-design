@@ -1,6 +1,7 @@
 package com.mygdx.game.Builders;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -17,8 +18,10 @@ import com.mygdx.game.Components.CellsComponent;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Components.WorldObjects.ActionComponent;
 import com.mygdx.game.Components.WorldObjects.HealthComponent;
+import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Entities.BuildingEntity;
 import com.mygdx.game.Mappers.AssetsMapper;
+import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.OOP.Actions.*;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Play;
@@ -115,7 +118,17 @@ public class MainBuildingBuilder {
         cells.add(cellComponent13);cells.add(cellComponent14);
         cells.add(cellComponent15);cells.add(cellComponent16);
         CellsComponent cellsComponent = new CellsComponent(cells, 4, 2);
-        return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent, actions, new HealthComponent(1500));
+        WorldObjectComponent wo = new WorldObjectComponent();
+        wo.actions = actions;
+        wo.cost = 600;
+        wo.objectName = "Harlanding's Center";
+        wo.sellValue = 900;
+        wo.bounds = new RectangleMapObject(
+                x * ResourceMapper.tileWidth,
+                x * ResourceMapper.tileHeight,
+                ResourceMapper.tileWidth *  cellsComponent.width,
+                ResourceMapper.tileHeight * cellsComponent.height);
+        return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent, new HealthComponent(1500), wo);
     }
 
     private CellComponent create_cell(TiledMapTile t, TiledMapTileLayer layer,

@@ -1,6 +1,7 @@
 package com.mygdx.game.Builders;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -8,10 +9,13 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Components.AnimationComponent;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Components.WorldObjects.ActionComponent;
+import com.mygdx.game.Components.WorldObjects.Buildings.TryingBuildingComponent;
 import com.mygdx.game.Components.WorldObjects.GatheringPowerComponent;
 import com.mygdx.game.Components.WorldObjects.HealthComponent;
+import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Entities.UnitEntity;
 import com.mygdx.game.Mappers.AssetsMapper;
+import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.OOP.Actions.*;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Play;
@@ -23,12 +27,16 @@ public class HarlandWorkerBuilder{
     public static int MOVE_RIGHT_TOP = 4;
     public static int MOVE_LEFT_TOP = 5;
     public static int WATER_GATHERING = 6;
+
+    public static int COST = 90;
     private Play play;
     private MapGraph mapGraph;
+    private int id;
 
     public HarlandWorkerBuilder(Play p, MapGraph mapGraph){
         this.play = p;
         this.mapGraph = mapGraph;
+        id = 0;
     }
 
     /**
@@ -58,6 +66,9 @@ public class HarlandWorkerBuilder{
             public void clicked (InputEvent event, float x, float y) {
                 player.state = PlayerComponent.PlayerState.Building;
                 player.tryingBuilding = play.mainBuildingBuilder.getWall(player,0,0);
+                final TryingBuildingComponent tryingBuildingComponent = new TryingBuildingComponent();
+                tryingBuildingComponent.building = play.mainBuildingBuilder.getWall(player,0,0);
+                player.selectedObject.getSelectedObjects().first().add(tryingBuildingComponent);
                 player.action = new ActionBuilder() {
                     @Override
                     public Action<Entity> getAction(float x, float y) {
@@ -91,7 +102,12 @@ public class HarlandWorkerBuilder{
         GatheringPowerComponent gPower = new GatheringPowerComponent();
         gPower.capacity = 50;
         gPower.resourcesPerTick = 1;
-        return new UnitEntity(player, "Harland Worker", posX, posY,
-                32, 32, IDLE, anim, actions, new HealthComponent(45)).add(gPower);
+        WorldObjectComponent wo = new WorldObjectComponent("Harland Worker");
+        wo.bounds = new RectangleMapObject(posX * ResourceMapper.tileWidth, posY * ResourceMapper.tileHeight, 32, 32);
+        wo.cost = COST;
+        wo.sellValue = 10;
+        wo.actions = actions;
+        return new UnitEntity(player, wo, posX, posY,
+                IDLE, anim, new HealthComponent(45), id++).add(gPower);
     }
 }

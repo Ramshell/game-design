@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.WorldObjects.*;
-import com.mygdx.game.Components.WorldObjects.Tasks.TasksComponent;
+import com.mygdx.game.Components.WorldObjects.Buildings.TryingBuildingComponent;
 
 public class Mappers {
     public static final ComponentMapper<PositionComponent> position = ComponentMapper.getFor(PositionComponent.class);
@@ -26,5 +26,8 @@ public class Mappers {
     public static final ComponentMapper<StartGatheringComponent> startGatheringComponentComponentMapper = ComponentMapper.getFor(StartGatheringComponent.class);
     public static final ComponentMapper<GatheringPowerComponent> gatheringComponentComponentMapper = ComponentMapper.getFor(GatheringPowerComponent.class);
     public static final ComponentMapper<HealthComponent> healthComponentComponentMapper = ComponentMapper.getFor(HealthComponent.class);
+    public static final ComponentMapper<DynamicWOComponent> dynamicWOComponentComponentMapper = ComponentMapper.getFor(DynamicWOComponent.class);
+    public static final ComponentMapper<TryingBuildingComponent> tryingBuildingComponentMapper = ComponentMapper.getFor(TryingBuildingComponent.class);
+    public static final ComponentMapper<IdComponent> idComponentMapper = ComponentMapper.getFor(IdComponent.class);
 
 }

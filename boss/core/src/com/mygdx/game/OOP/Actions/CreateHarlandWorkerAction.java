@@ -3,6 +3,7 @@ package com.mygdx.game.OOP.Actions;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Builders.HarlandWorkerBuilder;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Components.PositionComponent;
 import com.mygdx.game.Components.WorldObjects.SpawnComponent;
@@ -30,7 +31,8 @@ public class CreateHarlandWorkerAction extends Action<Entity>{
         SpawnComponent sc = Mappers.spawn.get(e);
         WorldObjectComponent wo = Mappers.world.get(e);
         Vector2 v = sc.nextSpawnTile(mapGraph);
-        if(v == null) return;
+        if(v == null || player.resources < HarlandWorkerBuilder.COST) return;
+        player.resources -= HarlandWorkerBuilder.COST;
         play.engine.addEntity(play.workerBuilder.getWorker(player, (int)v.x,(int) v.y));
     }
 }

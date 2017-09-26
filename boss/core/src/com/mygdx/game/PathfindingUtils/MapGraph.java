@@ -13,8 +13,8 @@ import java.util.BitSet;
 
 public class MapGraph implements IndexedGraph<TiledNode>{
     private Array<TiledNode> graph;
-    private Integer width;
-    private Integer height;
+    public Integer width;
+    public Integer height;
     private Integer mapWidth;
     private Integer mapHeight;
     private Integer tileWidth;
@@ -124,12 +124,11 @@ public class MapGraph implements IndexedGraph<TiledNode>{
 
     public Boolean colideO1(Integer index){
         return (index < 0 || index > width * height) ||
-                (colide.get(index));
+                colide.get(index);
     }
 
     public Boolean colideO1(Integer x, Integer y){
-        return (x < 0 || y < 0 || x >= width || y >=  height) ||
-                (colide.get(getNode(x, y).getIndex()));
+        return colideO1(x * height + y);
     }
 
     public void setCollision(float x, float y, boolean collision) {
@@ -146,6 +145,6 @@ public class MapGraph implements IndexedGraph<TiledNode>{
 
     public boolean colideO1Building(int x, int y) {
         return (x < 0 || y < 0 || x >= width || y >=  height) ||
-                (colideBuilding.get(getNode(x, y).getIndex()));
+                (colideBuilding.get(getNode(x, y).getIndex())) || getNode(x, y).entities.size > 0;
     }
 }

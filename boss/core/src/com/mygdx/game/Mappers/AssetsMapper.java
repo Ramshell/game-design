@@ -86,7 +86,7 @@ public class AssetsMapper {
                 new TextureRegion(harlandWorker, 270, 256, 36, 64),
                 new TextureRegion(harlandWorker, 334, 256, 36, 64));
         eol = loadTexture("characters/charco.png");
-        eolIdleAnim = new Animation<TextureRegion>(0.3f,
+        eolIdleAnim = new Animation<TextureRegion>(0.6f,
                 new TextureRegion(eol, 0, 32, 64, 32),
                 new TextureRegion(eol, 64, 32, 64, 32),
                 new TextureRegion(eol, 128, 32, 64, 32));

@@ -1,9 +1,11 @@
 package com.mygdx.game.PathfindingUtils;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.ai.pfa.DefaultConnection;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.OrderedSet;
 import com.mygdx.game.Mappers.ResourceMapper;
 
 public class TiledNode {
@@ -17,9 +19,11 @@ public class TiledNode {
     private int height;
     private Array<Connection<TiledNode>> connections;
     private IntMap<Integer> alreadyConnected;
+    public IntMap<Entity> entities;
 
     public TiledNode(int x, int y, int height){
         this(x, y, height, TILE_FLOOR);
+        entities = new IntMap<Entity>();
     }
 
     public TiledNode(int x, int y, int height, int type){

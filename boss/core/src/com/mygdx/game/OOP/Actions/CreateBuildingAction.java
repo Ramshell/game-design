@@ -3,12 +3,12 @@ package com.mygdx.game.OOP.Actions;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Components.*;
+import com.mygdx.game.Components.WorldObjects.Buildings.TryingBuildingComponent;
 import com.mygdx.game.Mappers.Mappers;
+import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.PathfindingUtils.MapGraph;
-import com.mygdx.game.Systems.BuildingMakingSystem;
 
 public class CreateBuildingAction extends MoveAction{
     Engine engine;
@@ -20,13 +20,23 @@ public class CreateBuildingAction extends MoveAction{
         super(x, y, mapGraph);
         this.player = player;
         this.engine = engine;
+        this.mapGraph = mapGraph;
     }
 
     @Override
     public void act(Entity e) {
+        TryingBuildingComponent tryingBuildingComponent = Mappers.tryingBuildingComponentMapper.get(e);
+        Vector2 v = Mappers.spawn.get(tryingBuildingComponent.building).nextSpawnTile(mapGraph);
+        System.out.println(v.x);
+        System.out.println(v.y);
+        x = (int) v.x;
+        y = (int) v.y;
         super.act(e);
         ToBuildComponent bc = new ToBuildComponent();
-        bc.building = player.tryingBuilding;
+        bc.building = tryingBuildingComponent.building;
+        bc.x = x * ResourceMapper.tileWidth;
+        bc.y = y * ResourceMapper.tileHeight;
+        e.remove(TryingBuildingComponent.class);
         e.add(bc);
 
     }

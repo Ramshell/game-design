@@ -45,10 +45,10 @@ public class SelectionRenderSystem extends EntitySystem{
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             Rectangle r = Mappers.world.get(e).bounds.getRectangle();
             shapeRenderer.setColor(new Color(
-                    0,
                     1,
                     0,
-                    ResourceMapper.opacySelectionColor));
+                    1,
+                    0.25f));
             shapeRenderer.ellipse(r.x, r.y, r.width, r.height);
             shapeRenderer.end();
         }

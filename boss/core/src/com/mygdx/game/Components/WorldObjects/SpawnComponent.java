@@ -19,7 +19,9 @@ public class SpawnComponent implements Component{
 
     public Vector2 nextSpawnTile(MapGraph mapGraph){
         spawn_side = 0; currX = x - 1; currY = y - 1;
-        while(spawn_side != 4 && mapGraph.colideO1(currX, currY)){
+        while(spawn_side != 4 && mapGraph.colideO1(currX, currY)  ||
+                mapGraph.getNode(currX, currY).entities.size > 0  ||
+                currY < 0 || currX < 0 || currX >= mapGraph.width || currY >= mapGraph.height){
             tick();
         }
         return spawn_side == 4 ? null : new Vector2(currX, currY);

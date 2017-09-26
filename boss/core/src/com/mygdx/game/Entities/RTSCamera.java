@@ -1,6 +1,7 @@
 package com.mygdx.game.Entities;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.mygdx.game.Components.CameraComponent;
 import com.mygdx.game.Components.PositionComponent;

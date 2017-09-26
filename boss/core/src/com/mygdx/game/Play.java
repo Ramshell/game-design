@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -31,6 +32,7 @@ public class Play implements Screen {
     public MainBuildingBuilder mainBuildingBuilder;
     public HarlandWorkerBuilder workerBuilder;
     public MapGraph mapGraph;
+    private ParticleEffect effect;
 
     public Play(Engine engine) { this.engine = engine; }
 
@@ -49,6 +51,7 @@ public class Play implements Screen {
         workerBuilder = new HarlandWorkerBuilder(this, mapGraph);
         RTSCamera rtsCamera = new RTSCamera();
         PlayerComponent playerComponent = new PlayerComponent();
+        playerComponent.resources = 900;
         RendererEntity rendererEntity =
                 new RendererEntity(
                         new MapComponent(map, Mappers.camera.get(rtsCamera).getCamera()),
@@ -57,6 +60,11 @@ public class Play implements Screen {
         MapComponent mapComponent = Mappers.map.get(rendererEntity);
         PlayerEntity player = new PlayerEntity(p, playerComponent);
         camera = Mappers.camera.get(rtsCamera).getCamera();
+//        for(int i = 0; i < 10; ++i){
+//            for(int j = 0; j < 10; ++j){
+//                engine.addEntity(workerBuilder.getWorker(playerComponent,i, j));
+//            }
+//        }
         engine.addEntity(workerBuilder.getWorker(playerComponent,0, 0));
         engine.addEntity(new EoLBuilder(this, mapGraph).getEoL(3,4,230));
         engine.addEntity(player);
@@ -70,8 +78,10 @@ public class Play implements Screen {
         engine.addSystem(new StateSystem());
         engine.addSystem(new CameraSystem());
         engine.addSystem(new MovementSystem());
-        engine.addSystem(new UnitsMovementSystem());
         engine.addSystem(new UnitsVelocitySystem());
+        engine.addSystem(new CollisionSystem());
+        engine.addSystem(new UnitsMovementSystem());
+        engine.addSystem(new MapGraphUpdaterSystem());
         engine.addSystem(new ToBuildMakingSystem());
         engine.addSystem(new RenderHudSystem());
         engine.addSystem(new BuildingMakingSystem());

@@ -1,4 +1,4 @@
-package com.mygdx.game.Components.WorldObjects.Tasks;
+package com.mygdx.game.Components.WorldObjects.Buildings;
 
 import com.badlogic.ashley.core.Entity;
 import com.mygdx.game.Components.WorldObjects.TargetComponent;

@@ -73,17 +73,6 @@ public class RTSHUD extends Stage{
         topMostBottomBar.addActor(new ImageButton(skin).center());
         topMostBottomBar.addActor(new ImageButton(skin).left());
         statsTable.add(topMostBottomBar);
-
-//        topMostBottomBar.left().addActor(selectedObjectLabel);
-//        bottomTable.add(topMostBottomBar).expandX().left();
-//        bottomTable.row();
-//        createWall.addListener(new ClickListener(){
-//            public void clicked (InputEvent event, float x, float y) {
-//                player.state = PlayerComponent.PlayerState.Building;
-//                player.tryingBuilding = p.mainBuildingBuilder.getWall(player,0,0);
-//            }
-//        });
-//        bottomTable.add(createWall);
         bottomTable.add(minimapTable).expandX();
         bottomTable.add(statsTable).expandX();
         bottomTable.add(actionsTable).expandX();
