@@ -52,6 +52,8 @@ public class Play implements Screen {
         RTSCamera rtsCamera = new RTSCamera();
         PlayerComponent playerComponent = new PlayerComponent();
         playerComponent.resources = 900;
+        PlayerComponent playerComponentEnemy = new PlayerComponent();
+        playerComponentEnemy.resources = 900;
         RendererEntity rendererEntity =
                 new RendererEntity(
                         new MapComponent(map, Mappers.camera.get(rtsCamera).getCamera()),
@@ -59,6 +61,8 @@ public class Play implements Screen {
         HUDComponent p = Mappers.hud.get(rendererEntity);
         MapComponent mapComponent = Mappers.map.get(rendererEntity);
         PlayerEntity player = new PlayerEntity(p, playerComponent);
+        PlayerEntity enemy = new PlayerEntity(p, playerComponentEnemy);
+
         camera = Mappers.camera.get(rtsCamera).getCamera();
 //        for(int i = 0; i < 10; ++i){
 //            for(int j = 0; j < 10; ++j){
@@ -66,6 +70,10 @@ public class Play implements Screen {
 //            }
 //        }
         engine.addEntity(workerBuilder.getWorker(playerComponent,0, 0));
+
+        engine.addEntity(workerBuilder.getWorker(playerComponentEnemy,3, 0));
+
+
         engine.addEntity(new EoLBuilder(this, mapGraph).getEoL(3,4,230));
         engine.addEntity(player);
         engine.addEntity(rendererEntity);

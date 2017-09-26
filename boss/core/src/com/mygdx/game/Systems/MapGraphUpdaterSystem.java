@@ -34,13 +34,10 @@ public class MapGraphUpdaterSystem extends EntitySystem{
         for(Entity dynamicWOEntity: dynamicWOEntities){
             WorldObjectComponent worldObjectComponent = Mappers.world.get(dynamicWOEntity);
             WorldPositionComponent worldPositionComponent = Mappers.worldPosition.get(dynamicWOEntity);
-            DynamicWOComponent dynamicWOComponent = Mappers.dynamicWOComponentComponentMapper.get(dynamicWOEntity);
             int fromX = (int) worldPositionComponent.position.x / ResourceMapper.tileWidth;
             int fromY = (int) worldPositionComponent.position.y / ResourceMapper.tileHeight;
             int toX   = (int) (fromX + worldObjectComponent.bounds.getRectangle().width / ResourceMapper.tileWidth);
             int toY   = (int) (fromY + worldObjectComponent.bounds.getRectangle().height / ResourceMapper.tileHeight);
-            int widthInTiles = (int) worldObjectComponent.bounds.getRectangle().width / ResourceMapper.tileWidth;
-            int heightInTiles = (int) worldObjectComponent.bounds.getRectangle().height / ResourceMapper.tileHeight;
             for(int i = Math.max(0, fromX - 1); i < Math.min(mapGraph.width, toX + 2); ++i){
                 for(int j = Math.max(0, fromY - 1) ; j < Math.min(mapGraph.height, toY + 2); ++j){
                     r.set(i * ResourceMapper.tileWidth,
@@ -48,15 +45,14 @@ public class MapGraphUpdaterSystem extends EntitySystem{
                             ResourceMapper.tileWidth, ResourceMapper.tileHeight);
                     boolean nowOverlaped = worldObjectComponent.bounds.getRectangle().overlaps(r);
                     if(!nowOverlaped && mapGraph.getNode(i, j).entities.size > 0){
+                        if( mapGraph.getNode(i, j).entities.size == 1 &&
+                            mapGraph.getNode(i, j).entities.containsKey(Mappers.idComponentMapper.get(dynamicWOEntity).id))
                         mapGraph.getNode(i, j).entities.remove(Mappers.idComponentMapper.get(dynamicWOEntity).id);
                     }else if(nowOverlaped){
                         mapGraph.getNode(i, j).entities.put(Mappers.idComponentMapper.get(dynamicWOEntity).id, dynamicWOEntity);
                     }
                 }
             }
-            dynamicWOComponent.lastBounds = worldObjectComponent.bounds;
-            dynamicWOComponent.x = worldPositionComponent.position.x;
-            dynamicWOComponent.y = worldPositionComponent.position.y;
         }
     }
 }

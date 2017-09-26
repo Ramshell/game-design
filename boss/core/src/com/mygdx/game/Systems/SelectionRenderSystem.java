@@ -23,6 +23,12 @@ public class SelectionRenderSystem extends EntitySystem{
     private Camera camera;
     private SelectionComponent selection;
     private ShapeRenderer shapeRenderer;
+    private Color selectedColor = new Color(
+            1,
+            0,
+            1,
+            0.25f);
+    private Color enemyColor = new Color(1,0,0,0.40f);
 
     public SelectionRenderSystem(SelectionComponent selection, Camera camera){
         this.camera = camera;
@@ -44,11 +50,7 @@ public class SelectionRenderSystem extends EntitySystem{
             Gdx.gl.glLineWidth(4);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             Rectangle r = Mappers.world.get(e).bounds.getRectangle();
-            shapeRenderer.setColor(new Color(
-                    1,
-                    0,
-                    1,
-                    0.25f));
+            shapeRenderer.setColor(e.getComponent(SelectionComponent.class).selectedByEnemy ? enemyColor : selectedColor);
             shapeRenderer.ellipse(r.x, r.y, r.width, r.height);
             shapeRenderer.end();
         }

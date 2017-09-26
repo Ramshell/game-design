@@ -188,10 +188,15 @@ public class UserInputHandler extends InputAdapter {
             normalize(selection.selection);
             for(Entity e : entities){
                 WorldObjectComponent wo = wm.get(e);
+                PlayerComponent checkPlayer = pm.get(e);
                 if(wo.bounds.getRectangle().contains(v.x, v.y) ||
                         Intersector.overlaps(
                                 selection.selection,
                                 wo.bounds.getRectangle())){
+                    if(checkPlayer != null && !checkPlayer.equals(pm.get(player))){
+                        pm.get(player).selectedObject.addEnemy(e);
+                        break;
+                    }
                     pm.get(player).selectedObject.add(e);
                 }
             }

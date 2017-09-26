@@ -11,12 +11,23 @@ public class TargetComponent implements Component{
     public TiledSmoothableGraphPath<TiledNode> path;
     public int nextNode;
 
+    public TargetComponent(TiledSmoothableGraphPath<TiledNode> path, boolean zero){
+        if(zero) initZero(path);
+        else init(path);
+    }
+
     public TargetComponent(TiledSmoothableGraphPath<TiledNode> path){
         init(path);
     }
 
     private void init(TiledSmoothableGraphPath<TiledNode> path) {
         nextNode = 1;
+        this.path = path;
+        nextTarget();
+    }
+
+    private void initZero(TiledSmoothableGraphPath<TiledNode> path) {
+        nextNode = 0;
         this.path = path;
         nextTarget();
     }
@@ -33,5 +44,10 @@ public class TargetComponent implements Component{
 
     public void changePath(TiledSmoothableGraphPath<TiledNode> path){
         init(path);
+    }
+
+    public void changePath(TiledSmoothableGraphPath<TiledNode> path, boolean zero){
+        if(zero) initZero(path);
+        else init(path);
     }
 }

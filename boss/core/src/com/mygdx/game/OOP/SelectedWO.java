@@ -2,10 +2,10 @@ package com.mygdx.game.OOP;
 
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.OrderedSet;
 import com.mygdx.game.Components.SelectionComponent;
 import com.mygdx.game.Components.WorldObjects.ActionComponent;
+import com.mygdx.game.Components.WorldObjects.DynamicWOComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.OOP.Actions.Action;
@@ -14,6 +14,7 @@ public class SelectedWO {
     private OrderedSet<Entity> selectedObjects;
     private String name;
     private OrderedSet<ActionComponent> actions = new OrderedSet<ActionComponent>();
+    private boolean onlyDyn = false;
 
     public SelectedWO(){
         selectedObjects = new OrderedSet<Entity>();
@@ -39,6 +40,13 @@ public class SelectedWO {
 
     public void add(Entity entity){
         WorldObjectComponent wo = Mappers.world.get(entity);
+        DynamicWOComponent dyn = Mappers.dynamicWOComponentMapper.get(entity);
+        if(dyn != null && !onlyDyn){
+            onlyDyn = true;
+            for(Entity e: selectedObjects)
+                if(Mappers.dynamicWOComponentMapper.get(e) == null)
+                    selectedObjects.remove(e);
+        }
         if(wo == null ||
             (selectedObjects.size >= 1 &&
              selectedObjects.first().getClass() != entity.getClass())) return;
@@ -58,8 +66,16 @@ public class SelectedWO {
         selectedObjects.add(entity);
         entity.add(new SelectionComponent());
     }
-    public void deselect(){
 
+    public void addEnemy(Entity e) {
+        deselect();
+        add(e);
+        e.getComponent(SelectionComponent.class).selectedByEnemy = true;
+        name = name + " - Enemy";
+    }
+
+    public void deselect(){
+        onlyDyn = false;
         for(Entity e : selectedObjects){
             e.remove(SelectionComponent.class);
         }
@@ -69,8 +85,15 @@ public class SelectedWO {
     }
 
     public void act(Action<Entity> action){
+        if(gotEnemy()) return;
         for(Entity e : selectedObjects){
             action.act(e);
         }
+    }
+
+    public boolean gotEnemy(){
+        return  name!= null        &&
+                name.length() >= 5 &&
+                name.substring(name.length() - 5, name.length()).equals("Enemy");
     }
 }

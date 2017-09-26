@@ -15,6 +15,8 @@ import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
+import com.mygdx.game.OOP.Actions.MoveAction;
+import com.mygdx.game.OOP.Actions.NotSmoothingMoveAction;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 
 public class CollisionSystem extends EntitySystem{
@@ -59,7 +61,7 @@ public class CollisionSystem extends EntitySystem{
         for(int i = fromX; i < Math.min(mapGraph.width, toX + widthInTiles); ++i) {
             for (int j = fromY; j < Math.min(mapGraph.height, toY + heightInTiles); ++j) {
                 for(Entity e : mapGraph.getNode(i, j).entities.values()){
-                    if(!e.equals(dynamicEntity) && r.overlaps(Mappers.world.get(e).bounds.getRectangle())) {
+                    if(!e.equals(dynamicEntity) && r.overlaps(Mappers.world.get(e).bounds.getRectangle()) && Mappers.target.get(dynamicEntity) != null) {
                         velocity.pos.setZero();
                         velocity.accel.setZero();
                         break;
