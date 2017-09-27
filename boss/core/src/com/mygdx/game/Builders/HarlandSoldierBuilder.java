@@ -70,7 +70,7 @@ public class HarlandSoldierBuilder extends UnitBuilder{
         wo.actions = actions;
         RangedWeaponComponent rangedWeaponComponent = new RangedWeaponComponent();
         rangedWeaponComponent.range = new Circle(0, 0, 64);
-        rangedWeaponComponent.attackDuration = 0.7f;
+        rangedWeaponComponent.attackDuration = 0.6f;
         rangedWeaponComponent.attackSpeed = 1;
         rangedWeaponComponent.damage = 5;
         rangedWeaponComponent.minDamage = 3;

@@ -12,7 +12,7 @@ public class HealthRenderSystem extends PercentageBarEntitySystem<HealthComponen
 
     public HealthRenderSystem() {
         super(Family.all(HealthComponent.class, WorldPositionComponent.class,
-                WorldObjectComponent.class, SelectionComponent.class).get(), Mappers.healthComponentMapper);
+                WorldObjectComponent.class).get(), Mappers.healthComponentMapper);
     }
 
     public Color topGradient(float percentage){

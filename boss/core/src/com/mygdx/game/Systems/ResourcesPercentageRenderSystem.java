@@ -12,7 +12,7 @@ import com.mygdx.game.Mappers.Mappers;
 public class ResourcesPercentageRenderSystem extends PercentageBarEntitySystem<ResourceComponent, WorldObjectComponent>{
     public ResourcesPercentageRenderSystem() {
         super(Family.all(ResourceComponent.class, WorldPositionComponent.class,
-                WorldObjectComponent.class, SelectionComponent.class).get(), Mappers.resourceComponentMapper);
+                WorldObjectComponent.class).get(), Mappers.resourceComponentMapper);
     }
 
     public Color topGradient(float percentage){

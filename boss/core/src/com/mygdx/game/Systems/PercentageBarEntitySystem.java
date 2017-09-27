@@ -3,12 +3,14 @@ package com.mygdx.game.Systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mygdx.game.Components.MapComponent;
 import com.mygdx.game.Components.PercentageComponent;
+import com.mygdx.game.Components.SelectionComponent;
 import com.mygdx.game.Components.WorldObjects.HealthComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
@@ -40,6 +42,7 @@ public abstract class PercentageBarEntitySystem<T extends PercentageComponent, E
         shapeRenderer.setProjectionMatrix(camera.combined);
         entities = engine.getEntitiesFor(family);
         for(Entity e: entities){
+            if(!Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT) && e.getComponent(SelectionComponent.class) == null) continue;
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             WorldPositionComponent worldPositionComponent = Mappers.worldPosition.get(e);
             WorldObjectComponent wo = Mappers.world.get(e);
