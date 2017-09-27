@@ -24,6 +24,16 @@ public class AssetsMapper {
     public static Animation<TextureRegion> harlandWorkerMoveLeftBottomAnim;
     public static Animation<TextureRegion> harlandWorkerMoveRightTopAnim;
     public static Animation<TextureRegion> harlandWorkerMoveLeftTopAnim;
+    public static Texture harlandSoldier;
+    public static Animation<TextureRegion> harlandSoldierIdleAnim;
+    public static Animation<TextureRegion> harlandSoldierMoveRightBottomAnim;
+    public static Animation<TextureRegion> harlandSoldierMoveLeftBottomAnim;
+    public static Animation<TextureRegion> harlandSoldierMoveRightTopAnim;
+    public static Animation<TextureRegion> harlandSoldierMoveLeftTopAnim;
+    public static Animation<TextureRegion> harlandSoldierAttackRightBottomAnim;
+    public static Animation<TextureRegion> harlandSoldierAttackLeftBottomAnim;
+    public static Animation<TextureRegion> harlandSoldierAttackRightTopAnim;
+    public static Animation<TextureRegion> harlandSoldierAttackLeftTopAnim;
     public static Texture eol;
     public static Texture waterGathering;
     public static Animation<TextureRegion> eolIdleAnim;
@@ -53,7 +63,7 @@ public class AssetsMapper {
         bm = new Pixmap(Gdx.files.internal("cursor/bottom_movement.png"));
         lm = new Pixmap(Gdx.files.internal("cursor/left_movement.png"));
         tm = new Pixmap(Gdx.files.internal("cursor/top_movement.png"));
-        harlandWorker = loadTexture("characters/harland_worker_shadow.png");
+        harlandWorker = loadTexture("characters/harland_worker.png");
         harlandWorkerIdleAnim = new Animation<TextureRegion>(0.8f,
                 new TextureRegion(harlandWorker, 14, 0, 36, 64),
                 new TextureRegion(harlandWorker, 78, 0, 36, 64));
@@ -85,11 +95,67 @@ public class AssetsMapper {
                 new TextureRegion(harlandWorker, 206, 256, 36, 64),
                 new TextureRegion(harlandWorker, 270, 256, 36, 64),
                 new TextureRegion(harlandWorker, 334, 256, 36, 64));
+        harlandSoldier = loadTexture("characters/harland_soldier.png");
+        harlandSoldierIdleAnim = new Animation<TextureRegion>(0.8f,
+                new TextureRegion(harlandSoldier, 14, 0, 36, 64),
+                new TextureRegion(harlandSoldier, 78, 0, 36, 64));
+        harlandSoldierMoveLeftBottomAnim = new Animation<TextureRegion>(0.2f,
+                new TextureRegion(harlandSoldier, 14, 64, 36, 64),
+                new TextureRegion(harlandSoldier, 78, 64, 36, 64),
+                new TextureRegion(harlandSoldier, 142, 64, 36, 64),
+                new TextureRegion(harlandSoldier, 206, 64, 36, 64),
+                new TextureRegion(harlandSoldier, 270, 64, 36, 64),
+                new TextureRegion(harlandSoldier, 334, 64, 36, 64));
+        harlandSoldierMoveRightBottomAnim = new Animation<TextureRegion>(0.2f,
+                new TextureRegion(harlandSoldier, 14, 128, 36, 64),
+                new TextureRegion(harlandSoldier, 78, 128, 36, 64),
+                new TextureRegion(harlandSoldier, 142, 128, 36, 64),
+                new TextureRegion(harlandSoldier, 206, 128, 36, 64),
+                new TextureRegion(harlandSoldier, 270, 128, 36, 64),
+                new TextureRegion(harlandSoldier, 334, 128, 36, 64));
+        harlandSoldierMoveLeftTopAnim = new Animation<TextureRegion>(0.2f,
+                new TextureRegion(harlandSoldier, 14, 192, 36, 64),
+                new TextureRegion(harlandSoldier, 78, 192, 36, 64),
+                new TextureRegion(harlandSoldier, 142, 192, 36, 64),
+                new TextureRegion(harlandSoldier, 206, 192, 36, 64),
+                new TextureRegion(harlandSoldier, 270, 192, 36, 64),
+                new TextureRegion(harlandSoldier, 334, 192, 36, 64));
+        harlandSoldierMoveRightTopAnim = new Animation<TextureRegion>(0.2f,
+                new TextureRegion(harlandSoldier, 14, 256, 36, 64),
+                new TextureRegion(harlandSoldier, 78, 256, 36, 64),
+                new TextureRegion(harlandSoldier, 142, 256, 36, 64),
+                new TextureRegion(harlandSoldier, 206, 256, 36, 64),
+                new TextureRegion(harlandSoldier, 270, 256, 36, 64),
+                new TextureRegion(harlandSoldier, 334, 256, 36, 64));
+        harlandSoldierAttackLeftBottomAnim = new Animation<TextureRegion>(0.2f,
+                new TextureRegion(harlandSoldier, 14, 320, 36, 64),
+                new TextureRegion(harlandSoldier, 78, 320, 36, 64),
+                new TextureRegion(harlandSoldier, 142, 320, 36, 64),
+                new TextureRegion(harlandSoldier, 206, 320, 36, 64),
+                new TextureRegion(harlandSoldier, 270, 320, 36, 64));
+        harlandSoldierAttackRightBottomAnim = new Animation<TextureRegion>(0.2f,
+                new TextureRegion(harlandSoldier, 14, 384, 36, 64),
+                new TextureRegion(harlandSoldier, 78, 384, 36, 64),
+                new TextureRegion(harlandSoldier, 142, 384, 36, 64),
+                new TextureRegion(harlandSoldier, 206, 384, 36, 64),
+                new TextureRegion(harlandSoldier, 270, 384, 36, 64));
+        harlandSoldierAttackLeftTopAnim = new Animation<TextureRegion>(0.2f,
+                new TextureRegion(harlandSoldier, 14, 448, 36, 64),
+                new TextureRegion(harlandSoldier, 78, 448, 36, 64),
+                new TextureRegion(harlandSoldier, 142, 448, 36, 64),
+                new TextureRegion(harlandSoldier, 206, 448, 36, 64),
+                new TextureRegion(harlandSoldier, 270, 448, 36, 64));
+        harlandSoldierAttackRightTopAnim = new Animation<TextureRegion>(0.2f,
+                new TextureRegion(harlandSoldier, 14, 512, 36, 64),
+                new TextureRegion(harlandSoldier, 78, 512, 36, 64),
+                new TextureRegion(harlandSoldier, 142, 512, 36, 64),
+                new TextureRegion(harlandSoldier, 206, 512, 36, 64),
+                new TextureRegion(harlandSoldier, 270, 512, 36, 64));
         eol = loadTexture("characters/charco.png");
         eolIdleAnim = new Animation<TextureRegion>(0.6f,
-                new TextureRegion(eol, 0, 32, 64, 32),
-                new TextureRegion(eol, 64, 32, 64, 32),
-                new TextureRegion(eol, 128, 32, 64, 32));
+                new TextureRegion(eol, 0, 27, 64, 34),
+                new TextureRegion(eol, 64, 27, 64, 34),
+                new TextureRegion(eol, 128, 27, 64, 34));
         waterGathering = loadTexture("characters/water_gathering.png");
         waterGatheringAnim = new Animation<TextureRegion>(0.3f,
                 new TextureRegion(waterGathering, 0, 0, 64, 64),

@@ -20,5 +20,8 @@ public abstract class UnitBuilder {
     public static int MOVE_RIGHT_TOP = 4;
     public static int MOVE_LEFT_TOP = 5;
     public static int WATER_GATHERING = 6;
-    public static int ATTACKING = 7;
+    public static int ATTACKING_RIGHT_BOTTOM = 7;
+    public static int ATTACKING_LEFT_BOTTOM = 8;
+    public static int ATTACKING_RIGHT_TOP = 9;
+    public static int ATTACKING_LEFT_TOP = 10;
 }

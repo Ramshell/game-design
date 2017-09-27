@@ -50,13 +50,15 @@ public class HarlandSoldierBuilder extends UnitBuilder{
         };
         actions.add(move);
         AnimationComponent anim = new AnimationComponent();
-        anim.animations.put(IDLE, AssetsMapper.harlandWorkerIdleAnim);
-        anim.animations.put(MOVE_RIGHT_BOTTOM, AssetsMapper.harlandWorkerMoveRightBottomAnim);
-        anim.animations.put(MOVE_LEFT_BOTTOM, AssetsMapper.harlandWorkerMoveLeftBottomAnim);
-        anim.animations.put(MOVE_RIGHT_TOP, AssetsMapper.harlandWorkerMoveRightTopAnim);
-        anim.animations.put(MOVE_LEFT_TOP, AssetsMapper.harlandWorkerMoveLeftTopAnim);
-        anim.animations.put(WATER_GATHERING, AssetsMapper.waterGatheringAnim);
-        anim.animations.put(ATTACKING, AssetsMapper.waterGatheringAnim);
+        anim.animations.put(IDLE, AssetsMapper.harlandSoldierIdleAnim);
+        anim.animations.put(MOVE_RIGHT_BOTTOM, AssetsMapper.harlandSoldierMoveRightBottomAnim);
+        anim.animations.put(MOVE_LEFT_BOTTOM, AssetsMapper.harlandSoldierMoveLeftBottomAnim);
+        anim.animations.put(MOVE_RIGHT_TOP, AssetsMapper.harlandSoldierMoveRightTopAnim);
+        anim.animations.put(MOVE_LEFT_TOP, AssetsMapper.harlandSoldierMoveLeftTopAnim);
+        anim.animations.put(ATTACKING_RIGHT_BOTTOM, AssetsMapper.harlandSoldierAttackRightBottomAnim);
+        anim.animations.put(ATTACKING_LEFT_BOTTOM, AssetsMapper.harlandSoldierAttackLeftBottomAnim);
+        anim.animations.put(ATTACKING_RIGHT_TOP, AssetsMapper.harlandSoldierAttackRightTopAnim);
+        anim.animations.put(ATTACKING_LEFT_TOP, AssetsMapper.harlandSoldierAttackLeftTopAnim);
         WorldObjectComponent wo = new WorldObjectComponent("Harland Soldier");
         wo.bounds = new RectangleMapObject(posX * ResourceMapper.tileWidth, posY * ResourceMapper.tileHeight, 32, 32);
         wo.cost = COST;
@@ -64,8 +66,8 @@ public class HarlandSoldierBuilder extends UnitBuilder{
         wo.actions = actions;
         RangedWeaponComponent rangedWeaponComponent = new RangedWeaponComponent();
         rangedWeaponComponent.range = new Circle(0, 0, 64);
-        rangedWeaponComponent.attackDuration = 1;
-        rangedWeaponComponent.attackSpeed = 2;
+        rangedWeaponComponent.attackDuration = 0.7f;
+        rangedWeaponComponent.attackSpeed = 1;
         rangedWeaponComponent.damage = 5;
         return new UnitEntity(player, wo, posX, posY,
                 IDLE, anim, new HealthComponent(70), id++)
