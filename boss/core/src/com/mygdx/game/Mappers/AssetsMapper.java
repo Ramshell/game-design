@@ -128,29 +128,29 @@ public class AssetsMapper {
                 new TextureRegion(harlandSoldier, 270, 256, 36, 64),
                 new TextureRegion(harlandSoldier, 334, 256, 36, 64));
         harlandSoldierAttackLeftBottomAnim = new Animation<TextureRegion>(0.2f,
-                new TextureRegion(harlandSoldier, 14, 320, 36, 64),
-                new TextureRegion(harlandSoldier, 78, 320, 36, 64),
-                new TextureRegion(harlandSoldier, 142, 320, 36, 64),
-                new TextureRegion(harlandSoldier, 206, 320, 36, 64),
-                new TextureRegion(harlandSoldier, 270, 320, 36, 64));
+                new TextureRegion(harlandSoldier, 0, 320, 64, 64),
+                new TextureRegion(harlandSoldier, 64, 320, 64, 64),
+                new TextureRegion(harlandSoldier, 128, 320, 64, 64),
+                new TextureRegion(harlandSoldier, 192, 320, 64, 64),
+                new TextureRegion(harlandSoldier, 256, 320, 64, 64));
         harlandSoldierAttackRightBottomAnim = new Animation<TextureRegion>(0.2f,
-                new TextureRegion(harlandSoldier, 14, 384, 36, 64),
-                new TextureRegion(harlandSoldier, 78, 384, 36, 64),
-                new TextureRegion(harlandSoldier, 142, 384, 36, 64),
-                new TextureRegion(harlandSoldier, 206, 384, 36, 64),
-                new TextureRegion(harlandSoldier, 270, 384, 36, 64));
+                new TextureRegion(harlandSoldier, 0, 384, 64, 64),
+                new TextureRegion(harlandSoldier, 64, 384, 64, 64),
+                new TextureRegion(harlandSoldier, 128, 384, 64, 64),
+                new TextureRegion(harlandSoldier, 192, 384, 64, 64),
+                new TextureRegion(harlandSoldier, 256, 384, 64, 64));
         harlandSoldierAttackLeftTopAnim = new Animation<TextureRegion>(0.2f,
-                new TextureRegion(harlandSoldier, 14, 448, 36, 64),
-                new TextureRegion(harlandSoldier, 78, 448, 36, 64),
-                new TextureRegion(harlandSoldier, 142, 448, 36, 64),
-                new TextureRegion(harlandSoldier, 206, 448, 36, 64),
-                new TextureRegion(harlandSoldier, 270, 448, 36, 64));
+                new TextureRegion(harlandSoldier, 0, 448, 64, 64),
+                new TextureRegion(harlandSoldier, 64, 448, 64, 64),
+                new TextureRegion(harlandSoldier, 128, 448, 64, 64),
+                new TextureRegion(harlandSoldier, 192, 448, 64, 64),
+                new TextureRegion(harlandSoldier, 256, 448, 64, 64));
         harlandSoldierAttackRightTopAnim = new Animation<TextureRegion>(0.2f,
-                new TextureRegion(harlandSoldier, 14, 512, 36, 64),
-                new TextureRegion(harlandSoldier, 78, 512, 36, 64),
-                new TextureRegion(harlandSoldier, 142, 512, 36, 64),
-                new TextureRegion(harlandSoldier, 206, 512, 36, 64),
-                new TextureRegion(harlandSoldier, 270, 512, 36, 64));
+                new TextureRegion(harlandSoldier, 0, 512, 64, 64),
+                new TextureRegion(harlandSoldier, 64, 512, 64, 64),
+                new TextureRegion(harlandSoldier, 128, 512, 64, 64),
+                new TextureRegion(harlandSoldier, 192, 512, 64, 64),
+                new TextureRegion(harlandSoldier, 256, 512, 64, 64));
         eol = loadTexture("characters/charco.png");
         eolIdleAnim = new Animation<TextureRegion>(0.6f,
                 new TextureRegion(eol, 0, 27, 64, 34),

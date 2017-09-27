@@ -36,6 +36,12 @@ public class AnimationSystem extends IteratingSystem {
 
         if (animation != null) {
             tex.region = animation.getKeyFrame(state.time, true);
+            Float offsetX = anim.offsetsX.get(state.get());
+            if(offsetX != null) tex.offsetX = offsetX;
+            else tex.offsetX = 0;
+            Float offsetY = anim.offsetsY.get(state.get());
+            if(offsetY != null) tex.offsetY = offsetY;
+            else tex.offsetY = 0;
         }
 
         state.time += deltaTime;

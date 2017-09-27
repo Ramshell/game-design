@@ -2,7 +2,6 @@ package com.mygdx.game.Systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
@@ -73,8 +72,8 @@ public class MapRendererSystem extends EntitySystem {
                 WorldPositionComponent pos = Mappers.worldPosition.get(worldUnit);
                 mapComponent.renderer.getBatch().draw(
                         regionComponent.region,
-                        pos.position.x,
-                        pos.position.y);
+                        pos.position.x + regionComponent.offsetX,
+                        pos.position.y + regionComponent.offsetY);
             }
             mapComponent.renderer.getBatch().end();
             mapComponent.renderer.render(after_units);

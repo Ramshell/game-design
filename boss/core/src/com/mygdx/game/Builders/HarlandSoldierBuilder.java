@@ -56,9 +56,13 @@ public class HarlandSoldierBuilder extends UnitBuilder{
         anim.animations.put(MOVE_RIGHT_TOP, AssetsMapper.harlandSoldierMoveRightTopAnim);
         anim.animations.put(MOVE_LEFT_TOP, AssetsMapper.harlandSoldierMoveLeftTopAnim);
         anim.animations.put(ATTACKING_RIGHT_BOTTOM, AssetsMapper.harlandSoldierAttackRightBottomAnim);
+        anim.offsetsX.put(ATTACKING_RIGHT_BOTTOM, -14f);
         anim.animations.put(ATTACKING_LEFT_BOTTOM, AssetsMapper.harlandSoldierAttackLeftBottomAnim);
+        anim.offsetsX.put(ATTACKING_LEFT_BOTTOM, -14f);
         anim.animations.put(ATTACKING_RIGHT_TOP, AssetsMapper.harlandSoldierAttackRightTopAnim);
+        anim.offsetsX.put(ATTACKING_RIGHT_TOP, -14f);
         anim.animations.put(ATTACKING_LEFT_TOP, AssetsMapper.harlandSoldierAttackLeftTopAnim);
+        anim.offsetsX.put(ATTACKING_LEFT_TOP, -14f);
         WorldObjectComponent wo = new WorldObjectComponent("Harland Soldier");
         wo.bounds = new RectangleMapObject(posX * ResourceMapper.tileWidth, posY * ResourceMapper.tileHeight, 32, 32);
         wo.cost = COST;
