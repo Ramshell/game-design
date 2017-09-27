@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.Builders.EoLBuilder;
+import com.mygdx.game.Builders.HarlandSoldierBuilder;
 import com.mygdx.game.Builders.HarlandWorkerBuilder;
 import com.mygdx.game.Builders.MainBuildingBuilder;
 import com.mygdx.game.Components.*;
@@ -20,6 +21,9 @@ import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.PathfindingUtils.*;
 import com.mygdx.game.Systems.*;
+import com.mygdx.game.Systems.Combat.AttackProgressionSystem;
+import com.mygdx.game.Systems.Combat.CombatSystem;
+import com.mygdx.game.Systems.Combat.DamageSystem;
 
 public class Play implements Screen {
 
@@ -31,6 +35,7 @@ public class Play implements Screen {
     public Engine engine;
     public MainBuildingBuilder mainBuildingBuilder;
     public HarlandWorkerBuilder workerBuilder;
+    public HarlandSoldierBuilder soldierBuilder;
     public MapGraph mapGraph;
     private ParticleEffect effect;
 
@@ -49,6 +54,7 @@ public class Play implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map);
         mainBuildingBuilder = new MainBuildingBuilder(renderer, this);
         workerBuilder = new HarlandWorkerBuilder(this, mapGraph);
+        soldierBuilder = new HarlandSoldierBuilder(this, mapGraph);
         RTSCamera rtsCamera = new RTSCamera();
         PlayerComponent playerComponent = new PlayerComponent();
         playerComponent.resources = 900;
@@ -73,6 +79,8 @@ public class Play implements Screen {
 
         engine.addEntity(workerBuilder.getWorker(playerComponentEnemy,3, 0));
 
+        engine.addEntity(soldierBuilder.getSoldier(playerComponent,5, 5));
+        engine.addEntity(soldierBuilder.getSoldier(playerComponentEnemy,10, 10));
 
         engine.addEntity(new EoLBuilder(this, mapGraph).getEoL(3,4,230));
         engine.addEntity(player);
@@ -87,23 +95,28 @@ public class Play implements Screen {
         engine.addSystem(new CameraSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(new UnitsVelocitySystem());
+        engine.addSystem(new AttackProgressionSystem());
+        engine.addSystem(new CombatSystem());
+        engine.addSystem(new DamageSystem());
         engine.addSystem(new CollisionSystem());
         engine.addSystem(new UnitsMovementSystem());
         engine.addSystem(new MapGraphUpdaterSystem());
         engine.addSystem(new ToBuildMakingSystem());
-        engine.addSystem(new RenderHudSystem());
         engine.addSystem(new BuildingMakingSystem());
-        engine.addSystem(new ClickFeedbackSystem(camera));
+        engine.addSystem(new ClickFeedbackSystem(mapComponent.camera));
         engine.addSystem(new ResourcesSystem());
         engine.addSystem(new GatheringStarterSystem());
         engine.addSystem(new HealthRenderSystem());
         engine.addSystem(new ResourcesPercentageRenderSystem());
         stage = p.stage;
         InputMultiplexer multiplexer = new InputMultiplexer();
+        UserInputHandler userInputHandler = new UserInputHandler(rtsCamera, player,mapComponent, engine, mapGraph);
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(new ActionsInputHandler(playerComponent, engine, mapGraph));
-        multiplexer.addProcessor(new UserInputHandler(rtsCamera, player,mapComponent, engine, mapGraph));
+        multiplexer.addProcessor(userInputHandler);
         Gdx.input.setInputProcessor(multiplexer);
+        engine.addSystem(new SelectionRenderSystem(userInputHandler.selection, mapComponent.camera));
+        engine.addSystem(new RenderHudSystem());
     }
 
     private MapGraphEntity createGraph() {

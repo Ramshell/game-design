@@ -46,10 +46,10 @@ public class MapGraphUpdaterSystem extends EntitySystem{
                     boolean nowOverlaped = worldObjectComponent.bounds.getRectangle().overlaps(r);
                     if(!nowOverlaped && mapGraph.getNode(i, j).entities.size > 0){
                         if( mapGraph.getNode(i, j).entities.size == 1 &&
-                            mapGraph.getNode(i, j).entities.containsKey(Mappers.idComponentMapper.get(dynamicWOEntity).id))
-                        mapGraph.getNode(i, j).entities.remove(Mappers.idComponentMapper.get(dynamicWOEntity).id);
+                            mapGraph.getNode(i, j).entities.contains(dynamicWOEntity))
+                        mapGraph.getNode(i, j).entities.remove(dynamicWOEntity);
                     }else if(nowOverlaped){
-                        mapGraph.getNode(i, j).entities.put(Mappers.idComponentMapper.get(dynamicWOEntity).id, dynamicWOEntity);
+                        mapGraph.getNode(i, j).entities.add(dynamicWOEntity);
                     }
                 }
             }

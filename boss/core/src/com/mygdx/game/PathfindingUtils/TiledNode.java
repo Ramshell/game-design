@@ -19,11 +19,11 @@ public class TiledNode {
     private int height;
     private Array<Connection<TiledNode>> connections;
     private IntMap<Integer> alreadyConnected;
-    public IntMap<Entity> entities;
+    public OrderedSet<Entity> entities;
 
     public TiledNode(int x, int y, int height){
         this(x, y, height, TILE_FLOOR);
-        entities = new IntMap<Entity>();
+        entities = new OrderedSet<Entity>();
     }
 
     public TiledNode(int x, int y, int height, int type){
