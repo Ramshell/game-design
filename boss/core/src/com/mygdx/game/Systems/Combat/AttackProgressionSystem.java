@@ -8,8 +8,11 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.mygdx.game.Components.Combat.AttackProgressionComponent;
 import com.mygdx.game.Mappers.Mappers;
 
+import java.util.Random;
+
 public class AttackProgressionSystem extends EntitySystem{
     ImmutableArray<Entity> entities;
+    Random rand = new Random();
 
     @Override
     public void addedToEngine(Engine engine) {
@@ -30,8 +33,7 @@ public class AttackProgressionSystem extends EntitySystem{
             }
             if(attackProgressionComponent.currentAttack -deltaTime < attackProgressionComponent.attackDuration &&
                 attackProgressionComponent.currentAttack >= attackProgressionComponent.attackDuration){
-                Mappers.healthComponentMapper.get(attackProgressionComponent.target).damageTaken = attackProgressionComponent.damage;
-//                Mappers.stateComponentMapper.get(e).change(ATTACKING);
+                Mappers.healthComponentMapper.get(attackProgressionComponent.target).damageTaken = rand.nextFloat() * (attackProgressionComponent.maxDamage - attackProgressionComponent.minDamage) + attackProgressionComponent.minDamage;
             }
             attackProgressionComponent.currentAttack +=
                     deltaTime;

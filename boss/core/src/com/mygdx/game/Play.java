@@ -72,7 +72,7 @@ public class Play implements Screen {
         camera = Mappers.camera.get(rtsCamera).getCamera();
 //        for(int i = 0; i < 10; ++i){
 //            for(int j = 0; j < 10; ++j){
-//                engine.addEntity(workerBuilder.getWorker(playerComponent,i, j));
+//                engine.addEntity(soldierBuilder.getSoldier(playerComponent,i, j));
 //            }
 //        }
         engine.addEntity(workerBuilder.getWorker(playerComponent,0, 0));
@@ -82,7 +82,7 @@ public class Play implements Screen {
         engine.addEntity(soldierBuilder.getSoldier(playerComponent,5, 5));
         engine.addEntity(soldierBuilder.getSoldier(playerComponentEnemy,10, 10));
 
-        engine.addEntity(new EoLBuilder(this, mapGraph).getEoL(3,4,230));
+        engine.addEntity(new EoLBuilder(this, mapGraph).getEoL(3,4,20000));
         engine.addEntity(player);
         engine.addEntity(rendererEntity);
         engine.addEntity(rtsCamera);
