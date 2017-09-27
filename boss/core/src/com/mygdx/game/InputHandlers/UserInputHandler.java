@@ -43,7 +43,7 @@ public class UserInputHandler extends InputAdapter {
     private final Pixmap lm = AssetsMapper.lm;
     private final Pixmap tm = AssetsMapper.tm;
 
-    private SelectionComponent selection = new SelectionComponent();
+    public SelectionComponent selection = new SelectionComponent();
     private MapLayer objectLayer;
     private MapGraph mapGraph;
 
@@ -55,7 +55,6 @@ public class UserInputHandler extends InputAdapter {
         this.engine = engine;
         this.mapGraph = mapGraph;
         objectLayer = map.map.getLayers().get("selection_layer");
-        engine.addSystem(new SelectionRenderSystem(selection, map.camera));
     }
 
     @Override

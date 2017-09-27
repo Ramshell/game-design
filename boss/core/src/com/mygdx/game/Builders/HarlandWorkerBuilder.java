@@ -20,23 +20,12 @@ import com.mygdx.game.OOP.Actions.*;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Play;
 
-public class HarlandWorkerBuilder{
-    public static int IDLE = 1;
-    public static int MOVE_RIGHT_BOTTOM = 2;
-    public static int MOVE_LEFT_BOTTOM = 3;
-    public static int MOVE_RIGHT_TOP = 4;
-    public static int MOVE_LEFT_TOP = 5;
-    public static int WATER_GATHERING = 6;
+public class HarlandWorkerBuilder extends UnitBuilder{
 
     public static int COST = 90;
-    private Play play;
-    private MapGraph mapGraph;
-    private int id;
 
     public HarlandWorkerBuilder(Play p, MapGraph mapGraph){
-        this.play = p;
-        this.mapGraph = mapGraph;
-        id = 0;
+        super(p, mapGraph);
     }
 
     /**

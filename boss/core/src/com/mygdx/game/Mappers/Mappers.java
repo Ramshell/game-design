@@ -2,6 +2,8 @@ package com.mygdx.game.Mappers;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.mygdx.game.Components.*;
+import com.mygdx.game.Components.Combat.AttackProgressionComponent;
+import com.mygdx.game.Components.Combat.RangedWeaponComponent;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.WorldObjects.*;
 import com.mygdx.game.Components.WorldObjects.Buildings.TryingBuildingComponent;
@@ -25,9 +27,11 @@ public class Mappers {
     public static final ComponentMapper<ResourceComponent> resourceComponentMapper = ComponentMapper.getFor(ResourceComponent.class);
     public static final ComponentMapper<StartGatheringComponent> startGatheringComponentComponentMapper = ComponentMapper.getFor(StartGatheringComponent.class);
     public static final ComponentMapper<GatheringPowerComponent> gatheringComponentComponentMapper = ComponentMapper.getFor(GatheringPowerComponent.class);
-    public static final ComponentMapper<HealthComponent> healthComponentComponentMapper = ComponentMapper.getFor(HealthComponent.class);
+    public static final ComponentMapper<HealthComponent> healthComponentMapper = ComponentMapper.getFor(HealthComponent.class);
     public static final ComponentMapper<DynamicWOComponent> dynamicWOComponentMapper = ComponentMapper.getFor(DynamicWOComponent.class);
     public static final ComponentMapper<TryingBuildingComponent> tryingBuildingComponentMapper = ComponentMapper.getFor(TryingBuildingComponent.class);
     public static final ComponentMapper<IdComponent> idComponentMapper = ComponentMapper.getFor(IdComponent.class);
+    public static final ComponentMapper<AttackProgressionComponent> attackProgressionComponentMapper = ComponentMapper.getFor(AttackProgressionComponent.class);
+    public static final ComponentMapper<RangedWeaponComponent> rangedWeaponComponentMapper = ComponentMapper.getFor(RangedWeaponComponent.class);
 
 }

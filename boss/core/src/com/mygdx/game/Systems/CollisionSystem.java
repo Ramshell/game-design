@@ -60,7 +60,7 @@ public class CollisionSystem extends EntitySystem{
         r.setPosition(v);
         for(int i = fromX; i < Math.min(mapGraph.width, toX + widthInTiles); ++i) {
             for (int j = fromY; j < Math.min(mapGraph.height, toY + heightInTiles); ++j) {
-                for(Entity e : mapGraph.getNode(i, j).entities.values()){
+                for(Entity e : mapGraph.getNode(i, j).entities){
                     if(!e.equals(dynamicEntity) && r.overlaps(Mappers.world.get(e).bounds.getRectangle()) && Mappers.target.get(dynamicEntity) != null) {
                         velocity.pos.setZero();
                         velocity.accel.setZero();

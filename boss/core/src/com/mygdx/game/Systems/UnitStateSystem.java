@@ -46,6 +46,8 @@ public class UnitStateSystem extends EntitySystem{
                     Mappers.startGatheringComponentComponentMapper.get(e).gathering &&
                     working(Mappers.startGatheringComponentComponentMapper.get(e))){
                 Mappers.stateComponentMapper.get(e).set(HarlandWorkerBuilder.WATER_GATHERING);
+            }else if(Mappers.attackProgressionComponentMapper.get(e) != null &&
+                    Mappers.attackProgressionComponentMapper.get(e).currentAttack < Mappers.attackProgressionComponentMapper.get(e).attackDuration){
             }
         }
     }
