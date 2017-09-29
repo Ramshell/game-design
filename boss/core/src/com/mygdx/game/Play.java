@@ -116,6 +116,7 @@ public class Play implements Screen {
         multiplexer.addProcessor(userInputHandler);
         Gdx.input.setInputProcessor(multiplexer);
         engine.addSystem(new SelectionRenderSystem(userInputHandler.selection, mapComponent.camera));
+        engine.addSystem(new MatchTimeSystem());
         engine.addSystem(new RenderHudSystem());
     }
 

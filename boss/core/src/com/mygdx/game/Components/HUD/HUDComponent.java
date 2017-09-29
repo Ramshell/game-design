@@ -5,10 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -20,6 +18,7 @@ import com.mygdx.game.Play;
 
 
 public class HUDComponent implements Component {
+    public Label matchTime;
     public MiniMap miniMap;
     public Stage stage;
     private Viewport viewport;
@@ -73,12 +72,12 @@ public class HUDComponent implements Component {
         rootTable.add(midTable2).fill().expand();
         rootTable.row();
         rootTable.add(bottomTable).fillX().expandX();
-        Label rts = new Label("Essence of Life",skin, "title");
+        matchTime = new Label("00:00",skin, "title");
         Label resources = new Label("EoL",skin, "subtitle");
         HorizontalGroup resourcesBar = new HorizontalGroup();
         resourcesBar.expand().addActor(resources);
         resourcesBar.addActor(resourcesLabel);
-        topTable.add(rts).left();
+        topTable.add(matchTime).expandX().left();
         topTable.add(resourcesBar).expandX();
         Table minimapTable = new Table(skin).left();
 //        minimapTable.add(AssetsMapper.moveButton);
