@@ -44,11 +44,13 @@ public class AssetsMapper {
     public static Texture craftActionDown;
     public static Texture craftHarlandWorkerAction;
     public static Texture craftHarlandWorkerActionDown;
+    public static Texture craftHarlandSoldierAction;
+    public static Texture craftHarlandSoldierActionDown;
     public static Texture shovelAction;
     public static Texture shovelActionDown;
     public static ImageButton moveButton;
     public static ImageButton craftButton;
-    public static ImageButton craftHarlandWorkerButton;
+    public static ImageButton craftHarlandWorkerButton, craftHarlandSoldierButton;
     public static ImageButton shovelButton;
     public static Animation<TextureRegion> waterGatheringAnim;
 
@@ -184,6 +186,12 @@ public class AssetsMapper {
         craftHarlandWorkerStyle.imageUp = new TextureRegionDrawable(new TextureRegion(craftHarlandWorkerAction));
         craftHarlandWorkerStyle.imageDown = new TextureRegionDrawable(new TextureRegion(craftHarlandWorkerActionDown));
         craftHarlandWorkerButton = new ImageButton(craftHarlandWorkerStyle);
+        craftHarlandSoldierAction = loadTexture("HUD/createHarlandSoldierAction.png");
+        craftHarlandSoldierActionDown = loadTexture("HUD/createHarlandSoldierAction_down.png");
+        ImageButton.ImageButtonStyle craftHarlandSoldierStyle = new ImageButton.ImageButtonStyle();
+        craftHarlandSoldierStyle.imageUp = new TextureRegionDrawable(new TextureRegion(craftHarlandSoldierAction));
+        craftHarlandSoldierStyle.imageDown = new TextureRegionDrawable(new TextureRegion(craftHarlandSoldierActionDown));
+        craftHarlandSoldierButton = new ImageButton(craftHarlandSoldierStyle);
         shovelAction = loadTexture("HUD/shovel_action.png");
         shovelActionDown = loadTexture("HUD/shovel_action_down.png");
         ImageButton.ImageButtonStyle shovelStyle = new ImageButton.ImageButtonStyle();

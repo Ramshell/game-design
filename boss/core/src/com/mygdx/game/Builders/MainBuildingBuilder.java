@@ -82,7 +82,14 @@ public class MainBuildingBuilder {
                 playerComponent.selectedObject.act(new CreateHarlandWorkerAction(play.mapGraph, playerComponent, play));
             }
         };
-        actions.add(craftHarland);
+        ActionComponent craftHarlandSoldier = new ActionComponent();
+        craftHarlandSoldier.button = AssetsMapper.craftHarlandSoldierButton;;
+        craftHarlandSoldier.listener = new ClickListener(){
+            public void clicked (InputEvent event, float x, float y) {
+                playerComponent.selectedObject.act(new CreateHarlandSoldierAction(play.mapGraph, playerComponent, play));
+            }
+        };
+        actions.add(craftHarland);actions.add(craftHarlandSoldier);
         Array<CellComponent> cells = new Array<CellComponent>();
         Vector2 v = new Vector2(x, y);
         CellComponent cellComponent = create_cell(wallTile9, background, v, 0 ,1);
