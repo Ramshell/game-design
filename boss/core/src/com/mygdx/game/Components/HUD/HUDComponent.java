@@ -1,23 +1,31 @@
 package com.mygdx.game.Components.HUD;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Mappers.AssetsMapper;
+import com.mygdx.game.OOP.Actions.Action;
+import com.mygdx.game.OOP.Actions.ActionBuilder;
+import com.mygdx.game.OOP.Actions.MoveAction;
 import com.mygdx.game.OOP.MiniMap;
 import com.mygdx.game.Play;
 
 
 public class HUDComponent implements Component {
+    public TextButton missionButton;
     public Label matchTime;
     public MiniMap miniMap;
     public Stage stage;
@@ -79,7 +87,10 @@ public class HUDComponent implements Component {
         resourcesBar.addActor(resourcesLabel);
         topTable.add(matchTime).expandX().left();
         topTable.add(resourcesBar).expandX();
+        topTable.row();
+        missionButton = new TextButton("Mission", skin);
         Table minimapTable = new Table(skin).left();
+        minimapTable.add(missionButton);
 //        minimapTable.add(AssetsMapper.moveButton);
         Table statsTable = new Table(skin).center();
         actionsTable = new Table(skin).right();

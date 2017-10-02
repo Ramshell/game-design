@@ -10,7 +10,7 @@ import com.mygdx.game.Mappers.Mappers;
 
 public class MatchTimeSystem extends IntervalSystem{
     private HUDComponent hudComponent;
-    public Integer unitSec, decSec, unitMin, decMin;
+    public static Integer unitSec, decSec, unitMin, decMin;
 
     public MatchTimeSystem() {
         super(1);
