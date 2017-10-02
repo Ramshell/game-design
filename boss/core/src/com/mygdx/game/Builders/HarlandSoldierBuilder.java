@@ -12,6 +12,7 @@ import com.mygdx.game.Components.Combat.RangedWeaponComponent;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Components.WorldObjects.ActionComponent;
 import com.mygdx.game.Components.WorldObjects.HealthComponent;
+import com.mygdx.game.Components.WorldObjects.WOSoundComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Entities.UnitEntity;
 import com.mygdx.game.Mappers.AssetsMapper;
@@ -34,6 +35,10 @@ public class HarlandSoldierBuilder extends UnitBuilder{
      * @param posY both are tile positions
      * **/
     public Entity getSoldier(final PlayerComponent player, int posX, int posY){
+        WOSoundComponent ws = new WOSoundComponent();
+        ws.sounds.add(AssetsMapper.harlandSoldier1);
+        ws.sounds.add(AssetsMapper.harlandSoldier2);
+
         Array<ActionComponent> actions = new Array<ActionComponent>();
         ActionComponent move = new ActionComponent();
         move.button = AssetsMapper.moveButton;;
@@ -77,6 +82,6 @@ public class HarlandSoldierBuilder extends UnitBuilder{
         rangedWeaponComponent.maxDamage = 10;
         return new UnitEntity(player, wo, posX, posY,
                 IDLE, anim, new HealthComponent(70), id++)
-                .add(rangedWeaponComponent);
+                .add(rangedWeaponComponent).add(ws);
     }
 }

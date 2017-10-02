@@ -8,11 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Components.AnimationComponent;
 import com.mygdx.game.Components.PlayerComponent;
-import com.mygdx.game.Components.WorldObjects.ActionComponent;
+import com.mygdx.game.Components.WorldObjects.*;
 import com.mygdx.game.Components.WorldObjects.Buildings.TryingBuildingComponent;
-import com.mygdx.game.Components.WorldObjects.GatheringPowerComponent;
-import com.mygdx.game.Components.WorldObjects.HealthComponent;
-import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Entities.UnitEntity;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.ResourceMapper;
@@ -33,6 +30,12 @@ public class HarlandWorkerBuilder extends UnitBuilder{
      * @param posY both are tile positions
      * **/
     public Entity getWorker(final PlayerComponent player, int posX, int posY){
+        WOSoundComponent ws = new WOSoundComponent();
+        ws.sounds.add(AssetsMapper.harlandWorker1);
+        ws.sounds.add(AssetsMapper.harlandWorker2);
+        ws.sounds.add(AssetsMapper.harlandWorker3);
+        ws.sounds.add(AssetsMapper.harlandWorker4);
+
         Array<ActionComponent> actions = new Array<ActionComponent>();
         ActionComponent move = new ActionComponent();
         ActionComponent craft = new ActionComponent();
@@ -97,6 +100,6 @@ public class HarlandWorkerBuilder extends UnitBuilder{
         wo.sellValue = 10;
         wo.actions = actions;
         return new UnitEntity(player, wo, posX, posY,
-                IDLE, anim, new HealthComponent(45), id++).add(gPower);
+                IDLE, anim, new HealthComponent(45), id++).add(gPower).add(ws);
     }
 }

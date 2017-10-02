@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.OrderedSet;
 import com.mygdx.game.Components.SelectionComponent;
 import com.mygdx.game.Components.WorldObjects.ActionComponent;
 import com.mygdx.game.Components.WorldObjects.DynamicWOComponent;
+import com.mygdx.game.Components.WorldObjects.PlaySoundComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.OOP.Actions.Action;
@@ -65,6 +66,12 @@ public class SelectedWO {
         this.actions = actions;
         selectedObjects.add(entity);
         entity.add(new SelectionComponent());
+        if( Mappers.woSoundComponentMapper.get(entity)  != null) {
+            if(Mappers.woSoundComponentMapper.get(entity).lastSound != null){
+                Mappers.woSoundComponentMapper.get(entity).lastSound.stop();
+            }
+            entity.add(new PlaySoundComponent());
+        }
     }
 
     public void addEnemy(Entity e) {

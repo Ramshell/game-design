@@ -33,5 +33,7 @@ public class Mappers {
     public static final ComponentMapper<IdComponent> idComponentMapper = ComponentMapper.getFor(IdComponent.class);
     public static final ComponentMapper<AttackProgressionComponent> attackProgressionComponentMapper = ComponentMapper.getFor(AttackProgressionComponent.class);
     public static final ComponentMapper<RangedWeaponComponent> rangedWeaponComponentMapper = ComponentMapper.getFor(RangedWeaponComponent.class);
+    public static final ComponentMapper<WOSoundComponent> woSoundComponentMapper = ComponentMapper.getFor(WOSoundComponent.class);
+    public static final ComponentMapper<PlaySoundComponent> playSoundComponentMapper = ComponentMapper.getFor(PlaySoundComponent.class);
 
 }

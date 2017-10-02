@@ -2,6 +2,7 @@ package com.mygdx.game.Mappers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -16,8 +17,6 @@ public class AssetsMapper {
     public static Pixmap bm;
     public static Pixmap lm;
     public static Pixmap tm;
-    public static Texture skeleton;
-    public static Animation<TextureRegion> skeletonStandAnim;
 
     public static Texture harlandWorker;
     public static Animation<TextureRegion> harlandWorkerIdleAnim;
@@ -55,7 +54,14 @@ public class AssetsMapper {
     public static ImageButton shovelButton;
     public static Animation<TextureRegion> waterGatheringAnim;
 
+    //sound assets
     public static Music harlandDesertBackground;
+    public static Sound harlandWorker1;
+    public static Sound harlandWorker2;
+    public static Sound harlandWorker3;
+    public static Sound harlandWorker4;
+    public static Sound harlandSoldier1;
+    public static Sound harlandSoldier2;
 
 
     public static Texture loadTexture (String file) {
@@ -207,6 +213,13 @@ public class AssetsMapper {
         harlandDesertBackground = Gdx.audio.newMusic(Gdx.files.internal("soundtrack/background.mp3"));
         harlandDesertBackground.setLooping(true);
         harlandDesertBackground.setVolume(0.2f);
+        harlandWorker1 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_worker_1_16b.wav"));
+        harlandWorker2 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_worker_2_16b.wav"));
+        harlandWorker3 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_worker_3_16b.wav"));
+        harlandWorker4 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_worker_4_16b.wav"));
+        harlandSoldier1 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_soldier_1_16b.wav"));
+        harlandSoldier2 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_soldier_2_16b.wav"));
+
     }
 
     public static void playMusic(){

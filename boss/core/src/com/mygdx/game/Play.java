@@ -108,6 +108,7 @@ public class Play implements Screen {
         engine.addSystem(new GatheringStarterSystem());
         engine.addSystem(new HealthRenderSystem());
         engine.addSystem(new ResourcesPercentageRenderSystem());
+        engine.addSystem(new WOSoundSystem());
         stage = p.stage;
         InputMultiplexer multiplexer = new InputMultiplexer();
         UserInputHandler userInputHandler = new UserInputHandler(rtsCamera, player,mapComponent, engine, mapGraph);
