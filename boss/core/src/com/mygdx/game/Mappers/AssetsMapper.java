@@ -1,6 +1,7 @@
 package com.mygdx.game.Mappers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -53,6 +54,9 @@ public class AssetsMapper {
     public static ImageButton craftHarlandWorkerButton, craftHarlandSoldierButton;
     public static ImageButton shovelButton;
     public static Animation<TextureRegion> waterGatheringAnim;
+
+    public static Music harlandDesertBackground;
+
 
     public static Texture loadTexture (String file) {
         return new Texture(Gdx.files.internal(file));
@@ -199,5 +203,17 @@ public class AssetsMapper {
         shovelStyle.imageDown = new TextureRegionDrawable(new TextureRegion(shovelActionDown));
         shovelButton = new ImageButton(shovelStyle);
         shovelButton.setSize(32, 32);
+
+        harlandDesertBackground = Gdx.audio.newMusic(Gdx.files.internal("soundtrack/background.mp3"));
+        harlandDesertBackground.setLooping(true);
+        harlandDesertBackground.setVolume(0.2f);
+    }
+
+    public static void playMusic(){
+        harlandDesertBackground.play();
+    }
+
+    public static void pauseMusic(){
+        harlandDesertBackground.pause();
     }
 }

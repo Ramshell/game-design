@@ -118,6 +118,7 @@ public class Play implements Screen {
         engine.addSystem(new SelectionRenderSystem(userInputHandler.selection, mapComponent.camera));
         engine.addSystem(new MatchTimeSystem());
         engine.addSystem(new RenderHudSystem());
+        AssetsMapper.playMusic();
     }
 
     private MapGraphEntity createGraph() {
