@@ -57,9 +57,13 @@ public class HarlandSoldierBuilder extends UnitBuilder{
         AnimationComponent anim = new AnimationComponent();
         anim.animations.put(IDLE, AssetsMapper.harlandSoldierIdleAnim);
         anim.animations.put(MOVE_RIGHT_BOTTOM, AssetsMapper.harlandSoldierMoveRightBottomAnim);
+        anim.offsetsX.put(MOVE_RIGHT_BOTTOM, -14f);
         anim.animations.put(MOVE_LEFT_BOTTOM, AssetsMapper.harlandSoldierMoveLeftBottomAnim);
+        anim.offsetsX.put(MOVE_LEFT_BOTTOM, -14f);
         anim.animations.put(MOVE_RIGHT_TOP, AssetsMapper.harlandSoldierMoveRightTopAnim);
+        anim.offsetsX.put(MOVE_RIGHT_TOP, -14f);
         anim.animations.put(MOVE_LEFT_TOP, AssetsMapper.harlandSoldierMoveLeftTopAnim);
+        anim.offsetsX.put(MOVE_LEFT_TOP, -14f);
         anim.animations.put(ATTACKING_RIGHT_BOTTOM, AssetsMapper.harlandSoldierAttackRightBottomAnim);
         anim.offsetsX.put(ATTACKING_RIGHT_BOTTOM, -14f);
         anim.animations.put(ATTACKING_LEFT_BOTTOM, AssetsMapper.harlandSoldierAttackLeftBottomAnim);

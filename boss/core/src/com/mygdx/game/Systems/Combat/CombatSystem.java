@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.Intersector;
+import com.mygdx.game.Builders.UnitBuilder;
 import com.mygdx.game.Components.Combat.AttackProgressionComponent;
 import com.mygdx.game.Components.Combat.RangedWeaponComponent;
 import com.mygdx.game.Components.MapGraphComponent;
@@ -30,13 +31,17 @@ public class CombatSystem extends EntitySystem{
             rangedWeaponComponent.range.setPosition(
                     worldPositionComponent.position.x + ResourceMapper.tileWidth / 2,
                     worldPositionComponent.position.y + ResourceMapper.tileHeight / 2);
+            ////////////////////// ignore non idle objects ////////////////////////////
+            if(Mappers.stateComponentMapper.get(e).state != UnitBuilder.IDLE ||
+                    Mappers.target.get(e) != null) continue;
+            ///////////////////////////////////////////////////////////////////////////
             AttackProgressionComponent attackProgressionComponent = Mappers.attackProgressionComponentMapper.get(e);
             if(attackProgressionComponent != null && atRange(rangedWeaponComponent, attackProgressionComponent.target)) continue;
             calculateAttack(e, rangedWeaponComponent);
         }
     }
 
-    private boolean atRange(RangedWeaponComponent rangedWeaponComponent, Entity target) {
+    public static boolean atRange(RangedWeaponComponent rangedWeaponComponent, Entity target) {
         return Intersector.overlaps(rangedWeaponComponent.range, Mappers.world.get(target).bounds.getRectangle());
     }
 

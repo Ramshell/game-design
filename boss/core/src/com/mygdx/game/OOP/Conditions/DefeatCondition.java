@@ -8,7 +8,7 @@ public abstract class DefeatCondition implements Condition{
 
     public DefeatCondition(Engine engine, String description){
         this.engine = engine;
-        this.description = "You lose if you: " + description;
+        this.description = "You have " + description;
     }
 
 

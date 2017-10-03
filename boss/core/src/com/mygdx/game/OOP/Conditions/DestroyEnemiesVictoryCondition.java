@@ -8,17 +8,17 @@ import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Mappers.Mappers;
 
-public class NormalDefeatCondition extends DefeatCondition implements EntityListener{
+public class DestroyEnemiesVictoryCondition extends VictoryCondition implements EntityListener {
     PlayerComponent playerComponent;
 
-    public NormalDefeatCondition(Engine engine, PlayerComponent playerComponent) {
-        super(engine, "run out of units and buildings");
+    public DestroyEnemiesVictoryCondition(Engine engine, PlayerComponent playerComponent) {
+        super(engine, "Kill every enemy");
         this.playerComponent = playerComponent;
         engine.addEntityListener(Family.all(PlayerComponent.class, WorldObjectComponent.class).get(), this);
     }
 
     @Override
-    boolean defeat() {
+    boolean victory() {
         return playerComponent.worldObjects <= 0;
     }
 

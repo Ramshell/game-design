@@ -66,6 +66,10 @@ public class SelectedWO {
         this.actions = actions;
         selectedObjects.add(entity);
         entity.add(new SelectionComponent());
+        playSound(entity);
+    }
+
+    private void playSound(Entity entity) {
         if( Mappers.woSoundComponentMapper.get(entity)  != null) {
             if(Mappers.woSoundComponentMapper.get(entity).lastSound != null){
                 Mappers.woSoundComponentMapper.get(entity).lastSound.stop();
@@ -94,6 +98,7 @@ public class SelectedWO {
     public void act(Action<Entity> action){
         if(gotEnemy()) return;
         for(Entity e : selectedObjects){
+            playSound(e);
             action.act(e);
         }
     }

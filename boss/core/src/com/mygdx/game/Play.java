@@ -22,8 +22,7 @@ import com.mygdx.game.InputHandlers.UserInputHandler;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
-import com.mygdx.game.OOP.Conditions.NormalDefeatCondition;
-import com.mygdx.game.OOP.Conditions.TutorialVictoryCondition;
+import com.mygdx.game.OOP.Conditions.*;
 import com.mygdx.game.PathfindingUtils.*;
 import com.mygdx.game.Systems.*;
 import com.mygdx.game.Systems.Combat.AttackProgressionSystem;
@@ -44,6 +43,7 @@ public class Play implements Screen {
     public MapGraph mapGraph;
     private ParticleEffect effect;
     private Game game;
+    private EoLBuilder eolBuilder;
 
     public Play(Engine engine, Game game) { this.engine = engine; this.game=game;}
 
@@ -61,6 +61,7 @@ public class Play implements Screen {
         mainBuildingBuilder = new MainBuildingBuilder(renderer, this);
         workerBuilder = new HarlandWorkerBuilder(this, mapGraph);
         soldierBuilder = new HarlandSoldierBuilder(this, mapGraph);
+        eolBuilder = new EoLBuilder(this, mapGraph);
         RTSCamera rtsCamera = new RTSCamera();
         PlayerComponent playerComponent = new PlayerComponent();
         playerComponent.resources = 900;
@@ -82,19 +83,34 @@ public class Play implements Screen {
 //            }
 //        }
         GoalComponent goalComponent = new GoalComponent();
-        goalComponent.condition = new TutorialVictoryCondition(engine, playerComponent);
+        goalComponent.condition = new TutorialVictoryCondition(engine, playerComponent, 2);
         engine.addEntity(new Entity().add(goalComponent));
+        GoalComponent goalComponent2 = new GoalComponent();
+        goalComponent2.condition = new CollectResourcesVictoryCondition(engine, playerComponent, 2300);
+        engine.addEntity(new Entity().add(goalComponent2));
+        GoalComponent goalComponent3 = new GoalComponent();
+        goalComponent3.condition = new DestroyEnemiesVictoryCondition(engine, playerComponentEnemy);
+        engine.addEntity(new Entity().add(goalComponent3));
+        GoalComponent goalComponent4 = new GoalComponent();
+        goalComponent4.condition = new DeadLineVictoryCondition(engine, playerComponentEnemy, 600);
+        engine.addEntity(new Entity().add(goalComponent4));
         DefeatComponent defeatComponent = new DefeatComponent();
         defeatComponent.condition = new NormalDefeatCondition(engine, playerComponent);
         engine.addEntity(new Entity().add(defeatComponent));
+        DefeatComponent defeatComponent2 = new DefeatComponent();
+        defeatComponent2.condition = new DeadLineDefeatCondition(engine, playerComponent, 600);
+        engine.addEntity(new Entity().add(defeatComponent2));
+
         engine.addEntity(workerBuilder.getWorker(playerComponent,0, 0));
 
-        engine.addEntity(workerBuilder.getWorker(playerComponentEnemy,3, 0));
+        engine.addEntity(workerBuilder.getWorker(playerComponentEnemy,20, 20));
 
-        engine.addEntity(soldierBuilder.getSoldier(playerComponent,5, 5));
-        engine.addEntity(soldierBuilder.getSoldier(playerComponentEnemy,10, 10));
+        engine.addEntity(soldierBuilder.getSoldier(playerComponentEnemy,20, 19));
 
-        engine.addEntity(new EoLBuilder(this, mapGraph).getEoL(3,4,20000));
+        engine.addEntity(eolBuilder.getEoL(3,4,2000));
+        engine.addEntity(eolBuilder.getEoL(4,6,2000));
+        engine.addEntity(eolBuilder.getEoL(5,8,2000));
+
         engine.addEntity(player);
         engine.addEntity(rendererEntity);
         engine.addEntity(rtsCamera);

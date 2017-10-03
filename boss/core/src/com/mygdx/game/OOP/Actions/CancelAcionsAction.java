@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.mygdx.game.Components.*;
+import com.mygdx.game.Components.Combat.AttackProgressionComponent;
 import com.mygdx.game.Components.WorldObjects.Buildings.TryingBuildingComponent;
 import com.mygdx.game.Mappers.Mappers;
 
@@ -39,5 +40,8 @@ public class CancelAcionsAction extends Action<Entity>{
         }
         if(Mappers.startGatheringComponentComponentMapper.get(e) != null)
             e.remove(StartGatheringComponent.class);
+
+        if(Mappers.attackProgressionComponentMapper.get(e) != null)
+            e.remove(AttackProgressionComponent.class);
     }
 }

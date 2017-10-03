@@ -11,8 +11,8 @@ import com.mygdx.game.PathfindingUtils.*;
 
 
 public class MoveAction extends Action<Entity>{
-    protected int x;
-    protected int y;
+    public int x;
+    public int y;
     protected MapGraph mapGraph;
     IndexedAStarPathFinder<TiledNode> pathFinder;
     TiledSmoothableGraphPath<TiledNode> path;

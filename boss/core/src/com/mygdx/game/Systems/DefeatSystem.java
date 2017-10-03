@@ -7,11 +7,13 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IntervalSystem;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.Matches.DefeatComponent;
 import com.mygdx.game.Components.Matches.GoalComponent;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Mappers.Mappers;
+import com.mygdx.game.OOP.Conditions.Condition;
 
 public class DefeatSystem extends IntervalSystem {
     Game game;
@@ -35,7 +37,7 @@ public class DefeatSystem extends IntervalSystem {
                 for(EntitySystem system : getEngine().getSystems()){
                     system.setProcessing(false);
                 }
-                showDefeatDialog();
+                showDefeatDialog(Mappers.defeatComponentMapper.get(e).condition);
                 getEngine().getSystem(RenderHudSystem.class).setProcessing(true);
                 getEngine().getSystem(MapRendererSystem.class).setProcessing(true);
                 break;
@@ -43,12 +45,12 @@ public class DefeatSystem extends IntervalSystem {
         }
     }
 
-    private void showDefeatDialog() {
+    private void showDefeatDialog(final Condition condition) {
         final EntitySystem that = this;
         new Dialog("You lose", hudComponent.skin) {
 
             {
-                text("Defeat :(");
+                text(new Label(condition.getDescription(), hudComponent.skin));
                 button("ok");
             }
 

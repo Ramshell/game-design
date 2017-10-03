@@ -34,6 +34,7 @@ public class UnitStateSystem extends EntitySystem{
 
             if(Mappers.attackProgressionComponentMapper.get(e) != null             &&
                     Mappers.attackProgressionComponentMapper.get(e).target != null &&
+                    Mappers.attackProgressionComponentMapper.get(e).atRange        &&
                     Mappers.attackProgressionComponentMapper.get(e).currentAttack < Mappers.attackProgressionComponentMapper.get(e).attackDuration){
                 Entity target = Mappers.attackProgressionComponentMapper.get(e).target;
                 attackingPosition.set(Mappers.worldPosition.get(target).position.cpy().sub(Mappers.worldPosition.get(e).position));

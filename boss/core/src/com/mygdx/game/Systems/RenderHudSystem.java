@@ -24,7 +24,7 @@ public class RenderHudSystem extends EntitySystem implements EntityListener{
     private ImmutableArray<Entity> entities;
     MapComponent mapComponent;
     HUDComponent hud;
-    Map<GoalComponent, CheckBox> missions = new HashMap<GoalComponent, CheckBox>();
+    Map<GoalComponent, Label> missions = new HashMap<GoalComponent, Label>();
 
     public void addedToEngine(Engine engine) {
         mapComponent = Mappers.map.get(engine.getEntitiesFor(Family.all(MapComponent.class).get()).first());
@@ -32,6 +32,9 @@ public class RenderHudSystem extends EntitySystem implements EntityListener{
         engine.addEntityListener(
                 Family.all(GoalComponent.class).get(),
                 this);
+        for(Entity e : engine.getEntitiesFor(Family.all(GoalComponent.class).get())){
+            entityAdded(e);
+        }
     }
 
 
@@ -87,17 +90,16 @@ public class RenderHudSystem extends EntitySystem implements EntityListener{
     @Override
     public void entityAdded(Entity entity) {
         if(Mappers.goalComponentMapper.get(entity) != null){
-            CheckBox checkBox = new CheckBox(Mappers.goalComponentMapper.get(entity).condition.getDescription(), hud.skin);
-            checkBox.setDisabled(true);
-//            Label label = new Label(Mappers.goalComponentMapper.get(entity).condition.getDescription(), hud.skin);
-            hud.missionDialog.add(checkBox);
-            missions.put(Mappers.goalComponentMapper.get(entity), checkBox);
+            Label label = new Label(Mappers.goalComponentMapper.get(entity).condition.getDescription(), hud.skin);
+            hud.missionDialog.text(label);
+            hud.missionDialog.getContentTable().row();
+            missions.put(Mappers.goalComponentMapper.get(entity), label);
         }
     }
 
     @Override
     public void entityRemoved(Entity entity) {
-        missions.get(Mappers.goalComponentMapper.get(entity)).setChecked(true);
+        missions.get(Mappers.goalComponentMapper.get(entity)).setColor(new com.badlogic.gdx.graphics.Color(0.3f,1,0.2f,1));
         missions.remove(Mappers.goalComponentMapper.get(entity));
     }
 }

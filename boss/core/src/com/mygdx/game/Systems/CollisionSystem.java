@@ -5,8 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.OrderedSet;
 import com.mygdx.game.Components.MapGraphComponent;
 import com.mygdx.game.Components.VelocityComponent;
@@ -23,6 +22,8 @@ public class CollisionSystem extends EntitySystem{
     Engine engine;
     private ImmutableArray<Entity> dynamicEntities;
     MapGraph mapGraph;
+    Circle c1 = new Circle(0,0,8);
+    Circle c2 = new Circle(0,0,8);
 
     public void addedToEngine(Engine e) {
         this.engine = e;
@@ -53,15 +54,15 @@ public class CollisionSystem extends EntitySystem{
     private void checkCollision(int fromX, int fromY, int toX, int toY, int widthInTiles, int heightInTiles,
                                 float deltaTime, WorldPositionComponent wp, WorldObjectComponent worldObjectComponent, Entity dynamicEntity) {
         VelocityComponent velocity = Mappers.velocity.get(dynamicEntity);
-        Rectangle r = new Rectangle(worldObjectComponent.bounds.getRectangle());
         Vector2 v = wp.position.cpy()
                 .add(velocity.accel.cpy().scl(1/2 * deltaTime * deltaTime)
                         .add(velocity.pos.cpy().scl(deltaTime)));
-        r.setPosition(v);
+        c1.setPosition(v.x + ResourceMapper.tileWidth / 2, v.y + ResourceMapper.tileHeight / 2);
         for(int i = fromX; i < Math.min(mapGraph.width, toX + widthInTiles); ++i) {
             for (int j = fromY; j < Math.min(mapGraph.height, toY + heightInTiles); ++j) {
                 for(Entity e : mapGraph.getNode(i, j).entities){
-                    if(!e.equals(dynamicEntity) && r.overlaps(Mappers.world.get(e).bounds.getRectangle()) && Mappers.target.get(dynamicEntity) != null) {
+                    c2.setPosition(Mappers.world.get(e).bounds.getRectangle().getX() + ResourceMapper.tileWidth / 2, Mappers.world.get(e).bounds.getRectangle().getY() + ResourceMapper.tileHeight / 2);
+                    if(!e.equals(dynamicEntity) && Intersector.overlaps(c1, c2) && Mappers.target.get(dynamicEntity) != null) {
                         velocity.pos.setZero();
                         velocity.accel.setZero();
                         break;

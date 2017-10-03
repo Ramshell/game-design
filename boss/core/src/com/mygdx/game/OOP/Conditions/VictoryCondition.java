@@ -8,7 +8,7 @@ public abstract class VictoryCondition implements Condition{
 
     public VictoryCondition(Engine engine, String description){
         this.engine = engine;
-        this.description = "You must: " + description;
+        this.description = description;
     }
 
     @Override
