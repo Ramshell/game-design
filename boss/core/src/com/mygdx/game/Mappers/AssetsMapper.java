@@ -42,13 +42,17 @@ public class AssetsMapper {
     public static Texture moveActionDown;
     public static Texture craftAction;
     public static Texture craftActionDown;
+    public static Texture attackAction;
+    public static Texture attackActionDown;
+    public static Texture patrolAction;
+    public static Texture patrolActionDown;
     public static Texture craftHarlandWorkerAction;
     public static Texture craftHarlandWorkerActionDown;
     public static Texture craftHarlandSoldierAction;
     public static Texture craftHarlandSoldierActionDown;
     public static Texture shovelAction;
     public static Texture shovelActionDown;
-    public static ImageButton moveButton;
+    public static ImageButton moveButton, attackButton, patrolButton;
     public static ImageButton craftButton;
     public static ImageButton craftHarlandWorkerButton, craftHarlandSoldierButton;
     public static ImageButton shovelButton;
@@ -183,6 +187,24 @@ public class AssetsMapper {
         moveStyle.imageDown = new TextureRegionDrawable(new TextureRegion(moveActionDown));
         moveButton = new ImageButton(moveStyle);
         moveButton.setSize(32,32);
+
+        attackAction = loadTexture("HUD/attack_action_32.png");
+        attackActionDown = loadTexture("HUD/attack_action_32_down.png");
+        ImageButton.ImageButtonStyle attackStyle = new ImageButton.ImageButtonStyle();
+        attackStyle.imageUp = new TextureRegionDrawable(new TextureRegion(attackAction));
+        attackStyle.imageDown = new TextureRegionDrawable(new TextureRegion(attackActionDown));
+        attackButton = new ImageButton(attackStyle);
+        attackButton.setSize(32,32);
+
+        patrolAction = loadTexture("HUD/patrol_action_32.png");
+        patrolActionDown = loadTexture("HUD/patrol_action_32_down.png");
+        ImageButton.ImageButtonStyle patrolStyle = new ImageButton.ImageButtonStyle();
+        patrolStyle.imageUp = new TextureRegionDrawable(new TextureRegion(patrolAction));
+        patrolStyle.imageDown = new TextureRegionDrawable(new TextureRegion(patrolActionDown));
+        patrolButton = new ImageButton(patrolStyle);
+        patrolButton.setSize(32,32);
+
+
         craftAction = loadTexture("HUD/craft_action32.png");
         craftActionDown = loadTexture("HUD/craft_action32_down.png");
         ImageButton.ImageButtonStyle craftStyle = new ImageButton.ImageButtonStyle();

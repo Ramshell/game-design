@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.Combat.AttackProgressionComponent;
 import com.mygdx.game.Components.WorldObjects.Buildings.TryingBuildingComponent;
+import com.mygdx.game.Components.WorldObjects.PatrolComponent;
 import com.mygdx.game.Mappers.Mappers;
 
 public class CancelAcionsAction extends Action<Entity>{
@@ -43,5 +44,8 @@ public class CancelAcionsAction extends Action<Entity>{
 
         if(Mappers.attackProgressionComponentMapper.get(e) != null)
             e.remove(AttackProgressionComponent.class);
+
+        if(Mappers.patrolComponentMapper.get(e) != null)
+            e.remove(PatrolComponent.class);
     }
 }

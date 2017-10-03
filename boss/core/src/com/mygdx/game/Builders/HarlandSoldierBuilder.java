@@ -17,9 +17,7 @@ import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Entities.UnitEntity;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.ResourceMapper;
-import com.mygdx.game.OOP.Actions.Action;
-import com.mygdx.game.OOP.Actions.ActionBuilder;
-import com.mygdx.game.OOP.Actions.MoveAction;
+import com.mygdx.game.OOP.Actions.*;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Play;
 
@@ -41,6 +39,8 @@ public class HarlandSoldierBuilder extends UnitBuilder{
 
         Array<ActionComponent> actions = new Array<ActionComponent>();
         ActionComponent move = new ActionComponent();
+        ActionComponent attack = new ActionComponent();
+        ActionComponent patrol = new ActionComponent();
         move.button = AssetsMapper.moveButton;;
         move.listener = new ClickListener(){
             public void clicked (InputEvent event, float x, float y) {
@@ -53,7 +53,34 @@ public class HarlandSoldierBuilder extends UnitBuilder{
                 };
             }
         };
-        actions.add(move);
+
+        attack.button = AssetsMapper.attackButton;
+        attack.listener = new ClickListener(){
+            public void clicked (InputEvent event, float x, float y) {
+                player.action = new ActionBuilder() {
+                    @Override
+                    public Action<Entity> getAction(float x, float y) {
+                        Vector3 v = play.camera.unproject(new Vector3(x, y, 0));
+                        return new AttackAction(v.x, v.y, mapGraph, player);
+                    }
+                };
+            }
+        };
+
+        patrol.button = AssetsMapper.patrolButton;
+        patrol.listener = new ClickListener(){
+            public void clicked (InputEvent event, float x, float y) {
+                player.action = new ActionBuilder() {
+                    @Override
+                    public Action<Entity> getAction(float x, float y) {
+                        Vector3 v = play.camera.unproject(new Vector3(x, y, 0));
+                        return new PatrolAction(v.x, v.y);
+                    }
+                };
+            }
+        };
+
+        actions.add(move);actions.add(attack);actions.add(patrol);
         AnimationComponent anim = new AnimationComponent();
         anim.animations.put(IDLE, AssetsMapper.harlandSoldierIdleAnim);
         anim.animations.put(MOVE_RIGHT_BOTTOM, AssetsMapper.harlandSoldierMoveRightBottomAnim);

@@ -28,6 +28,7 @@ import com.mygdx.game.Systems.*;
 import com.mygdx.game.Systems.Combat.AttackProgressionSystem;
 import com.mygdx.game.Systems.Combat.CombatSystem;
 import com.mygdx.game.Systems.Combat.DamageSystem;
+import com.mygdx.game.Systems.Combat.PatrolSystem;
 
 public class Play implements Screen {
 
@@ -123,6 +124,7 @@ public class Play implements Screen {
         engine.addSystem(new CameraSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(new UnitsVelocitySystem());
+        engine.addSystem(new PatrolSystem());
         engine.addSystem(new AttackProgressionSystem());
         engine.addSystem(new CombatSystem());
         engine.addSystem(new DamageSystem());

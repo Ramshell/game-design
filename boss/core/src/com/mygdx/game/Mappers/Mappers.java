@@ -40,5 +40,6 @@ public class Mappers {
     public static final ComponentMapper<GoalComponent> goalComponentMapper = ComponentMapper.getFor(GoalComponent.class);
     public static final ComponentMapper<CellsComponent> cellsComponentMapper = ComponentMapper.getFor(CellsComponent.class);
     public static final ComponentMapper<DefeatComponent> defeatComponentMapper = ComponentMapper.getFor(DefeatComponent.class);
+    public static final ComponentMapper<PatrolComponent> patrolComponentMapper = ComponentMapper.getFor(PatrolComponent.class);
 
 }
