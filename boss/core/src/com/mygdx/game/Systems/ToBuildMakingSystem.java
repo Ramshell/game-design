@@ -40,7 +40,10 @@ public class ToBuildMakingSystem extends EntitySystem{
                 player.resources -= Mappers.world.get(toBuildComponent.building).cost;
                 for (CellComponent c : cellsMapper.get(toBuildComponent.building).cells) {
                     toDelete.setCell((int) c.position.x, (int) c.position.y, null);
-                    if (c.blocked) mapGraph.setCollision(c.position.x, c.position.y, true);
+                    if (c.blocked) {
+                        mapGraph.setCollision(c.position.x, c.position.y, true);
+                        mapGraph.getNode((int)c.position.x,(int) c.position.y).entities.add(toBuildComponent.building);
+                    }
                 }
                 player.state = PlayerComponent.PlayerState.Normal;
                 engine.addEntity(toBuildComponent.building);

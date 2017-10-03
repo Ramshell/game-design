@@ -26,6 +26,7 @@ import com.mygdx.game.Play;
 
 public class HUDComponent implements Component {
     public TextButton missionButton;
+    public Dialog missionDialog;
     public Label matchTime;
     public MiniMap miniMap;
     public Stage stage;
@@ -88,7 +89,14 @@ public class HUDComponent implements Component {
         topTable.add(matchTime).expandX().left();
         topTable.add(resourcesBar).expandX();
         topTable.row();
-        missionButton = new TextButton("Mission", skin);
+        missionButton = new TextButton("Missions", skin);
+        missionDialog = new Dialog("Missions", skin);
+        missionDialog.button("ok");
+        missionButton.addListener(new ClickListener(){
+            public void clicked (InputEvent event, float x, float y) {
+                missionDialog.show(stage);
+            }
+        });
         Table minimapTable = new Table(skin).left();
         minimapTable.add(missionButton);
 //        minimapTable.add(AssetsMapper.moveButton);

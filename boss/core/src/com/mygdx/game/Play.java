@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -13,12 +14,16 @@ import com.mygdx.game.Builders.HarlandWorkerBuilder;
 import com.mygdx.game.Builders.MainBuildingBuilder;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
+import com.mygdx.game.Components.Matches.DefeatComponent;
+import com.mygdx.game.Components.Matches.GoalComponent;
 import com.mygdx.game.Entities.*;
 import com.mygdx.game.InputHandlers.ActionsInputHandler;
 import com.mygdx.game.InputHandlers.UserInputHandler;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
+import com.mygdx.game.OOP.Conditions.NormalDefeatCondition;
+import com.mygdx.game.OOP.Conditions.TutorialVictoryCondition;
 import com.mygdx.game.PathfindingUtils.*;
 import com.mygdx.game.Systems.*;
 import com.mygdx.game.Systems.Combat.AttackProgressionSystem;
@@ -38,8 +43,9 @@ public class Play implements Screen {
     public HarlandSoldierBuilder soldierBuilder;
     public MapGraph mapGraph;
     private ParticleEffect effect;
+    private Game game;
 
-    public Play(Engine engine) { this.engine = engine; }
+    public Play(Engine engine, Game game) { this.engine = engine; this.game=game;}
 
     @Override
     public void show() {
@@ -75,6 +81,12 @@ public class Play implements Screen {
 //                engine.addEntity(soldierBuilder.getSoldier(playerComponent,i, j));
 //            }
 //        }
+        GoalComponent goalComponent = new GoalComponent();
+        goalComponent.condition = new TutorialVictoryCondition(engine, playerComponent);
+        engine.addEntity(new Entity().add(goalComponent));
+        DefeatComponent defeatComponent = new DefeatComponent();
+        defeatComponent.condition = new NormalDefeatCondition(engine, playerComponent);
+        engine.addEntity(new Entity().add(defeatComponent));
         engine.addEntity(workerBuilder.getWorker(playerComponent,0, 0));
 
         engine.addEntity(workerBuilder.getWorker(playerComponentEnemy,3, 0));
@@ -109,6 +121,8 @@ public class Play implements Screen {
         engine.addSystem(new HealthRenderSystem());
         engine.addSystem(new ResourcesPercentageRenderSystem());
         engine.addSystem(new WOSoundSystem());
+        engine.addSystem(new GoalSystem(game));
+        engine.addSystem(new DefeatSystem(game));
         stage = p.stage;
         InputMultiplexer multiplexer = new InputMultiplexer();
         UserInputHandler userInputHandler = new UserInputHandler(rtsCamera, player,mapComponent, engine, mapGraph);

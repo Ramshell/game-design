@@ -15,7 +15,7 @@ public class MyGdxGame extends Game {
 	@Override
 	public void create () {
 		AssetsMapper.load();
-		setScreen(new Play(new Engine()));
+		setScreen(new Play(new Engine(), this));
 	}
 
 	@Override

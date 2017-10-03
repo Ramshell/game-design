@@ -1,38 +1,45 @@
 package com.mygdx.game.Systems;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.OrderedSet;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.MapComponent;
+import com.mygdx.game.Components.Matches.GoalComponent;
 import com.mygdx.game.Components.WorldObjects.ActionComponent;
 import com.mygdx.game.Mappers.Mappers;
 import javafx.scene.paint.Color;
 
-public class RenderHudSystem extends EntitySystem {
-    private ImmutableArray<Entity> entities;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
+public class RenderHudSystem extends EntitySystem implements EntityListener{
+    private ImmutableArray<Entity> entities;
+    MapComponent mapComponent;
+    HUDComponent hud;
+    Map<GoalComponent, CheckBox> missions = new HashMap<GoalComponent, CheckBox>();
 
     public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(Family.all(MapComponent.class, HUDComponent.class).get());
+        mapComponent = Mappers.map.get(engine.getEntitiesFor(Family.all(MapComponent.class).get()).first());
+        hud = Mappers.hud.get(engine.getEntitiesFor(Family.all(HUDComponent.class).get()).first());
+        engine.addEntityListener(
+                Family.all(GoalComponent.class).get(),
+                this);
     }
 
 
     public void update(float delta) {
-        for(Entity e : entities){
-            MapComponent mapComponent = Mappers.map.get(e);
-            HUDComponent hud = Mappers.hud.get(e);
-            mapComponent.renderer.getBatch().setProjectionMatrix(hud.stage.getCamera().combined);
-            updateHudComponent(hud);
-            hud.stage.act(delta);
-            hud.stage.draw();
-        }
+        mapComponent.renderer.getBatch().setProjectionMatrix(hud.stage.getCamera().combined);
+        updateHudComponent(hud);
+        hud.stage.act(delta);
+        hud.stage.draw();
     }
 
     private void updateHudComponent(HUDComponent hud) {
@@ -75,5 +82,22 @@ public class RenderHudSystem extends EntitySystem {
                 }
             }
         }
+    }
+
+    @Override
+    public void entityAdded(Entity entity) {
+        if(Mappers.goalComponentMapper.get(entity) != null){
+            CheckBox checkBox = new CheckBox(Mappers.goalComponentMapper.get(entity).condition.getDescription(), hud.skin);
+            checkBox.setDisabled(true);
+//            Label label = new Label(Mappers.goalComponentMapper.get(entity).condition.getDescription(), hud.skin);
+            hud.missionDialog.add(checkBox);
+            missions.put(Mappers.goalComponentMapper.get(entity), checkBox);
+        }
+    }
+
+    @Override
+    public void entityRemoved(Entity entity) {
+        missions.get(Mappers.goalComponentMapper.get(entity)).setChecked(true);
+        missions.remove(Mappers.goalComponentMapper.get(entity));
     }
 }

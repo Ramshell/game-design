@@ -135,7 +135,7 @@ public class MainBuildingBuilder {
                 x * ResourceMapper.tileHeight,
                 ResourceMapper.tileWidth *  cellsComponent.width,
                 ResourceMapper.tileHeight * cellsComponent.height);
-        return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent, new HealthComponent(1500), wo);
+        return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent, new HealthComponent(600), wo);
     }
 
     private CellComponent create_cell(TiledMapTile t, TiledMapTileLayer layer,

@@ -5,6 +5,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.mygdx.game.Components.CellComponent;
+import com.mygdx.game.Components.MapComponent;
 import com.mygdx.game.Components.MapGraphComponent;
 import com.mygdx.game.Components.WorldObjects.HealthComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
@@ -16,12 +19,14 @@ import com.mygdx.game.PathfindingUtils.MapGraph;
 public class DamageSystem extends EntitySystem{
     ImmutableArray<Entity> entities;
     MapGraph mapGraph;
+    private TiledMapTileLayer toDelete;
 
 
     @Override
     public void addedToEngine(Engine e) {
         super.addedToEngine(e);
         mapGraph = Mappers.graph.get(e.getEntitiesFor(Family.all(MapGraphComponent.class).get()).first()).mapGraph;
+        toDelete = (TiledMapTileLayer)Mappers.map.get(e.getEntitiesFor(Family.all(MapComponent.class).get()).get(0)).map.getLayers().get("background");
 
     }
 
@@ -36,13 +41,23 @@ public class DamageSystem extends EntitySystem{
                 getEngine().removeEntity(e);
                 WorldObjectComponent worldObjectComponent = Mappers.world.get(e);
                 WorldPositionComponent worldPositionComponent = Mappers.worldPosition.get(e);
-                int fromX = (int) worldPositionComponent.position.x / ResourceMapper.tileWidth;
-                int fromY = (int) worldPositionComponent.position.y / ResourceMapper.tileHeight;
-                int toX   = (int) (fromX + worldObjectComponent.bounds.getRectangle().width / ResourceMapper.tileWidth);
-                int toY   = (int) (fromY + worldObjectComponent.bounds.getRectangle().height / ResourceMapper.tileHeight);
-                for(int i = Math.max(0, fromX - 1); i < Math.min(mapGraph.width, toX + 2); ++i) {
-                    for (int j = Math.max(0, fromY - 1); j < Math.min(mapGraph.height, toY + 2); ++j) {
-                        mapGraph.getNode(i, j).entities.remove(e);
+                if(Mappers.cellsComponentMapper.get(e) != null){
+                    for (CellComponent c : Mappers.cellsComponentMapper.get(e).cells) {
+                        c.layer.setCell((int) c.position.x, (int) c.position.y, null);
+                        if (c.blocked) {
+                            mapGraph.setCollision(c.position.x, c.position.y, false);
+                            mapGraph.getNode((int)c.position.x,(int) c.position.y).entities.remove(e);
+                        }
+                    }
+                }else {
+                    int fromX = (int) worldPositionComponent.position.x / ResourceMapper.tileWidth;
+                    int fromY = (int) worldPositionComponent.position.y / ResourceMapper.tileHeight;
+                    int toX = (int) (fromX + worldObjectComponent.bounds.getRectangle().width / ResourceMapper.tileWidth);
+                    int toY = (int) (fromY + worldObjectComponent.bounds.getRectangle().height / ResourceMapper.tileHeight);
+                    for (int i = Math.max(0, fromX - 1); i < Math.min(mapGraph.width, toX + 2); ++i) {
+                        for (int j = Math.max(0, fromY - 1); j < Math.min(mapGraph.height, toY + 2); ++j) {
+                            mapGraph.getNode(i, j).entities.remove(e);
+                        }
                     }
                 }
             }

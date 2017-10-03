@@ -15,7 +15,7 @@ public class PlayerComponent implements Component {
     }
 
     public boolean human;
-    public int resources = 0;
+    public int resources = 0, worldObjects = 0;
     public SelectedWO selectedObject = new SelectedWO();
     public PlayerState state = PlayerState.Normal;
     public BuildingEntity tryingBuilding;

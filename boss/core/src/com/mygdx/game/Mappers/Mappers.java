@@ -5,6 +5,8 @@ import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.Combat.AttackProgressionComponent;
 import com.mygdx.game.Components.Combat.RangedWeaponComponent;
 import com.mygdx.game.Components.HUD.HUDComponent;
+import com.mygdx.game.Components.Matches.DefeatComponent;
+import com.mygdx.game.Components.Matches.GoalComponent;
 import com.mygdx.game.Components.WorldObjects.*;
 import com.mygdx.game.Components.WorldObjects.Buildings.TryingBuildingComponent;
 
@@ -35,5 +37,8 @@ public class Mappers {
     public static final ComponentMapper<RangedWeaponComponent> rangedWeaponComponentMapper = ComponentMapper.getFor(RangedWeaponComponent.class);
     public static final ComponentMapper<WOSoundComponent> woSoundComponentMapper = ComponentMapper.getFor(WOSoundComponent.class);
     public static final ComponentMapper<PlaySoundComponent> playSoundComponentMapper = ComponentMapper.getFor(PlaySoundComponent.class);
+    public static final ComponentMapper<GoalComponent> goalComponentMapper = ComponentMapper.getFor(GoalComponent.class);
+    public static final ComponentMapper<CellsComponent> cellsComponentMapper = ComponentMapper.getFor(CellsComponent.class);
+    public static final ComponentMapper<DefeatComponent> defeatComponentMapper = ComponentMapper.getFor(DefeatComponent.class);
 
 }
