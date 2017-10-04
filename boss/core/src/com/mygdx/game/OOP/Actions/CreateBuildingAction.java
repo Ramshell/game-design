@@ -27,8 +27,6 @@ public class CreateBuildingAction extends MoveAction{
     public void act(Entity e) {
         TryingBuildingComponent tryingBuildingComponent = Mappers.tryingBuildingComponentMapper.get(e);
         Vector2 v = Mappers.spawn.get(tryingBuildingComponent.building).nextSpawnTile(mapGraph);
-        System.out.println(v.x);
-        System.out.println(v.y);
         x = (int) v.x;
         y = (int) v.y;
         super.act(e);

@@ -92,8 +92,8 @@ public class HarlandWorkerBuilder extends UnitBuilder{
         anim.animations.put(MOVE_LEFT_TOP, AssetsMapper.harlandWorkerMoveLeftTopAnim);
         anim.animations.put(WATER_GATHERING, AssetsMapper.waterGatheringAnim);
         GatheringPowerComponent gPower = new GatheringPowerComponent();
-        gPower.capacity = 50;
-        gPower.resourcesPerTick = 1;
+        gPower.capacity = 70;
+        gPower.resourcesPerTick = 5;
         WorldObjectComponent wo = new WorldObjectComponent("Harland Worker");
         wo.bounds = new RectangleMapObject(posX * ResourceMapper.tileWidth, posY * ResourceMapper.tileHeight, 32, 32);
         wo.cost = COST;

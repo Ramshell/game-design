@@ -6,9 +6,8 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.mygdx.game.Components.CellComponent;
-import com.mygdx.game.Components.MapComponent;
-import com.mygdx.game.Components.MapGraphComponent;
+import com.mygdx.game.Components.*;
+import com.mygdx.game.Components.Combat.DamageSpawnComponent;
 import com.mygdx.game.Components.WorldObjects.HealthComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
@@ -35,7 +34,13 @@ public class DamageSystem extends EntitySystem{
         entities = getEngine().getEntitiesFor(Family.all(HealthComponent.class).get());
         for(Entity e: entities){
             HealthComponent healthComponent = Mappers.healthComponentMapper.get(e);
+            if(healthComponent.hitPoints > 0 && healthComponent.damageTaken == 0) continue;
             healthComponent.hitPoints -= healthComponent.damageTaken;
+            getEngine().addEntity(new Entity().add(
+                    new DamageSpawnComponent(
+                            Mappers.worldPosition.get(e).position.x,
+                            Mappers.worldPosition.get(e).position.y,
+                            (int) healthComponent.damageTaken)));
             healthComponent.damageTaken = 0;
             if(healthComponent.hitPoints <= 0){
                 getEngine().removeEntity(e);

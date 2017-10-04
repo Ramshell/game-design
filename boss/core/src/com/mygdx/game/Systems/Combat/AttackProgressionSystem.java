@@ -44,9 +44,9 @@ public class AttackProgressionSystem extends EntitySystem{
                     attackProgressionComponent.attackSpeed){
                 attackProgressionComponent.currentAttack = 0;
             }
-            if(attackProgressionComponent.currentAttack -deltaTime < attackProgressionComponent.attackDuration &&
-                attackProgressionComponent.currentAttack >= attackProgressionComponent.attackDuration){
-                Mappers.healthComponentMapper.get(attackProgressionComponent.target).damageTaken = rand.nextFloat() * (attackProgressionComponent.maxDamage - attackProgressionComponent.minDamage) + attackProgressionComponent.minDamage;
+            if(attackProgressionComponent.currentAttack < attackProgressionComponent.attackDuration &&
+                attackProgressionComponent.currentAttack + deltaTime >= attackProgressionComponent.attackDuration){
+                Mappers.healthComponentMapper.get(attackProgressionComponent.target).damageTaken += (int) (rand.nextFloat() * (attackProgressionComponent.maxDamage - attackProgressionComponent.minDamage) + attackProgressionComponent.minDamage);
             }
             attackProgressionComponent.currentAttack +=
                     deltaTime;

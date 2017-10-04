@@ -34,8 +34,9 @@ public class CombatSystem extends EntitySystem{
                     worldPositionComponent.position.x + ResourceMapper.tileWidth / 2,
                     worldPositionComponent.position.y + ResourceMapper.tileHeight / 2);
             ////////////////////// ignore non idle objects ////////////////////////////
-            if(Mappers.stateComponentMapper.get(e).state != UnitBuilder.IDLE ||
-                    (Mappers.patrolComponentMapper.get(e) == null && Mappers.target.get(e) != null)) continue;
+            if(Mappers.patrolComponentMapper.get(e) == null &&
+                    (Mappers.stateComponentMapper.get(e).state != UnitBuilder.IDLE ||
+                    Mappers.target.get(e) != null)) continue;
             ///////////////////////////////////////////////////////////////////////////
             AttackProgressionComponent attackProgressionComponent = Mappers.attackProgressionComponentMapper.get(e);
             if(attackProgressionComponent != null && atRange(rangedWeaponComponent, attackProgressionComponent.target)) continue;
@@ -57,8 +58,6 @@ public class CombatSystem extends EntitySystem{
                 for(Entity entity: mapGraph.getNode(i, j).entities)
                     if(!entity.equals(e) && !Mappers.player.get(entity).equals(Mappers.player.get(e)) && atRange(rangedWeaponComponent, entity)){
                         e.add(new AttackProgressionComponent(entity, rangedWeaponComponent.minDamage, rangedWeaponComponent.maxDamage, rangedWeaponComponent.attackSpeed, rangedWeaponComponent.attackDuration));
-                        e.remove(PatrolComponent.class);
-                        e.remove(TargetComponent.class);
                         return;
                     }
             }

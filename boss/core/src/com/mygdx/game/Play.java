@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.Builders.EoLBuilder;
 import com.mygdx.game.Builders.HarlandSoldierBuilder;
@@ -16,19 +17,22 @@ import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.Matches.DefeatComponent;
 import com.mygdx.game.Components.Matches.GoalComponent;
+import com.mygdx.game.Components.WorldObjects.Buildings.TryingBuildingComponent;
+import com.mygdx.game.Components.WorldObjects.PatrolComponent;
 import com.mygdx.game.Entities.*;
 import com.mygdx.game.InputHandlers.ActionsInputHandler;
 import com.mygdx.game.InputHandlers.UserInputHandler;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
+import com.mygdx.game.OOP.Actions.Action;
+import com.mygdx.game.OOP.Actions.ActionBuilder;
+import com.mygdx.game.OOP.Actions.CreateBuildingAction;
+import com.mygdx.game.OOP.Actions.PatrolAction;
 import com.mygdx.game.OOP.Conditions.*;
 import com.mygdx.game.PathfindingUtils.*;
 import com.mygdx.game.Systems.*;
-import com.mygdx.game.Systems.Combat.AttackProgressionSystem;
-import com.mygdx.game.Systems.Combat.CombatSystem;
-import com.mygdx.game.Systems.Combat.DamageSystem;
-import com.mygdx.game.Systems.Combat.PatrolSystem;
+import com.mygdx.game.Systems.Combat.*;
 
 public class Play implements Screen {
 
@@ -93,20 +97,42 @@ public class Play implements Screen {
         goalComponent3.condition = new DestroyEnemiesVictoryCondition(engine, playerComponentEnemy);
         engine.addEntity(new Entity().add(goalComponent3));
         GoalComponent goalComponent4 = new GoalComponent();
-        goalComponent4.condition = new DeadLineVictoryCondition(engine, playerComponentEnemy, 600);
+        goalComponent4.condition = new DeadLineVictoryCondition(engine, playerComponentEnemy, 800);
         engine.addEntity(new Entity().add(goalComponent4));
         DefeatComponent defeatComponent = new DefeatComponent();
         defeatComponent.condition = new NormalDefeatCondition(engine, playerComponent);
         engine.addEntity(new Entity().add(defeatComponent));
         DefeatComponent defeatComponent2 = new DefeatComponent();
-        defeatComponent2.condition = new DeadLineDefeatCondition(engine, playerComponent, 600);
+        defeatComponent2.condition = new DeadLineDefeatCondition(engine, playerComponent, 800);
         engine.addEntity(new Entity().add(defeatComponent2));
 
         engine.addEntity(workerBuilder.getWorker(playerComponent,0, 0));
 
-        engine.addEntity(workerBuilder.getWorker(playerComponentEnemy,20, 20));
+//        Entity worker = workerBuilder.getWorker(playerComponentEnemy,16, 0);
+//        engine.addEntity(worker);
+//        final TryingBuildingComponent tryingBuildingComponent = new TryingBuildingComponent();
+//        tryingBuildingComponent.building = mainBuildingBuilder.getWall(playerComponentEnemy,16,0);
+//        worker.add(tryingBuildingComponent);
+//        new CreateBuildingAction(16 * ResourceMapper.tileWidth, 0, engine, playerComponentEnemy, mapGraph).act(worker);
 
-        engine.addEntity(soldierBuilder.getSoldier(playerComponentEnemy,20, 19));
+        for(int i = 16; i < 23; i += 2){
+            Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, 16, i);
+            engine.addEntity(soldierEnemy);
+            new PatrolAction(2 * ResourceMapper.tileWidth, i * ResourceMapper.tileHeight).act(soldierEnemy);
+        }
+
+
+//        for(int i = 32; i < 39; ++i){
+//            Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, 32, i);
+//            engine.addEntity(soldierEnemy);
+//            new PatrolAction(12 * ResourceMapper.tileWidth, i * ResourceMapper.tileHeight).act(soldierEnemy);
+//        }
+
+        for(int i = 32; i < 39; ++i){
+            Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, i, 32);
+            engine.addEntity(soldierEnemy);
+            new PatrolAction(i * ResourceMapper.tileWidth,12  * ResourceMapper.tileHeight).act(soldierEnemy);
+        }
 
         engine.addEntity(eolBuilder.getEoL(3,4,2000));
         engine.addEntity(eolBuilder.getEoL(4,6,2000));
@@ -139,6 +165,7 @@ public class Play implements Screen {
         engine.addSystem(new HealthRenderSystem());
         engine.addSystem(new ResourcesPercentageRenderSystem());
         engine.addSystem(new WOSoundSystem());
+        engine.addSystem(new DamageSpawnSystem());
         engine.addSystem(new GoalSystem(game));
         engine.addSystem(new DefeatSystem(game));
         stage = p.stage;

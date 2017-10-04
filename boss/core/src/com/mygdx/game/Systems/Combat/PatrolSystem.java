@@ -27,6 +27,18 @@ public class PatrolSystem extends IntervalSystem{
     @Override
     protected void updateInterval() {
         for(Entity e : getEngine().getEntitiesFor(Family.all(PatrolComponent.class).get())){
+            if(Mappers.target.get(e) == null){
+                if (!Mappers.patrolComponentMapper.get(e).fst.epsilonEquals(Mappers.worldPosition.get(e).position, 16)) {
+                    m.x = (int) (Mappers.patrolComponentMapper.get(e).fst.x / ResourceMapper.tileWidth);
+                    m.y = (int) (Mappers.patrolComponentMapper.get(e).fst.y / ResourceMapper.tileHeight);
+                    m.act(e);
+                }else{
+                    m.x = (int) (Mappers.patrolComponentMapper.get(e).snd.x / ResourceMapper.tileWidth);
+                    m.y = (int) (Mappers.patrolComponentMapper.get(e).snd.y / ResourceMapper.tileHeight);
+                    m.act(e);
+                }
+                continue;
+            }
             if(Mappers.patrolComponentMapper.get(e).fst.epsilonEquals(Mappers.worldPosition.get(e).position,16)){
                 m.x = (int) (Mappers.patrolComponentMapper.get(e).snd.x / ResourceMapper.tileWidth);
                 m.y = (int) (Mappers.patrolComponentMapper.get(e).snd.y / ResourceMapper.tileHeight);
@@ -36,10 +48,6 @@ public class PatrolSystem extends IntervalSystem{
                 m.y = (int) (Mappers.patrolComponentMapper.get(e).fst.y / ResourceMapper.tileHeight);
                 m.act(e);
             }
-            System.out.println(Mappers.patrolComponentMapper.get(e).fst.x);
-            System.out.println(Mappers.patrolComponentMapper.get(e).fst.y);
-            System.out.println(Mappers.patrolComponentMapper.get(e).snd.x);
-            System.out.println(Mappers.patrolComponentMapper.get(e).snd.y);
         }
     }
 }

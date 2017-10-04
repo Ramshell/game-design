@@ -8,6 +8,13 @@ public class VelocityComponent implements Component {
     public Vector2 accel = new Vector2(0.0f,0.0f);
     public float maxSpeed = 3000f;
 
+    public VelocityComponent(){}
+    public VelocityComponent(float posx, float posy){
+        maxSpeed = 10f;
+        pos = new Vector2(posx, posy);
+        accel = new Vector2(0.0f,0.0f);
+    }
+
     public void increment(float deltaTime){
         pos.add(accel.cpy().scl(deltaTime));
         clamp();

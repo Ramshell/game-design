@@ -34,12 +34,14 @@ public class ToBuildMakingSystem extends EntitySystem{
             WorldPositionComponent positionComponentBuilding = Mappers.worldPosition.get(toBuildComponent.building);
             PlayerComponent player = Mappers.player.get(e);
             compVector.set(toBuildComponent.x, toBuildComponent.y);
+            for (CellComponent c : cellsMapper.get(toBuildComponent.building).cells) {
+                toDelete.setCell((int) c.position.x, (int) c.position.y, null);
+            }
             if (positionComponent.position.epsilonEquals(compVector,1) &&
                     !BuildingMakingSystem.isBlocked(cellsMapper.get(toBuildComponent.building), mapGraph) &&
                     player.resources >= Mappers.world.get(toBuildComponent.building).cost) {
                 player.resources -= Mappers.world.get(toBuildComponent.building).cost;
                 for (CellComponent c : cellsMapper.get(toBuildComponent.building).cells) {
-                    toDelete.setCell((int) c.position.x, (int) c.position.y, null);
                     if (c.blocked) {
                         mapGraph.setCollision(c.position.x, c.position.y, true);
                         mapGraph.getNode((int)c.position.x,(int) c.position.y).entities.add(toBuildComponent.building);

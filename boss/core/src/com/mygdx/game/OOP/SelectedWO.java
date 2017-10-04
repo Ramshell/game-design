@@ -45,8 +45,10 @@ public class SelectedWO {
         if(dyn != null && !onlyDyn){
             onlyDyn = true;
             for(Entity e: selectedObjects)
-                if(Mappers.dynamicWOComponentMapper.get(e) == null)
+                if(Mappers.dynamicWOComponentMapper.get(e) == null) {
                     selectedObjects.remove(e);
+                    e.remove(SelectionComponent.class);
+                }
         }
         if(wo == null ||
             (selectedObjects.size >= 1 &&

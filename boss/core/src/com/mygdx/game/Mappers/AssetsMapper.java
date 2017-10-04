@@ -66,6 +66,7 @@ public class AssetsMapper {
     public static Sound harlandWorker4;
     public static Sound harlandSoldier1;
     public static Sound harlandSoldier2;
+    public static Skin damageSkin;
 
 
     public static Texture loadTexture (String file) {
@@ -74,6 +75,7 @@ public class AssetsMapper {
 
     public static void load () {
         hudSkin = new Skin(Gdx.files.internal("HUD/skins/gdx-skins-master/shade/skin/uiskin.json"));
+        damageSkin = new Skin(Gdx.files.internal("HUD/skins/gdx-skins-master/pixthulhu/skin/pixthulhu-ui.json"));
         nm = new Pixmap(Gdx.files.internal("cursor/normal_pointer.png"));
         rm = new Pixmap(Gdx.files.internal("cursor/right_movement.png"));
         bm = new Pixmap(Gdx.files.internal("cursor/bottom_movement.png"));

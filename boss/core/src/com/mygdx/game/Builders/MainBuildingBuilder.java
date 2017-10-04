@@ -132,7 +132,7 @@ public class MainBuildingBuilder {
         wo.sellValue = 900;
         wo.bounds = new RectangleMapObject(
                 x * ResourceMapper.tileWidth,
-                x * ResourceMapper.tileHeight,
+                y * ResourceMapper.tileHeight,
                 ResourceMapper.tileWidth *  cellsComponent.width,
                 ResourceMapper.tileHeight * cellsComponent.height);
         return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent, new HealthComponent(600), wo);

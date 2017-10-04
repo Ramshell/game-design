@@ -3,6 +3,7 @@ package com.mygdx.game.Mappers;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.Combat.AttackProgressionComponent;
+import com.mygdx.game.Components.Combat.DamageSpawnComponent;
 import com.mygdx.game.Components.Combat.RangedWeaponComponent;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.Matches.DefeatComponent;
@@ -41,5 +42,6 @@ public class Mappers {
     public static final ComponentMapper<CellsComponent> cellsComponentMapper = ComponentMapper.getFor(CellsComponent.class);
     public static final ComponentMapper<DefeatComponent> defeatComponentMapper = ComponentMapper.getFor(DefeatComponent.class);
     public static final ComponentMapper<PatrolComponent> patrolComponentMapper = ComponentMapper.getFor(PatrolComponent.class);
+    public static final ComponentMapper<DamageSpawnComponent> damageSpawnComponentMapper = ComponentMapper.getFor(DamageSpawnComponent.class);
 
 }
