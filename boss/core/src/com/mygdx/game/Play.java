@@ -82,40 +82,35 @@ public class Play implements Screen {
         PlayerEntity enemy = new PlayerEntity(p, playerComponentEnemy);
 
         camera = Mappers.camera.get(rtsCamera).getCamera();
-//        for(int i = 0; i < 10; ++i){
-//            for(int j = 0; j < 10; ++j){
-//                engine.addEntity(soldierBuilder.getSoldier(playerComponent,i, j));
-//            }
-//        }
         GoalComponent goalComponent = new GoalComponent();
-        goalComponent.condition = new TutorialVictoryCondition(engine, playerComponent, 2);
+        goalComponent.condition = new TutorialVictoryCondition(engine, playerComponent, 1);
         engine.addEntity(new Entity().add(goalComponent));
         GoalComponent goalComponent2 = new GoalComponent();
-        goalComponent2.condition = new CollectResourcesVictoryCondition(engine, playerComponent, 2300);
+        goalComponent2.condition = new CollectResourcesVictoryCondition(engine, playerComponent, 1200);
         engine.addEntity(new Entity().add(goalComponent2));
         GoalComponent goalComponent3 = new GoalComponent();
         goalComponent3.condition = new DestroyEnemiesVictoryCondition(engine, playerComponentEnemy);
         engine.addEntity(new Entity().add(goalComponent3));
         GoalComponent goalComponent4 = new GoalComponent();
-        goalComponent4.condition = new DeadLineVictoryCondition(engine, playerComponentEnemy, 800);
+        goalComponent4.condition = new DeadLineVictoryCondition(engine, playerComponentEnemy, 600);
         engine.addEntity(new Entity().add(goalComponent4));
         DefeatComponent defeatComponent = new DefeatComponent();
         defeatComponent.condition = new NormalDefeatCondition(engine, playerComponent);
         engine.addEntity(new Entity().add(defeatComponent));
         DefeatComponent defeatComponent2 = new DefeatComponent();
-        defeatComponent2.condition = new DeadLineDefeatCondition(engine, playerComponent, 800);
+        defeatComponent2.condition = new DeadLineDefeatCondition(engine, playerComponent, 600);
         engine.addEntity(new Entity().add(defeatComponent2));
 
         engine.addEntity(workerBuilder.getWorker(playerComponent,0, 0));
 
-//        Entity worker = workerBuilder.getWorker(playerComponentEnemy,16, 0);
-//        engine.addEntity(worker);
-//        final TryingBuildingComponent tryingBuildingComponent = new TryingBuildingComponent();
-//        tryingBuildingComponent.building = mainBuildingBuilder.getWall(playerComponentEnemy,16,0);
-//        worker.add(tryingBuildingComponent);
-//        new CreateBuildingAction(16 * ResourceMapper.tileWidth, 0, engine, playerComponentEnemy, mapGraph).act(worker);
+        Entity worker = workerBuilder.getWorker(playerComponentEnemy,16, 0);
+        engine.addEntity(worker);
+        final TryingBuildingComponent tryingBuildingComponent = new TryingBuildingComponent();
+        tryingBuildingComponent.building = mainBuildingBuilder.getWall(playerComponentEnemy,16,0);
+        worker.add(tryingBuildingComponent);
+        new CreateBuildingAction(16 * ResourceMapper.tileWidth, 0, engine, playerComponentEnemy, mapGraph).act(worker);
 
-        for(int i = 16; i < 23; i += 2){
+        for(int i = 16; i < 21; i += 2){
             Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, 16, i);
             engine.addEntity(soldierEnemy);
             new PatrolAction(2 * ResourceMapper.tileWidth, i * ResourceMapper.tileHeight).act(soldierEnemy);
@@ -128,11 +123,11 @@ public class Play implements Screen {
 //            new PatrolAction(12 * ResourceMapper.tileWidth, i * ResourceMapper.tileHeight).act(soldierEnemy);
 //        }
 
-        for(int i = 32; i < 39; ++i){
-            Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, i, 32);
-            engine.addEntity(soldierEnemy);
-            new PatrolAction(i * ResourceMapper.tileWidth,12  * ResourceMapper.tileHeight).act(soldierEnemy);
-        }
+//        for(int i = 32; i < 39; ++i){
+//            Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, i, 32);
+//            engine.addEntity(soldierEnemy);
+//            new PatrolAction(i * ResourceMapper.tileWidth,12  * ResourceMapper.tileHeight).act(soldierEnemy);
+//        }
 
         engine.addEntity(eolBuilder.getEoL(3,4,2000));
         engine.addEntity(eolBuilder.getEoL(4,6,2000));

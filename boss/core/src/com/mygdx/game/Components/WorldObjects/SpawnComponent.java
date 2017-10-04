@@ -19,16 +19,15 @@ public class SpawnComponent implements Component{
 
     public Vector2 nextSpawnTile(MapGraph mapGraph){
         spawn_side = 0; currX = x - 1; currY = y - 1;
-        while(spawn_side != 4 && mapGraph.colideO1(currX, currY)  ||
+        while(spawn_side != 4 && (mapGraph.colideO1(currX, currY)  ||
                 mapGraph.getNode(currX, currY).entities.size > 0  ||
-                currY < 0 || currX < 0 || currX >= mapGraph.width || currY >= mapGraph.height){
+                currY < 0 || currX < 0 || currX >= mapGraph.width || currY >= mapGraph.height)){
             tick();
         }
-        return spawn_side == 4 ? null : new Vector2(currX, currY);
+        return spawn_side >= 4 ? null : new Vector2(currX, currY);
     }
 
     private void tick(){
-        update();
         if(spawn_side == 0)
             this.currX += 1;
         else if(spawn_side == 1)
@@ -37,6 +36,7 @@ public class SpawnComponent implements Component{
             this.currX -= 1;
         else if(spawn_side == 3)
             this.currY -= 1;
+        update();
     }
 
     private void update() {

@@ -8,6 +8,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.OrderedSet;
 import com.mygdx.game.Components.MapGraphComponent;
+import com.mygdx.game.Components.StartGatheringComponent;
 import com.mygdx.game.Components.VelocityComponent;
 import com.mygdx.game.Components.WorldObjects.DynamicWOComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
@@ -22,8 +23,8 @@ public class CollisionSystem extends EntitySystem{
     Engine engine;
     private ImmutableArray<Entity> dynamicEntities;
     MapGraph mapGraph;
-    Circle c1 = new Circle(0,0,8);
-    Circle c2 = new Circle(0,0,8);
+    Circle c1 = new Circle(0,0,9);
+    Circle c2 = new Circle(0,0,9);
 
     public void addedToEngine(Engine e) {
         this.engine = e;
@@ -35,7 +36,9 @@ public class CollisionSystem extends EntitySystem{
                 DynamicWOComponent.class,
                 WorldObjectComponent.class,
                 WorldPositionComponent.class,
-                VelocityComponent.class).get());
+                VelocityComponent.class).exclude(
+                StartGatheringComponent.class
+        ).get());
         for(Entity dynamicEntity: dynamicEntities){
             WorldObjectComponent worldObjectComponent = Mappers.world.get(dynamicEntity);
             WorldPositionComponent worldPositionComponent = Mappers.worldPosition.get(dynamicEntity);

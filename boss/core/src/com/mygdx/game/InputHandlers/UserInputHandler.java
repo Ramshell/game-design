@@ -214,7 +214,8 @@ public class UserInputHandler extends InputAdapter {
                 screenY >= 15 && screenY <= OCamera.viewportHeight - 15;
     }
 
-    private Rectangle normalize(Rectangle r){
+    private void normalize(Rectangle r){
+        if(r == null) return;
         if(r.width < 0){
             r.x += r.width;
             r.width = -1 * r.width;
@@ -223,6 +224,5 @@ public class UserInputHandler extends InputAdapter {
             r.y += r.height;
             r.height = -1 * r.height;
         }
-        return r;
     }
 }

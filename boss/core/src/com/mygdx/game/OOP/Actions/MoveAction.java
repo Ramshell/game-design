@@ -34,6 +34,7 @@ public class MoveAction extends Action<Entity>{
 
     @Override
     public void act(Entity e) {
+        if(mapGraph.colideO1(x, y)) return;
         path = new TiledSmoothableGraphPath<TiledNode>();
         WorldPositionComponent pos = Mappers.worldPosition.get(e);
         TargetComponent target = Mappers.target.get(e);

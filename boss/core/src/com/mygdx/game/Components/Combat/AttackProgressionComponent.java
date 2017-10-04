@@ -4,7 +4,10 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 
 public class AttackProgressionComponent implements Component{
-    public float damage, attackSpeed, currentAttack = 0, attackDuration, minDamage, maxDamage;
+    public float damage, attackSpeed,
+            currentAttack = 0, attackDuration,
+            minDamage, maxDamage,
+            timeOutOfRange = 0;
     public Entity target;
     public boolean atRange = false;
 

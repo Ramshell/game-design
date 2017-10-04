@@ -13,8 +13,10 @@ import com.mygdx.game.OOP.Actions.Action;
 
 public class SelectedWO {
     private OrderedSet<Entity> selectedObjects;
+    private OrderedSet<Entity> toRemove = new OrderedSet<Entity>();
     private String name;
     private OrderedSet<ActionComponent> actions = new OrderedSet<ActionComponent>();
+
     private boolean onlyDyn = false;
 
     public SelectedWO(){
@@ -44,11 +46,13 @@ public class SelectedWO {
         DynamicWOComponent dyn = Mappers.dynamicWOComponentMapper.get(entity);
         if(dyn != null && !onlyDyn){
             onlyDyn = true;
+            toRemove.clear();
             for(Entity e: selectedObjects)
                 if(Mappers.dynamicWOComponentMapper.get(e) == null) {
-                    selectedObjects.remove(e);
+                    toRemove.add(e);
                     e.remove(SelectionComponent.class);
-                }
+            }
+            for(Entity e: toRemove) selectedObjects.remove(e);
         }
         if(wo == null ||
             (selectedObjects.size >= 1 &&
