@@ -53,6 +53,7 @@ public class HarlandSoldierBuilder extends UnitBuilder{
                 };
             }
         };
+        move.key = "move";
 
         attack.button = AssetsMapper.attackButton;
         attack.listener = new ClickListener(){
@@ -66,6 +67,7 @@ public class HarlandSoldierBuilder extends UnitBuilder{
                 };
             }
         };
+        attack.key = "attack";
 
         patrol.button = AssetsMapper.patrolButton;
         patrol.listener = new ClickListener(){
@@ -79,6 +81,7 @@ public class HarlandSoldierBuilder extends UnitBuilder{
                 };
             }
         };
+        patrol.key = "patrol";
 
         actions.add(move);actions.add(attack);actions.add(patrol);
         AnimationComponent anim = new AnimationComponent();

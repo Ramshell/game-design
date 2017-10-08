@@ -67,8 +67,10 @@ public class SelectedWO {
         }
         OrderedSet<ActionComponent> actions = new OrderedSet<ActionComponent>();
         for(ActionComponent a : wo.actions){
-            if(selectedObjects.size == 0 || this.actions.contains(a)) actions.add(a);
+            if(selectedObjects.size == 0 || containsAction(a.key))
+                actions.add(a);
         }
+        this.actions.clear();
         this.actions = actions;
         selectedObjects.add(entity);
         entity.add(new SelectionComponent());
@@ -113,5 +115,12 @@ public class SelectedWO {
         return  name!= null        &&
                 name.length() >= 5 &&
                 name.substring(name.length() - 5, name.length()).equals("Enemy");
+    }
+
+    public boolean containsAction(String action){
+        for(ActionComponent a : actions){
+            if(action.equals(a.key)) return true;
+        }
+        return false;
     }
 }

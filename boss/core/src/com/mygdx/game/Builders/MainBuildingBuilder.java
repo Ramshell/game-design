@@ -89,6 +89,9 @@ public class MainBuildingBuilder {
                 playerComponent.selectedObject.act(new CreateHarlandSoldierAction(play.mapGraph, playerComponent, play));
             }
         };
+
+        craftHarland.key = "craftHarland";
+        craftHarlandSoldier.key = "craftHarlandSoldier";
         actions.add(craftHarland);actions.add(craftHarlandSoldier);
         Array<CellComponent> cells = new Array<CellComponent>();
         Vector2 v = new Vector2(x, y);

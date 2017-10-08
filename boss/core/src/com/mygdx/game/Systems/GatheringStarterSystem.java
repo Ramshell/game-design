@@ -85,6 +85,7 @@ public class GatheringStarterSystem extends IntervalSystem {
         Vector2 res = null;
         int minimumDistance = ResourceMapper.tileHeight * ResourceMapper.tileWidth;
         for(Entity building: buildingEntities){
+            if(!Mappers.player.get(building).equals(Mappers.player.get(worker))) continue;
             v2 = Mappers.spawn.get(building).nextSpawnTile(mapGraph);
             if(v2 == null) continue;
             int distance = (int) (Math.abs(v.x - v2.x) + Math.abs( v.y - v2.y));

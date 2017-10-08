@@ -12,4 +12,12 @@ public class ActionComponent implements Component{
     public Action<Entity> actions;
     public ImageButton button;
     public EventListener listener;
+    public String key;
+
+    @Override
+    public boolean equals(Object o){
+        return  o != null &&
+                o instanceof ActionComponent &&
+                key.equals(((ActionComponent)o).key);
+    }
 }

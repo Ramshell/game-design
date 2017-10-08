@@ -52,6 +52,7 @@ public class HarlandWorkerBuilder extends UnitBuilder{
                 };
             }
         };
+        move.key = "move";
 
         craft.button = AssetsMapper.craftButton;
         craft.listener = new ClickListener(){
@@ -70,6 +71,7 @@ public class HarlandWorkerBuilder extends UnitBuilder{
                 };
             }
         };
+        craft.key = "craft";
 
         shovel.button = AssetsMapper.shovelButton;
         shovel.listener = new ClickListener(){
@@ -83,6 +85,8 @@ public class HarlandWorkerBuilder extends UnitBuilder{
                 };
             }
         };
+        shovel.key = "shovel";
+
         actions.add(move);actions.add(craft);actions.add(shovel);
         AnimationComponent anim = new AnimationComponent();
         anim.animations.put(IDLE, AssetsMapper.harlandWorkerIdleAnim);
@@ -91,6 +95,8 @@ public class HarlandWorkerBuilder extends UnitBuilder{
         anim.animations.put(MOVE_RIGHT_TOP, AssetsMapper.harlandWorkerMoveRightTopAnim);
         anim.animations.put(MOVE_LEFT_TOP, AssetsMapper.harlandWorkerMoveLeftTopAnim);
         anim.animations.put(WATER_GATHERING, AssetsMapper.waterGatheringAnim);
+        anim.offsetsX.put(WATER_GATHERING, -26f);
+        anim.offsetsY.put(WATER_GATHERING, -6f);
         GatheringPowerComponent gPower = new GatheringPowerComponent();
         gPower.capacity = 70;
         gPower.resourcesPerTick = 5;
