@@ -97,6 +97,9 @@ public class HarlandWorkerBuilder extends UnitBuilder{
         anim.animations.put(WATER_GATHERING, AssetsMapper.waterGatheringAnim);
         anim.offsetsX.put(WATER_GATHERING, -26f);
         anim.offsetsY.put(WATER_GATHERING, -6f);
+        anim.animations.put(DEAD, AssetsMapper.harlandWorkerDeathAnim);
+        anim.offsetsX.put(DEAD, -14f);
+        anim.offsetsY.put(DEAD, 0f);
         GatheringPowerComponent gPower = new GatheringPowerComponent();
         gPower.capacity = 70;
         gPower.resourcesPerTick = 5;

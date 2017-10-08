@@ -24,6 +24,8 @@ public class AssetsMapper {
     public static Animation<TextureRegion> harlandWorkerMoveLeftBottomAnim;
     public static Animation<TextureRegion> harlandWorkerMoveRightTopAnim;
     public static Animation<TextureRegion> harlandWorkerMoveLeftTopAnim;
+    public static Animation<TextureRegion> harlandWorkerDeathAnim;
+
     public static Texture harlandSoldier;
     public static Animation<TextureRegion> harlandSoldierIdleAnim;
     public static Animation<TextureRegion> harlandSoldierMoveRightBottomAnim;
@@ -115,6 +117,15 @@ public class AssetsMapper {
                 new TextureRegion(harlandWorker, 206, 256, 36, 64),
                 new TextureRegion(harlandWorker, 270, 256, 36, 64),
                 new TextureRegion(harlandWorker, 334, 256, 36, 64));
+        harlandWorkerDeathAnim = new Animation<TextureRegion>(0.2f,
+                new TextureRegion(harlandWorker, 0, 320, 64, 64),
+                new TextureRegion(harlandWorker, 64, 320, 64, 64),
+                new TextureRegion(harlandWorker, 128, 320, 64, 64),
+                new TextureRegion(harlandWorker, 192, 320, 64, 64),
+                new TextureRegion(harlandWorker, 256, 320, 64, 64),
+                new TextureRegion(harlandWorker, 320, 320, 64, 64),
+                new TextureRegion(harlandWorker, 384, 320, 64, 64),
+                new TextureRegion(harlandWorker, 448, 320, 64, 64));
         harlandSoldier = loadTexture("characters/harland_soldier.png");
         harlandSoldierIdleAnim = new Animation<TextureRegion>(0.8f,
                 new TextureRegion(harlandSoldier, 14, 0, 36, 64),
