@@ -110,15 +110,13 @@ public class AssetsMapper {
                 new TextureRegion(harlandWorker, 78, 192, 36, 64),
                 new TextureRegion(harlandWorker, 142, 192, 36, 64),
                 new TextureRegion(harlandWorker, 206, 192, 36, 64),
-                new TextureRegion(harlandWorker, 270, 192, 36, 64),
-                new TextureRegion(harlandWorker, 334, 192, 36, 64));
+                new TextureRegion(harlandWorker, 270, 192, 36, 64));
         harlandWorkerMoveLeftTopAnim = new Animation<TextureRegion>(0.2f,
                 new TextureRegion(harlandWorker, 14, 256, 36, 64),
                 new TextureRegion(harlandWorker, 78, 256, 36, 64),
                 new TextureRegion(harlandWorker, 142, 256, 36, 64),
                 new TextureRegion(harlandWorker, 206, 256, 36, 64),
-                new TextureRegion(harlandWorker, 270, 256, 36, 64),
-                new TextureRegion(harlandWorker, 334, 256, 36, 64));
+                new TextureRegion(harlandWorker, 270, 256, 36, 64));
         harlandWorkerDeathAnim = new Animation<TextureRegion>(0.2f,
                 new TextureRegion(harlandWorker, 0, 320, 64, 64),
                 new TextureRegion(harlandWorker, 64, 320, 64, 64),
