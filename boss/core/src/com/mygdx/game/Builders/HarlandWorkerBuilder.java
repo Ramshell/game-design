@@ -3,7 +3,9 @@ package com.mygdx.game.Builders;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Components.AnimationComponent;
@@ -42,6 +44,14 @@ public class HarlandWorkerBuilder extends UnitBuilder{
         ActionComponent shovel = new ActionComponent();
         move.button = AssetsMapper.moveButton;;
         move.listener = new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                play.hudComponent.hintTitle.setText("Move");
+                play.hudComponent.hintContent.setText("Left click on this button, and then left click over the map to move");
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
+                play.hudComponent.hintTitle.setText("");
+                play.hudComponent.hintContent.setText("");
+            }
             public void clicked (InputEvent event, float x, float y) {
                 player.action = new ActionBuilder() {
                     @Override
@@ -56,6 +66,14 @@ public class HarlandWorkerBuilder extends UnitBuilder{
 
         craft.button = AssetsMapper.craftButton;
         craft.listener = new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                play.hudComponent.hintTitle.setText("Craft");
+                play.hudComponent.hintContent.setText("Left click on this button, and then left click to choose where you want to build");
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
+                play.hudComponent.hintTitle.setText("");
+                play.hudComponent.hintContent.setText("");
+            }
             public void clicked (InputEvent event, float x, float y) {
                 player.state = PlayerComponent.PlayerState.Building;
                 player.tryingBuilding = play.mainBuildingBuilder.getWall(player,0,0);
@@ -75,6 +93,14 @@ public class HarlandWorkerBuilder extends UnitBuilder{
 
         shovel.button = AssetsMapper.shovelButton;
         shovel.listener = new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                play.hudComponent.hintTitle.setText("Shovel");
+                play.hudComponent.hintContent.setText("Click this button, and then click a resource to start gathering");
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
+                play.hudComponent.hintTitle.setText("");
+                play.hudComponent.hintContent.setText("");
+            }
             public void clicked (InputEvent event, float x, float y) {
                 player.action = new ActionBuilder() {
                     @Override
@@ -101,14 +127,15 @@ public class HarlandWorkerBuilder extends UnitBuilder{
         anim.offsetsX.put(DEAD, -14f);
         anim.offsetsY.put(DEAD, 0f);
         GatheringPowerComponent gPower = new GatheringPowerComponent();
-        gPower.capacity = 70;
-        gPower.resourcesPerTick = 5;
+        gPower.capacity = 50;
+        gPower.resourcesPerTick = 2;
         WorldObjectComponent wo = new WorldObjectComponent("Harland Worker");
         wo.bounds = new RectangleMapObject(posX * ResourceMapper.tileWidth, posY * ResourceMapper.tileHeight, 32, 32);
         wo.cost = COST;
         wo.sellValue = 10;
         wo.actions = actions;
+        wo.visibility = 384f;
         return new UnitEntity(player, wo, posX, posY,
-                IDLE, anim, new HealthComponent(45), id++).add(gPower).add(ws);
+                IDLE, anim, new HealthComponent(45), id++, play, 384f).add(gPower).add(ws);
     }
 }

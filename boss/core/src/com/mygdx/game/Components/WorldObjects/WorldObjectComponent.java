@@ -12,6 +12,7 @@ public class WorldObjectComponent implements Component{
     public int cost, sellValue;
     public RectangleMapObject bounds;
     public Array<ActionComponent> actions = new Array<ActionComponent>();
+    public float visibility;
 
     public WorldObjectComponent(){}
     public WorldObjectComponent(String name){

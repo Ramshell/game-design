@@ -1,10 +1,13 @@
 package com.mygdx.game.Systems;
 
+import box2dLight.PointLight;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Components.*;
+import com.mygdx.game.Components.WorldObjects.LightComponent;
 import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
@@ -16,12 +19,15 @@ public class ToBuildMakingSystem extends EntitySystem{
     MapGraph mapGraph;
     private Vector2 compVector;
     private ComponentMapper<CellsComponent> cellsMapper = ComponentMapper.getFor(CellsComponent.class);
+    private MatchComponent matchComponent;
 
     @Override
     public void addedToEngine(Engine engine) {
         mapGraph = Mappers.graph.get(engine.getEntitiesFor(Family.all(MapGraphComponent.class).get()).first()).mapGraph;
         this.engine = engine;
         compVector = new Vector2();
+        matchComponent = Mappers.matchComponentMapper.get(getEngine().getEntitiesFor(Family.all(MatchComponent.class).get()).first());
+
     }
 
     @Override
@@ -48,6 +54,12 @@ public class ToBuildMakingSystem extends EntitySystem{
                     }
                 }
                 player.state = PlayerComponent.PlayerState.Normal;
+                LightComponent lightComponent =  new LightComponent();
+                lightComponent.visibility = Mappers.world.get(toBuildComponent.building).visibility;
+                lightComponent.light = new PointLight(matchComponent.match.rayHandler, 128, new Color(1,1,1,1), lightComponent.visibility,
+                        Mappers.world.get(toBuildComponent.building).bounds.getRectangle().x + Mappers.world.get(toBuildComponent.building).bounds.getRectangle().getWidth() / 2,
+                        Mappers.world.get(toBuildComponent.building).bounds.getRectangle().y + Mappers.world.get(toBuildComponent.building).bounds.getRectangle().getHeight() / 2);
+                toBuildComponent.building.add(lightComponent);
                 engine.addEntity(toBuildComponent.building);
                 player.tryingBuilding = null;
                 e.remove(ToBuildComponent.class);

@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
@@ -78,6 +79,16 @@ public class MainBuildingBuilder {
         ActionComponent craftHarland = new ActionComponent();
         craftHarland.button = AssetsMapper.craftHarlandWorkerButton;;
         craftHarland.listener = new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                play.hudComponent.hintTitle.setText("Train Harland Worker");
+                play.hudComponent.hintCost.setText("Cost: " + HarlandWorkerBuilder.COST);
+                play.hudComponent.hintContent.setText("This unit is useful to gather resources and to build structures");
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
+                play.hudComponent.hintTitle.setText("");
+                play.hudComponent.hintCost.setText("");
+                play.hudComponent.hintContent.setText("");
+            }
             public void clicked (InputEvent event, float x, float y) {
                 playerComponent.selectedObject.act(new CreateHarlandWorkerAction(play.mapGraph, playerComponent, play));
             }
@@ -85,6 +96,16 @@ public class MainBuildingBuilder {
         ActionComponent craftHarlandSoldier = new ActionComponent();
         craftHarlandSoldier.button = AssetsMapper.craftHarlandSoldierButton;;
         craftHarlandSoldier.listener = new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                play.hudComponent.hintTitle.setText("Train Harlanding Soldier");
+                play.hudComponent.hintCost.setText("Cost: " + HarlandSoldierBuilder.COST);
+                play.hudComponent.hintContent.setText("This Unit is the main defense for the harlandings");
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
+                play.hudComponent.hintTitle.setText("");
+                play.hudComponent.hintCost.setText("");
+                play.hudComponent.hintContent.setText("");
+            }
             public void clicked (InputEvent event, float x, float y) {
                 playerComponent.selectedObject.act(new CreateHarlandSoldierAction(play.mapGraph, playerComponent, play));
             }
@@ -138,7 +159,8 @@ public class MainBuildingBuilder {
                 y * ResourceMapper.tileHeight,
                 ResourceMapper.tileWidth *  cellsComponent.width,
                 ResourceMapper.tileHeight * cellsComponent.height);
-        return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent, new HealthComponent(600), wo);
+        wo.visibility = 1024f;
+        return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent, new HealthComponent(600), wo, play, 1024f);
     }
 
     private CellComponent create_cell(TiledMapTile t, TiledMapTileLayer layer,

@@ -3,6 +3,7 @@ package com.mygdx.game.Components.HUD;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -32,8 +33,10 @@ public class HUDComponent implements Component {
     public Stage stage;
     private Viewport viewport;
     public PlayerComponent player;
-
-    public Skin skin = AssetsMapper.hudSkin;
+    public Label hintTitle;
+    public Label hintContent;
+    public Label hintCost;
+    public Skin skin = AssetsMapper.tracerSkin;
 
     public Label selectedObjectLabel;
     public Label resourcesLabel;
@@ -43,6 +46,8 @@ public class HUDComponent implements Component {
     public Table actionsTable;
 
     public HUDComponent(final PlayerComponent player,final Play p){
+
+
         for(int i = 0; i < 3; i++) {
             actionButtons.add(new Array<ImageButton>());
             for (int j = 0; j < 3; j++) {
@@ -82,7 +87,7 @@ public class HUDComponent implements Component {
         rootTable.row();
         rootTable.add(bottomTable).fillX().expandX();
         matchTime = new Label("00:00",skin, "title");
-        Label resources = new Label("EoL",skin, "subtitle");
+        Label resources = new Label("EoL",skin, "title");
         HorizontalGroup resourcesBar = new HorizontalGroup();
         resourcesBar.expand().addActor(resources);
         resourcesBar.addActor(resourcesLabel);
@@ -131,6 +136,22 @@ public class HUDComponent implements Component {
         t2.setRegion(new TextureRegion(new Texture("HUD/ordersBar.png")));
         topTable.setBackground(t);
         bottomTable.setBackground(t2);
+
+        hintTitle = new Label("",skin, "title");
+        hintTitle.setColor(new Color(1,1,0.2f, 1 ));
+        hintTitle.setWrap(true);
+        hintContent = new Label("",skin);
+        hintContent.setWrap(true);
+        hintCost = new Label("", skin, "title");
+        hintCost.setWrap(true);
+        hintCost.setColor(new Color(0.3f, 1, 0.2f, 1));
+        midTable2.add(hintTitle).right().bottom().expandX().width(384);
+        midTable2.row();
+        midTable2.add(hintCost).right().bottom().expandX().width(384);
+        midTable2.row();
+        midTable2.add(hintContent).right().bottom().expandX().width(384);
+
+
         stage.addActor(rootTable);
     }
 }

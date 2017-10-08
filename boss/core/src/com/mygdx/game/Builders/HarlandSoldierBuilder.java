@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
@@ -43,6 +44,14 @@ public class HarlandSoldierBuilder extends UnitBuilder{
         ActionComponent patrol = new ActionComponent();
         move.button = AssetsMapper.moveButton;;
         move.listener = new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                play.hudComponent.hintTitle.setText("Move");
+                play.hudComponent.hintContent.setText("Left click on this button, and then left click over the map to move");
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
+                play.hudComponent.hintTitle.setText("");
+                play.hudComponent.hintContent.setText("");
+            }
             public void clicked (InputEvent event, float x, float y) {
                 player.action = new ActionBuilder() {
                     @Override
@@ -57,6 +66,14 @@ public class HarlandSoldierBuilder extends UnitBuilder{
 
         attack.button = AssetsMapper.attackButton;
         attack.listener = new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                play.hudComponent.hintTitle.setText("Attack");
+                play.hudComponent.hintContent.setText("Left click on this button, and then left click over an enemy to attack it");
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
+                play.hudComponent.hintTitle.setText("");
+                play.hudComponent.hintContent.setText("");
+            }
             public void clicked (InputEvent event, float x, float y) {
                 player.action = new ActionBuilder() {
                     @Override
@@ -71,6 +88,14 @@ public class HarlandSoldierBuilder extends UnitBuilder{
 
         patrol.button = AssetsMapper.patrolButton;
         patrol.listener = new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                play.hudComponent.hintTitle.setText("Patrol");
+                play.hudComponent.hintContent.setText("Left click on this button, and then left click over the map to to patrol from your current position to the selected one");
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
+                play.hudComponent.hintTitle.setText("");
+                play.hudComponent.hintContent.setText("");
+            }
             public void clicked (InputEvent event, float x, float y) {
                 player.action = new ActionBuilder() {
                     @Override
@@ -107,6 +132,7 @@ public class HarlandSoldierBuilder extends UnitBuilder{
         wo.cost = COST;
         wo.sellValue = 25;
         wo.actions = actions;
+        wo.visibility = 512f;
         RangedWeaponComponent rangedWeaponComponent = new RangedWeaponComponent();
         rangedWeaponComponent.range = new Circle(0, 0, 64);
         rangedWeaponComponent.attackDuration = 0.5f;
@@ -114,7 +140,7 @@ public class HarlandSoldierBuilder extends UnitBuilder{
         rangedWeaponComponent.minDamage = 3;
         rangedWeaponComponent.maxDamage = 10;
         return new UnitEntity(player, wo, posX, posY,
-                IDLE, anim, new HealthComponent(70), id++)
+                IDLE, anim, new HealthComponent(70), id++, play, 512f)
                 .add(rangedWeaponComponent).add(ws);
     }
 }

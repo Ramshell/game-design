@@ -47,7 +47,7 @@ public class DamageSystem extends EntitySystem{
                             (int) healthComponent.damageTaken)));
             healthComponent.damageTaken = 0;
             if(healthComponent.hitPoints <= 0){
-                if(Mappers.animation.get(e).animations.containsKey(UnitBuilder.DEAD)){
+                if(Mappers.animation.get(e) != null && Mappers.animation.get(e).animations.containsKey(UnitBuilder.DEAD)){
                     getEngine().addEntity(new Entity().add(
                             new AnimationSpawnComponent(
                                     Mappers.worldPosition.get(e).position.x,

@@ -243,14 +243,9 @@ public class UserInputHandler extends InputAdapter implements GestureDetector.Ge
                 Mappers.camera.get(camera).getCamera().position.y - Mappers.camera.get(camera).getCamera().viewportHeight / 2,
                 Mappers.camera.get(camera).getCamera().viewportWidth, Mappers.camera.get(camera).getCamera().viewportHeight);
         ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(WorldObjectComponent.class).get());
-        System.out.println(rectangle);
         for(Entity e: entities){
             WorldObjectComponent wo = wm.get(e);
             PlayerComponent checkPlayer = pm.get(e);
-            System.out.println(wo.bounds.getRectangle().overlaps(rectangle) &&
-                    checkPlayer != null && checkPlayer.equals(pm.get(player)) &&
-                    Mappers.world.get(pm.get(player).selectedObject.getSelectedObjects().first())
-                            .objectName.equals(wo.objectName));
             if( wo.bounds.getRectangle().overlaps(rectangle) &&
                 checkPlayer != null && checkPlayer.equals(pm.get(player)) &&
                 Mappers.world.get(pm.get(player).selectedObject.getSelectedObjects().first())

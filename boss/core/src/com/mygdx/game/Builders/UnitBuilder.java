@@ -24,5 +24,5 @@ public abstract class UnitBuilder {
     public static int ATTACKING_LEFT_BOTTOM = 8;
     public static int ATTACKING_RIGHT_TOP = 9;
     public static int ATTACKING_LEFT_TOP = 10;
-    public static int DEAD = 10;
+    public static int DEAD = 11;
 }

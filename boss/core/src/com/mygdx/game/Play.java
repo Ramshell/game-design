@@ -39,6 +39,7 @@ import com.mygdx.game.OOP.Conditions.*;
 import com.mygdx.game.PathfindingUtils.*;
 import com.mygdx.game.Systems.*;
 import com.mygdx.game.Systems.Combat.*;
+import com.mygdx.game.Systems.Fog.FogSystem;
 
 public class Play implements Screen {
 
@@ -55,9 +56,10 @@ public class Play implements Screen {
     private ParticleEffect effect;
     private Game game;
     private EoLBuilder eolBuilder;
-    private World world;
-    private Box2DDebugRenderer box2DRenderer;
-    private RayHandler rayHandler;
+    public World world;
+    public Box2DDebugRenderer box2DRenderer;
+    public RayHandler rayHandler;
+    public HUDComponent hudComponent;
 
     public Play(Engine engine, Game game) { this.engine = engine; this.game=game;}
 
@@ -70,7 +72,12 @@ public class Play implements Screen {
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(0f, 0f, 0f, 0.5f);
         rayHandler.setBlurNum(3);
-        new PointLight(rayHandler, 10, new Color(1,1,1,1), 1024f, 16, 16);
+        MatchComponent matchComponent = new MatchComponent();
+        matchComponent.world = world;
+        matchComponent.rayHandler = rayHandler;
+        matchComponent.box2DRenderer = box2DRenderer;
+        matchComponent.match = this;
+        engine.addEntity(new Entity().add(matchComponent));
 
         TmxMapLoader loader = new TmxMapLoader();
         map = loader.load("ortho_map/harland_desert.tmx");
@@ -94,12 +101,14 @@ public class Play implements Screen {
                 new RendererEntity(
                         new MapComponent(map, Mappers.camera.get(rtsCamera).getCamera()),
                         new HUDComponent(playerComponent, this));
-        HUDComponent p = Mappers.hud.get(rendererEntity);
+        hudComponent = Mappers.hud.get(rendererEntity);
         MapComponent mapComponent = Mappers.map.get(rendererEntity);
-        PlayerEntity player = new PlayerEntity(p, playerComponent);
-        PlayerEntity enemy = new PlayerEntity(p, playerComponentEnemy);
+        PlayerEntity player = new PlayerEntity(hudComponent, playerComponent);
+        PlayerEntity enemy = new PlayerEntity(hudComponent, playerComponentEnemy);
 
         camera = Mappers.camera.get(rtsCamera).getCamera();
+        matchComponent.camera = camera;
+
         GoalComponent goalComponent = new GoalComponent();
         goalComponent.condition = new TutorialVictoryCondition(engine, playerComponent, 1);
         engine.addEntity(new Entity().add(goalComponent));
@@ -182,7 +191,8 @@ public class Play implements Screen {
         engine.addSystem(new AnimationSpawnSystem());
         engine.addSystem(new GoalSystem(game));
         engine.addSystem(new DefeatSystem(game));
-        stage = p.stage;
+        engine.addSystem(new FogSystem(playerComponent));
+        stage = hudComponent.stage;
         InputMultiplexer multiplexer = new InputMultiplexer();
         UserInputHandler userInputHandler = new UserInputHandler(rtsCamera, player,mapComponent, engine, mapGraph);
 
@@ -205,11 +215,7 @@ public class Play implements Screen {
 
     @Override
     public void render(float delta) {
-        world.step(1 / 60f, 8, 3);
         engine.update(delta);
-        box2DRenderer.render(world, camera.combined);
-        rayHandler.setCombinedMatrix(camera);
-        rayHandler.updateAndRender();
     }
 
     @Override
