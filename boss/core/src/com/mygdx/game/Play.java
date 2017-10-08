@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.*;
@@ -10,6 +12,8 @@ import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.Builders.EoLBuilder;
 import com.mygdx.game.Builders.HarlandSoldierBuilder;
@@ -51,11 +55,23 @@ public class Play implements Screen {
     private ParticleEffect effect;
     private Game game;
     private EoLBuilder eolBuilder;
+    private World world;
+    private Box2DDebugRenderer box2DRenderer;
+    private RayHandler rayHandler;
 
     public Play(Engine engine, Game game) { this.engine = engine; this.game=game;}
 
     @Override
     public void show() {
+        world = new World(new Vector2(0, -9.81f), true);
+        RayHandler.setGammaCorrection(true);
+        RayHandler.useDiffuseLight(true);
+        box2DRenderer = new Box2DDebugRenderer();
+        rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(0f, 0f, 0f, 0.5f);
+        rayHandler.setBlurNum(3);
+        new PointLight(rayHandler, 10, new Color(1,1,1,1), 1024f, 16, 16);
+
         TmxMapLoader loader = new TmxMapLoader();
         map = loader.load("ortho_map/harland_desert.tmx");
         ResourceMapper.width = map.getProperties().get("width", Integer.class);
@@ -189,7 +205,11 @@ public class Play implements Screen {
 
     @Override
     public void render(float delta) {
+        world.step(1 / 60f, 8, 3);
         engine.update(delta);
+        box2DRenderer.render(world, camera.combined);
+        rayHandler.setCombinedMatrix(camera);
+        rayHandler.updateAndRender();
     }
 
     @Override
@@ -216,5 +236,6 @@ public class Play implements Screen {
     public void dispose() {
         map.dispose();
         renderer.dispose();
+        rayHandler.dispose();
     }
 }
