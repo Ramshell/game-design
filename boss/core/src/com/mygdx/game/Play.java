@@ -144,17 +144,17 @@ public class Play implements Screen {
         }
 
 
-//        for(int i = 32; i < 39; ++i){
-//            Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, 32, i);
-//            engine.addEntity(soldierEnemy);
-//            new PatrolAction(12 * ResourceMapper.tileWidth, i * ResourceMapper.tileHeight).act(soldierEnemy);
-//        }
+        for(int i = 32; i < 39; ++i){
+            Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, 32, i);
+            engine.addEntity(soldierEnemy);
+            new PatrolAction(12 * ResourceMapper.tileWidth, i * ResourceMapper.tileHeight).act(soldierEnemy);
+        }
 
-//        for(int i = 32; i < 39; ++i){
-//            Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, i, 32);
-//            engine.addEntity(soldierEnemy);
-//            new PatrolAction(i * ResourceMapper.tileWidth,12  * ResourceMapper.tileHeight).act(soldierEnemy);
-//        }
+        for(int i = 32; i < 39; ++i){
+            Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, i, 32);
+            engine.addEntity(soldierEnemy);
+            new PatrolAction(i * ResourceMapper.tileWidth,12  * ResourceMapper.tileHeight).act(soldierEnemy);
+        }
 
         engine.addEntity(eolBuilder.getEoL(3,4,2000));
         engine.addEntity(eolBuilder.getEoL(4,6,2000));

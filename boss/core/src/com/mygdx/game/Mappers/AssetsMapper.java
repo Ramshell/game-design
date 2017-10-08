@@ -36,6 +36,7 @@ public class AssetsMapper {
     public static Animation<TextureRegion> harlandSoldierAttackLeftBottomAnim;
     public static Animation<TextureRegion> harlandSoldierAttackRightTopAnim;
     public static Animation<TextureRegion> harlandSoldierAttackLeftTopAnim;
+    public static Animation<TextureRegion> harlandSoldierDeathAnim;
     public static Texture eol;
     public static Texture waterGathering;
     public static Animation<TextureRegion> eolIdleAnim;
@@ -182,6 +183,17 @@ public class AssetsMapper {
                 new TextureRegion(harlandSoldier, 128, 512, 64, 64),
                 new TextureRegion(harlandSoldier, 192, 512, 64, 64),
                 new TextureRegion(harlandSoldier, 256, 512, 64, 64));
+        harlandSoldierDeathAnim = new Animation<TextureRegion>(0.1f,
+                new TextureRegion(harlandSoldier, 0, 576, 64, 64),
+                new TextureRegion(harlandSoldier, 64, 576, 64, 64),
+                new TextureRegion(harlandSoldier, 128, 576, 64, 64),
+                new TextureRegion(harlandSoldier, 192, 576, 64, 64),
+                new TextureRegion(harlandSoldier, 256, 576, 64, 64),
+                new TextureRegion(harlandSoldier, 320, 576, 64, 64),
+                new TextureRegion(harlandSoldier, 320, 576, 64, 64),
+                new TextureRegion(harlandSoldier, 320, 576, 64, 64),
+                new TextureRegion(harlandSoldier, 320, 576, 64, 64),
+                new TextureRegion(harlandSoldier, 320, 576, 64, 64));
 
         unitDamage = loadTexture("characters/blood.png");
         unitDamageAnim = new Animation<TextureRegion>(0.1f,

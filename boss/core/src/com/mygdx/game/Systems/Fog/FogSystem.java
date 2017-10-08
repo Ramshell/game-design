@@ -1,10 +1,7 @@
 package com.mygdx.game.Systems.Fog;
 
 import box2dLight.RayHandler;
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.*;
 import com.mygdx.game.Components.MatchComponent;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Components.WorldObjects.LightComponent;
@@ -13,7 +10,7 @@ import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Play;
 
-public class FogSystem extends EntitySystem{
+public class FogSystem extends EntitySystem implements EntityListener{
     MatchComponent matchComponent;
     PlayerComponent player;
 
@@ -23,6 +20,7 @@ public class FogSystem extends EntitySystem{
     @Override
     public void addedToEngine(Engine engine) {
         super.addedToEngine(engine);
+        engine.addEntityListener(Family.all(LightComponent.class).get(),this);
         matchComponent = Mappers.matchComponentMapper.get(getEngine().getEntitiesFor(Family.all(MatchComponent.class).get()).first());
     }
 
@@ -46,5 +44,13 @@ public class FogSystem extends EntitySystem{
         matchComponent.box2DRenderer.render(matchComponent.world, matchComponent.camera.combined);
         matchComponent.rayHandler.setCombinedMatrix(matchComponent.camera);
         matchComponent.rayHandler.updateAndRender();
+    }
+
+    @Override
+    public void entityAdded(Entity entity) {}
+
+    @Override
+    public void entityRemoved(Entity entity) {
+        Mappers.lightComponentMapper.get(entity).light.remove();
     }
 }
