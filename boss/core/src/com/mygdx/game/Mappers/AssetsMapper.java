@@ -149,15 +149,13 @@ public class AssetsMapper {
                 new TextureRegion(harlandSoldier, 64, 192, 64, 64),
                 new TextureRegion(harlandSoldier, 128, 192, 64, 64),
                 new TextureRegion(harlandSoldier, 192, 192, 64, 64),
-                new TextureRegion(harlandSoldier, 256, 192, 64, 64),
-                new TextureRegion(harlandSoldier, 320, 192, 64, 64));
+                new TextureRegion(harlandSoldier, 256, 192, 64, 64));
         harlandSoldierMoveRightTopAnim = new Animation<TextureRegion>(0.2f,
                 new TextureRegion(harlandSoldier, 0, 256, 64, 64),
                 new TextureRegion(harlandSoldier, 64, 256, 64, 64),
                 new TextureRegion(harlandSoldier, 128, 256, 64, 64),
                 new TextureRegion(harlandSoldier, 192, 256, 64, 64),
-                new TextureRegion(harlandSoldier, 256, 256, 64, 64),
-                new TextureRegion(harlandSoldier, 320, 256, 64, 64));
+                new TextureRegion(harlandSoldier, 256, 256, 64, 64));
         harlandSoldierAttackLeftBottomAnim = new Animation<TextureRegion>(0.2f,
                 new TextureRegion(harlandSoldier, 0, 320, 64, 64),
                 new TextureRegion(harlandSoldier, 64, 320, 64, 64),
