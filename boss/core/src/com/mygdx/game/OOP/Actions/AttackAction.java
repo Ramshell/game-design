@@ -32,7 +32,6 @@ public class AttackAction extends Action<Entity>{
     public static Entity getTarget(float x, float y, MapGraph mapGraph, PlayerComponent playerComponent) {
         int tileX = (int) (x / ResourceMapper.tileWidth);
         int tileY = (int) (y / ResourceMapper.tileHeight);
-        System.out.println(mapGraph.getNode(tileX, tileY).entities.size);
         for (Entity e : mapGraph.getNode(tileX, tileY).entities)
             if (!Mappers.player.get(e).equals(playerComponent)){
                 return e;

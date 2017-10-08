@@ -10,6 +10,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.math.*;
 import com.mygdx.game.Components.*;
@@ -19,15 +20,13 @@ import com.mygdx.game.Entities.PlayerEntity;
 import com.mygdx.game.Entities.RTSCamera;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
-import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.OOP.Actions.AttackAction;
-import com.mygdx.game.OOP.Actions.CancelAcionsAction;
 import com.mygdx.game.OOP.Actions.MoveAction;
+import com.mygdx.game.OOP.Actions.ResourceGatheringAction;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Systems.MovementSystem;
-import com.mygdx.game.Systems.SelectionRenderSystem;
 
-public class UserInputHandler extends InputAdapter {
+public class UserInputHandler extends InputAdapter implements GestureDetector.GestureListener{
 
     private RTSCamera camera;
     private Engine engine;
@@ -150,7 +149,7 @@ public class UserInputHandler extends InputAdapter {
     @Override
     public boolean scrolled (int amount) {
         OrthographicCamera OCamera = Mappers.camera.get(camera).getCamera();
-        OCamera.zoom = Math.max(0.5f, Math.min(OCamera.zoom + 0.01f * amount, 2));
+        OCamera.zoom = Math.max(0.5f, Math.min(OCamera.zoom + 0.05f * amount, 2));
         return false;
     }
 
@@ -176,7 +175,12 @@ public class UserInputHandler extends InputAdapter {
             Entity attacked = AttackAction.getTarget(v.x, v.y, mapGraph, Mappers.player.get(player));
             if( attacked != null &&
                 !Mappers.player.get(attacked).equals(Mappers.player.get(player))) Mappers.player.get(player).selectedObject.act(new AttackAction(attacked));
-            else Mappers.player.get(player).selectedObject.act(new MoveAction(v.x, v.y,mapGraph));
+            else {
+                ResourceGatheringAction resourceGatheringAction = new ResourceGatheringAction(v.x, v.y, mapGraph, engine);
+                if(resourceGatheringAction.resource != null)
+                    Mappers.player.get(player).selectedObject.act(resourceGatheringAction);
+                else Mappers.player.get(player).selectedObject.act(new MoveAction(v.x, v.y, mapGraph));
+            }
             return true;
         }
         return false;
@@ -224,5 +228,71 @@ public class UserInputHandler extends InputAdapter {
             r.y += r.height;
             r.height = -1 * r.height;
         }
+    }
+
+    @Override
+    public boolean touchDown(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+        if(count != 2 || pm.get(player).selectedObject.getSelectedObjects().size != 1) return false;
+        Rectangle rectangle = new Rectangle(
+                Mappers.camera.get(camera).getCamera().position.x - Mappers.camera.get(camera).getCamera().viewportWidth / 2,
+                Mappers.camera.get(camera).getCamera().position.y - Mappers.camera.get(camera).getCamera().viewportHeight / 2,
+                Mappers.camera.get(camera).getCamera().viewportWidth, Mappers.camera.get(camera).getCamera().viewportHeight);
+        ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.all(WorldObjectComponent.class).get());
+        System.out.println(rectangle);
+        for(Entity e: entities){
+            WorldObjectComponent wo = wm.get(e);
+            PlayerComponent checkPlayer = pm.get(e);
+            System.out.println(wo.bounds.getRectangle().overlaps(rectangle) &&
+                    checkPlayer != null && checkPlayer.equals(pm.get(player)) &&
+                    Mappers.world.get(pm.get(player).selectedObject.getSelectedObjects().first())
+                            .objectName.equals(wo.objectName));
+            if( wo.bounds.getRectangle().overlaps(rectangle) &&
+                checkPlayer != null && checkPlayer.equals(pm.get(player)) &&
+                Mappers.world.get(pm.get(player).selectedObject.getSelectedObjects().first())
+                    .objectName.equals(wo.objectName)){
+                pm.get(player).selectedObject.add(e);
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean longPress(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+        return false;
+    }
+
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean zoom(float initialDistance, float distance) {
+        return false;
+    }
+
+    @Override
+    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+        return false;
+    }
+
+    @Override
+    public void pinchStop() {
+
     }
 }

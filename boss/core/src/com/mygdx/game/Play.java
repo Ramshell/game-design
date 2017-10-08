@@ -5,8 +5,10 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.Builders.EoLBuilder;
@@ -167,9 +169,12 @@ public class Play implements Screen {
         stage = p.stage;
         InputMultiplexer multiplexer = new InputMultiplexer();
         UserInputHandler userInputHandler = new UserInputHandler(rtsCamera, player,mapComponent, engine, mapGraph);
+
         multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(new GestureDetector(userInputHandler));
         multiplexer.addProcessor(new ActionsInputHandler(playerComponent, engine, mapGraph));
         multiplexer.addProcessor(userInputHandler);
+
         Gdx.input.setInputProcessor(multiplexer);
         engine.addSystem(new SelectionRenderSystem(userInputHandler.selection, mapComponent.camera));
         engine.addSystem(new MatchTimeSystem());

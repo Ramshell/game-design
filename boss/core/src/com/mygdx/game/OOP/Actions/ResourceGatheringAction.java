@@ -14,6 +14,7 @@ import com.mygdx.game.PathfindingUtils.MapGraph;
 public class ResourceGatheringAction extends MoveAction{
     private Engine engine;
     float realX, realY;
+    public Entity resource;
     /**
      * x and y should be isoScreen coordinates;
      *
@@ -26,17 +27,19 @@ public class ResourceGatheringAction extends MoveAction{
         this.engine = engine;
         this.realX = x;
         this.realY = y;
-    }
-
-    public void act(Entity worker){
         ImmutableArray<Entity> resources = engine.getEntitiesFor(Family.all(ResourceComponent.class, WorldObjectComponent.class).get());
         for (Entity resource: resources){
             WorldObjectComponent wo = Mappers.world.get(resource);
             if(wo.bounds.getRectangle().contains(realX, realY)){
-                super.act(worker);
-                worker.add(new StartGatheringComponent(resource, worker));
+                this.resource = resource;
                 break;
             }
         }
+    }
+
+    public void act(Entity worker){
+        super.act(worker);
+        if(!Mappers.world.get(worker).objectName.substring(Mappers.world.get(worker).objectName.length()-6).equals("Worker")) return;
+        worker.add(new StartGatheringComponent(resource, worker));
     }
 }

@@ -37,7 +37,7 @@ public class UnitsVelocitySystem extends EntitySystem{
                 e.remove(TargetComponent.class);
                 continue;
             }
-            if (pos.position.epsilonEquals(target.target, 0.3f) ) {
+            if (pos.position.epsilonEquals(target.target, 0.5f) ) {
                 pos.position.x = target.target.x;
                 pos.position.y = target.target.y;
                 target.nextTarget();

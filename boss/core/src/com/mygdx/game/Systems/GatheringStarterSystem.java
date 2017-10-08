@@ -43,7 +43,7 @@ public class GatheringStarterSystem extends IntervalSystem {
             Entity resource = startGatheringComponent.resource;
             Entity worker = startGatheringComponent.worker;
             ResourceComponent resourceComponent = Mappers.resourceComponentMapper.get(resource);
-            GatheringPowerComponent gatheringPowerComponent = Mappers.gatheringComponentComponentMapper.get(worker);
+            GatheringPowerComponent gatheringPowerComponent = Mappers.gatheringComponentMapper.get(worker);
             if(workerCollecting(worker, resource) &&
                     startGatheringComponent.gathering){
                 float toGather = Math.min(
@@ -62,7 +62,7 @@ public class GatheringStarterSystem extends IntervalSystem {
                 }
             }else if(!startGatheringComponent.gathering &&
                     startGatheringComponent.deposit != null &&
-                    Mappers.worldPosition.get(worker).position.epsilonEquals(startGatheringComponent.deposit, 0.1f)){
+                    Mappers.world.get(worker).bounds.getRectangle().contains(startGatheringComponent.deposit)){
                 Vector2 v = Mappers.worldPosition.get(resource).position;
                 startGatheringComponent.deposit = null;
                 startGatheringComponent.gathering = true;

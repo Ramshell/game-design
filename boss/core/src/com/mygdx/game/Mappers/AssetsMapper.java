@@ -181,10 +181,10 @@ public class AssetsMapper {
                 new TextureRegion(unitDamage, 256, 0, 64, 64));
 
         eol = loadTexture("characters/charco.png");
-        eolIdleAnim = new Animation<TextureRegion>(0.6f,
-                new TextureRegion(eol, 0, 27, 64, 34),
-                new TextureRegion(eol, 64, 27, 64, 34),
-                new TextureRegion(eol, 128, 27, 64, 34));
+        eolIdleAnim = new Animation<TextureRegion>(1f,
+                new TextureRegion(eol, 0, 0, 64, 64),
+                new TextureRegion(eol, 64, 0, 64, 64),
+                new TextureRegion(eol, 128, 0, 64, 64));
         waterGathering = loadTexture("characters/water_gathering.png");
         waterGatheringAnim = new Animation<TextureRegion>(0.3f,
                 new TextureRegion(waterGathering, 0, 0, 64, 64),

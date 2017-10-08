@@ -29,7 +29,7 @@ public class Mappers {
     public static final ComponentMapper<StateComponent> stateComponentMapper = ComponentMapper.getFor(StateComponent.class);
     public static final ComponentMapper<ResourceComponent> resourceComponentMapper = ComponentMapper.getFor(ResourceComponent.class);
     public static final ComponentMapper<StartGatheringComponent> startGatheringComponentComponentMapper = ComponentMapper.getFor(StartGatheringComponent.class);
-    public static final ComponentMapper<GatheringPowerComponent> gatheringComponentComponentMapper = ComponentMapper.getFor(GatheringPowerComponent.class);
+    public static final ComponentMapper<GatheringPowerComponent> gatheringComponentMapper = ComponentMapper.getFor(GatheringPowerComponent.class);
     public static final ComponentMapper<HealthComponent> healthComponentMapper = ComponentMapper.getFor(HealthComponent.class);
     public static final ComponentMapper<DynamicWOComponent> dynamicWOComponentMapper = ComponentMapper.getFor(DynamicWOComponent.class);
     public static final ComponentMapper<TryingBuildingComponent> tryingBuildingComponentMapper = ComponentMapper.getFor(TryingBuildingComponent.class);
