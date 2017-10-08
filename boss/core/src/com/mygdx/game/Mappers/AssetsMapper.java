@@ -108,15 +108,13 @@ public class AssetsMapper {
                 new TextureRegion(harlandWorker, 78, 192, 36, 64),
                 new TextureRegion(harlandWorker, 142, 192, 36, 64),
                 new TextureRegion(harlandWorker, 206, 192, 36, 64),
-                new TextureRegion(harlandWorker, 270, 192, 36, 64),
-                new TextureRegion(harlandWorker, 334, 192, 36, 64));
+                new TextureRegion(harlandWorker, 270, 192, 36, 64));
         harlandWorkerMoveLeftTopAnim = new Animation<TextureRegion>(0.2f,
                 new TextureRegion(harlandWorker, 14, 256, 36, 64),
                 new TextureRegion(harlandWorker, 78, 256, 36, 64),
                 new TextureRegion(harlandWorker, 142, 256, 36, 64),
                 new TextureRegion(harlandWorker, 206, 256, 36, 64),
-                new TextureRegion(harlandWorker, 270, 256, 36, 64),
-                new TextureRegion(harlandWorker, 334, 256, 36, 64));
+                new TextureRegion(harlandWorker, 270, 256, 36, 64));
         harlandWorkerDeathAnim = new Animation<TextureRegion>(0.2f,
                 new TextureRegion(harlandWorker, 0, 320, 64, 64),
                 new TextureRegion(harlandWorker, 64, 320, 64, 64),
@@ -149,13 +147,15 @@ public class AssetsMapper {
                 new TextureRegion(harlandSoldier, 64, 192, 64, 64),
                 new TextureRegion(harlandSoldier, 128, 192, 64, 64),
                 new TextureRegion(harlandSoldier, 192, 192, 64, 64),
-                new TextureRegion(harlandSoldier, 256, 192, 64, 64));
+                new TextureRegion(harlandSoldier, 256, 192, 64, 64),
+                new TextureRegion(harlandSoldier, 320, 192, 64, 64));
         harlandSoldierMoveRightTopAnim = new Animation<TextureRegion>(0.2f,
                 new TextureRegion(harlandSoldier, 0, 256, 64, 64),
                 new TextureRegion(harlandSoldier, 64, 256, 64, 64),
                 new TextureRegion(harlandSoldier, 128, 256, 64, 64),
                 new TextureRegion(harlandSoldier, 192, 256, 64, 64),
-                new TextureRegion(harlandSoldier, 256, 256, 64, 64));
+                new TextureRegion(harlandSoldier, 256, 256, 64, 64),
+                new TextureRegion(harlandSoldier, 320, 256, 64, 64));
         harlandSoldierAttackLeftBottomAnim = new Animation<TextureRegion>(0.2f,
                 new TextureRegion(harlandSoldier, 0, 320, 64, 64),
                 new TextureRegion(harlandSoldier, 64, 320, 64, 64),
