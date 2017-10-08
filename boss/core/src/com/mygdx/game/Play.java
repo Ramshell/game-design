@@ -161,6 +161,7 @@ public class Play implements Screen {
         engine.addSystem(new ResourcesPercentageRenderSystem());
         engine.addSystem(new WOSoundSystem());
         engine.addSystem(new DamageSpawnSystem());
+        engine.addSystem(new AnimationSpawnSystem());
         engine.addSystem(new GoalSystem(game));
         engine.addSystem(new DefeatSystem(game));
         stage = p.stage;

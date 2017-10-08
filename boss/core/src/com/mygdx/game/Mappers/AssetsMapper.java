@@ -38,6 +38,8 @@ public class AssetsMapper {
     public static Texture waterGathering;
     public static Animation<TextureRegion> eolIdleAnim;
     public static Skin hudSkin;
+    public static Texture unitDamage;
+    public static Animation<TextureRegion> unitDamageAnim;
     public static Texture moveAction;
     public static Texture moveActionDown;
     public static Texture craftAction;
@@ -169,6 +171,15 @@ public class AssetsMapper {
                 new TextureRegion(harlandSoldier, 128, 512, 64, 64),
                 new TextureRegion(harlandSoldier, 192, 512, 64, 64),
                 new TextureRegion(harlandSoldier, 256, 512, 64, 64));
+
+        unitDamage = loadTexture("characters/blood.png");
+        unitDamageAnim = new Animation<TextureRegion>(0.1f,
+                new TextureRegion(unitDamage, 0, 0, 64, 64),
+                new TextureRegion(unitDamage, 64, 0, 64, 64),
+                new TextureRegion(unitDamage, 128, 0, 64, 64),
+                new TextureRegion(unitDamage, 192, 0, 64, 64),
+                new TextureRegion(unitDamage, 256, 0, 64, 64));
+
         eol = loadTexture("characters/charco.png");
         eolIdleAnim = new Animation<TextureRegion>(0.6f,
                 new TextureRegion(eol, 0, 27, 64, 34),

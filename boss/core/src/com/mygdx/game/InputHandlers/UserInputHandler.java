@@ -64,19 +64,19 @@ public class UserInputHandler extends InputAdapter {
         switch (keycode) {
             case Input.Keys.LEFT:
                 Gdx.graphics.setCursor(Gdx.graphics.newCursor(lm, 0, 0));
-                addVelocity(velocityComponent, new Vector2(-velocity, 0), new Vector2(-accel,0));
+                addVelocity(velocityComponent, new Vector2(-velocity, velocityComponent.pos.y), new Vector2(-accel,velocityComponent.accel.y));
                 break;
             case Input.Keys.RIGHT:
                 Gdx.graphics.setCursor(Gdx.graphics.newCursor(rm, 0, 0));
-                addVelocity(velocityComponent, new Vector2(velocity, 0), new Vector2(accel,0));
+                addVelocity(velocityComponent, new Vector2(velocity, velocityComponent.pos.y), new Vector2(accel,velocityComponent.accel.y));
                 break;
             case Input.Keys.UP:
                 Gdx.graphics.setCursor(Gdx.graphics.newCursor(tm, 0, 0));
-                addVelocity(velocityComponent, new Vector2(0, velocity), new Vector2(0, accel));
+                addVelocity(velocityComponent, new Vector2(velocityComponent.pos.x, velocity), new Vector2(velocityComponent.accel.x, accel));
                 break;
             case Input.Keys.DOWN:
                 Gdx.graphics.setCursor(Gdx.graphics.newCursor(bm, 0, 0));
-                addVelocity(velocityComponent, new Vector2(0, -velocity), new Vector2(0, -accel));
+                addVelocity(velocityComponent, new Vector2(velocityComponent.pos.x, -velocity), new Vector2(velocityComponent.accel.x, -accel));
                 break;
             case Input.Keys.ESCAPE:
                 pm.get(player).selectedObject.deselect();
@@ -129,19 +129,19 @@ public class UserInputHandler extends InputAdapter {
             return true;
         }
         if (screenX < 20 && velocityComponent.pos.x == 0) {
-            addVelocity(velocityComponent, new Vector2(-velocity, 0), new Vector2(-accel, 0));
+            addVelocity(velocityComponent, new Vector2(-velocity, velocityComponent.pos.y), new Vector2(-accel, velocityComponent.accel.y));
             Gdx.graphics.setCursor(Gdx.graphics.newCursor(lm, 0, 0));
         }
         if (screenX > OCamera.viewportWidth - 20 && velocityComponent.pos.x == 0) {
-            addVelocity(velocityComponent, new Vector2(velocity, 0), new Vector2(accel, 0));
+            addVelocity(velocityComponent, new Vector2(velocity, velocityComponent.pos.y), new Vector2(accel, velocityComponent.accel.y));
             Gdx.graphics.setCursor(Gdx.graphics.newCursor(rm, 0, 0));
         }
         if (screenY < 20 && velocityComponent.pos.y == 0) {
-            addVelocity(velocityComponent, new Vector2(0, velocity), new Vector2(0, accel));
+            addVelocity(velocityComponent, new Vector2(velocityComponent.pos.x, velocity), new Vector2(velocityComponent.accel.x, accel));
             Gdx.graphics.setCursor(Gdx.graphics.newCursor(tm, 0, 0));
         }
         if (screenY > OCamera.viewportHeight - 20 && velocityComponent.pos.y == 0) {
-            addVelocity(velocityComponent, new Vector2(0, -velocity), new Vector2(0, -accel));
+            addVelocity(velocityComponent, new Vector2(velocityComponent.pos.x, -velocity), new Vector2(velocityComponent.accel.x, -accel));
             Gdx.graphics.setCursor(Gdx.graphics.newCursor(bm, 0, 0));
         }
         return true;

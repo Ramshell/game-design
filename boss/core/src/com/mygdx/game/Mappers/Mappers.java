@@ -43,5 +43,6 @@ public class Mappers {
     public static final ComponentMapper<DefeatComponent> defeatComponentMapper = ComponentMapper.getFor(DefeatComponent.class);
     public static final ComponentMapper<PatrolComponent> patrolComponentMapper = ComponentMapper.getFor(PatrolComponent.class);
     public static final ComponentMapper<DamageSpawnComponent> damageSpawnComponentMapper = ComponentMapper.getFor(DamageSpawnComponent.class);
+    public static final ComponentMapper<AnimationSpawnComponent> animationSpawnComponentMapper = ComponentMapper.getFor(AnimationSpawnComponent.class);
 
 }
