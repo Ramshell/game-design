@@ -1,12 +1,12 @@
 package com.platformer.ar.Components.World;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.math.Vector2;
 
 public class PositionComponent implements Component {
-    public float x, y;
+    public Vector2 pos = new Vector2();
 
     public PositionComponent(float x, float y){
-        this.x = x;
-        this.y = y;
+        pos.set(x, y);
     }
 }

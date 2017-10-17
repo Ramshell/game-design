@@ -1,19 +1,18 @@
 package com.platformer.ar;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.platformer.ar.Components.*;
+import com.platformer.ar.Components.World.PlayerComponent;
 import com.platformer.ar.Components.World.PositionComponent;
+import com.platformer.ar.Components.World.VelocityComponent;
 import com.platformer.ar.Systems.*;
 
 public class GameScreen extends ScreenAdapter{
@@ -26,6 +25,7 @@ public class GameScreen extends ScreenAdapter{
 
     private SpriteBatch batch;
     private IScreenDispatcher dispatcher;
+    private OrthogonalTiledMapRenderer renderer;
 
 
     public GameScreen(SpriteBatch batch, IScreenDispatcher dispatcher){
@@ -37,34 +37,47 @@ public class GameScreen extends ScreenAdapter{
     private void init(){
         Gdx.app.log("GameScreen", "Initializing");
         isInitialized = true;
-
-        world = new World(new Vector2(0f, -9.8f), true);
-        //Add Texture Component
         engine = new PooledEngine();
-
+        TmxMapLoader loader = new TmxMapLoader();
 
         RenderingSystem renderingSystem = new RenderingSystem(batch);
         engine.addSystem(new AnimationSystem());
         engine.addSystem(renderingSystem);
-        engine.addSystem(new PhysicsSystem(world));
-//
-        engine.addSystem(new PhysicsDebugSystem(world, renderingSystem.getCamera()));
-        engine.addSystem(new UselessStateSwapSystem());
-//
-//        Entity e = buildPuffin(world);
-//        engine.addEntity(e);
-//        engine.addEntity(buildFloorEntity(world));
-//
-//        isInitialized = true;
+        engine.addSystem(new PlayerSystem());
+        engine.addSystem(new StateSystem());
+        engine.addSystem(new MovementSystem());
+        engine.addSystem(new GravitySystem());
+
+        Entity e = buildMainCharacter();
+        engine.addEntity(e);
+
+        isInitialized = true;
     }
 
-    private Entity buildMainCharacter(World world) {
+
+    private void update(float delta){
+        engine.update(delta);
+    }
+
+    @Override
+    public void render(float delta) {
+        if(isInitialized) {
+            update(delta);
+        }else{
+            init();
+        }
+    }
+
+    private Entity buildMainCharacter() {
         Entity e = engine.createEntity();
-        e.add(new PositionComponent(0, 0));
+        e.add(new PlayerComponent());
+        e.add(new PositionComponent(0,0));
+        e.add(new VelocityComponent());
 
         AnimationComponent a = new AnimationComponent();
-//        a.animations.put("IDLE", new Animation(1f/16f, Assets.getPuffinArray(), Animation.PlayMode.LOOP));
-//        a.animations.put("RUNNING", new Animation(1f/16f, Assets.getPuffinRunArray(), Animation.PlayMode.LOOP));
+        a.animations.put("IDLE", Assets.robotIdleAnim);
+        a.animations.put("RUNNING_RIGHT", Assets.robotRunRightAnim);
+        a.animations.put("RUNNING_LEFT", Assets.robotRunLeftAnim);
         e.add(a);
         StateComponent state = new StateComponent();
         state.set("IDLE");
@@ -74,41 +87,10 @@ public class GameScreen extends ScreenAdapter{
 
         TransformComponent tfc = new TransformComponent();
         tfc.position.set(10f, 10f, 1f);
-        tfc.rotation = 15f;
-        tfc.scale.set(0.25f, 0.25f);
+        tfc.rotation = 0f;
+        tfc.scale.set(0.3f, 0.3f);
         e.add(tfc);
 
-        BodyComponent bc = new BodyComponent();
-        BodyDef bodyDef = new BodyDef();
-        // We set our body to dynamic, for something like ground which doesn't move we would set it to StaticBody
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-
-        // Set our body's starting position in the world
-        bodyDef.position.set(10f, 23f);
-
-        // Create our body in the world using our body definition
-        bc.body = world.createBody(bodyDef);
-        bc.body.applyAngularImpulse(50f, true);
-
-        // Create a circle shape and set its radius to 6
-        CircleShape circle = new CircleShape();
-        circle.setRadius(2f);
-
-        // Create a fixture definition to apply our shape to
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = circle;
-        fixtureDef.density = 20f;
-        fixtureDef.friction = 0.4f;
-        fixtureDef.restitution = 0.6f; // Make it bounce a little bit
-
-        // Create our fixture and attach it to the body
-        bc.body.createFixture(fixtureDef);
-
-        // Remember to dispose of any shapes after you're done with them!
-        // BodyDef and FixtureDef don't need disposing, but shapes do.
-        circle.dispose();
-
-        e.add(bc);
         return e;
     }
 }

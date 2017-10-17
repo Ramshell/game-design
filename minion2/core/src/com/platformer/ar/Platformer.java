@@ -15,6 +15,7 @@ public class Platformer extends Game {
 
 	@Override
 	public void create () {
+	    Assets.load();
 		batch = new SpriteBatch();
         screenDispatcher = new ScreenDispatcher();
         Screen gameScreen = new GameScreen(batch, screenDispatcher);
