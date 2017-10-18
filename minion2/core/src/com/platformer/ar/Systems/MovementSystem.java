@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.platformer.ar.Components.TransformComponent;
 import com.platformer.ar.Components.World.PositionComponent;
+import com.platformer.ar.Components.World.SolidComponent;
 import com.platformer.ar.Components.World.VelocityComponent;
 
 public class MovementSystem extends EntitySystem {
@@ -22,13 +23,12 @@ public class MovementSystem extends EntitySystem {
     }
 
     public void update(float deltaTime) {
-        for (Entity entity : getEngine().getEntitiesFor(Family.all(PositionComponent.class, VelocityComponent.class).get())) {
+        for (Entity entity : getEngine().getEntitiesFor(Family.all(TransformComponent.class, VelocityComponent.class).get())) {
             TransformComponent position = pm.get(entity);
             VelocityComponent velocity = vm.get(entity);
             Vector3 v = position.position.cpy()
                     .add(velocity.accel.x * 1/2 * deltaTime * deltaTime, velocity.accel.y * 1/2 * deltaTime * deltaTime, 0)
                             .add(velocity.pos.x * deltaTime, velocity.pos.y * deltaTime, 0);
-            if(outsideWorld(v)) continue;
             position.position.set(v);
             velocity.increment(deltaTime);
         }

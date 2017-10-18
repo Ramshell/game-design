@@ -28,13 +28,18 @@ public class PlayerSystem extends EntitySystem{
         PlayerComponent rc = rcm.get(entity);
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             if(vc.pos.x >= 0) scm.get(entity).set("RUNNING_LEFT");
-            vc.pos.set(-rc.maxVelocity, vc.pos.y);
+            vc.pos.set(-rc.maxSpeed, vc.pos.y);
         }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             if(vc.pos.x <= 0) scm.get(entity).set("RUNNING_RIGHT");
-            vc.pos.set(rc.maxVelocity, vc.pos.y);
+            vc.pos.set(rc.maxSpeed, vc.pos.y);
         }else{
-            if(!scm.get(entity).get().equals("IDLE")) scm.get(entity).set("IDLE");
-            vc.pos.set(0,0);
+            if(!scm.get(entity).get().equals("IDLE")) {
+                scm.get(entity).set("IDLE");
+                vc.pos.x = 0f;
+            }
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+            vc.pos.set(vc.pos.x, rc.jumpSpeed);
         }
 
     }

@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.platformer.ar.Components.TextureComponent;
@@ -15,29 +16,6 @@ import com.platformer.ar.Components.TransformComponent;
 import java.util.Comparator;
 
 public class RenderingSystem extends SortedIteratingSystem {
-    static final float PPM = 16.0f;
-    static final float FRUSTUM_WIDTH = Gdx.graphics.getWidth()/PPM;//37.5f;
-    static final float FRUSTUM_HEIGHT = Gdx.graphics.getHeight()/PPM;//.0f;
-
-    public static final float PIXELS_TO_METRES = 1.0f / PPM;
-
-    private static Vector2 meterDimensions = new Vector2();
-    private static Vector2 pixelDimensions = new Vector2();
-    public static Vector2 getScreenSizeInMeters(){
-        meterDimensions.set(Gdx.graphics.getWidth()*PIXELS_TO_METRES,
-                Gdx.graphics.getHeight()*PIXELS_TO_METRES);
-        return meterDimensions;
-    }
-
-    public static Vector2 getScreenSizeInPixesl(){
-        pixelDimensions.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        return pixelDimensions;
-    }
-
-    public static float PixelsToMeters(float pixelValue){
-        return pixelValue * PIXELS_TO_METRES;
-    }
-
     private SpriteBatch batch;
     private Array<Entity> renderQueue;
     private Comparator<Entity> comparator;
@@ -46,7 +24,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     private ComponentMapper<TextureComponent> textureM;
     private ComponentMapper<TransformComponent> transformM;
 
-    public RenderingSystem(SpriteBatch batch) {
+    public RenderingSystem(SpriteBatch batch, OrthographicCamera camera) {
         super(Family.all(TransformComponent.class, TextureComponent.class).get(), new ZComparator());
 
         textureM = ComponentMapper.getFor(TextureComponent.class);
@@ -56,8 +34,7 @@ public class RenderingSystem extends SortedIteratingSystem {
 
         this.batch = batch;
 
-        cam = new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
-        cam.position.set(FRUSTUM_WIDTH / 2f, FRUSTUM_HEIGHT / 2f, 0);
+        cam = camera;
     }
 
     @Override
@@ -75,6 +52,7 @@ public class RenderingSystem extends SortedIteratingSystem {
             TextureComponent tex = textureM.get(entity);
             TransformComponent t = transformM.get(entity);
 
+
             if (tex.region == null || t.isHidden) {
                 continue;
             }
@@ -90,7 +68,7 @@ public class RenderingSystem extends SortedIteratingSystem {
                     t.position.x - originX, t.position.y - originY,
                     originX, originY,
                     width, height,
-                    PixelsToMeters(t.scale.x), PixelsToMeters(t.scale.y),
+                    t.scale.x, t.scale.y,
                     t.rotation);
         }
 

@@ -9,7 +9,6 @@ public class StateComponent implements Component {
 
     public void set(String newState){
         state = newState;
-        time = 0.0f;
     }
 
     public String get(){
