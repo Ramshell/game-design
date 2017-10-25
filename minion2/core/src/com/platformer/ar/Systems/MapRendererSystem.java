@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.platformer.ar.Components.CameraComponent;
 import com.platformer.ar.Components.MapRendererComponent;
 import com.platformer.ar.Components.TransformComponent;
@@ -28,10 +29,13 @@ public class MapRendererSystem extends IteratingSystem{
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        camera.camera.position.set(ComponentMapper.getFor(TransformComponent.class).get(camera.target).position);
+        camera.camera.position.x = clampValue(camera.boundLeftX, camera.boundRightX, ComponentMapper.getFor(TransformComponent.class).get(camera.target).position.x);
+        camera.camera.position.y = clampValue(camera.boundBottomY, camera.boundTopY, ComponentMapper.getFor(TransformComponent.class).get(camera.target).position.y);
         camera.camera.update();
         rendererComponentMapper.get(entity).renderer.setView(camera.camera);
         rendererComponentMapper.get(entity).renderer.render();
+
+
 //        for (Entity e : getEngine().getEntitiesFor(Family.all(SolidComponent.class).get())){
 //            ShapeRenderer shapeRenderer = new ShapeRenderer();
 //            shapeRenderer.setProjectionMatrix(camera.camera.combined);
@@ -42,5 +46,21 @@ public class MapRendererSystem extends IteratingSystem{
 //                    e.getComponent(SolidComponent.class).rectangle.getHeight());
 //            shapeRenderer.end();
 //        }
+//
+//        for (RectangleMapObject rect : rendererComponentMapper.get(entity).renderer.getMap().getLayers().get("collision").getObjects().getByType(RectangleMapObject.class)){
+//            ShapeRenderer shapeRenderer = new ShapeRenderer();
+//            shapeRenderer.setProjectionMatrix(camera.camera.combined);
+//            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//            shapeRenderer.rect(rect.getRectangle().x,
+//                    rect.getRectangle().y,
+//                    rect.getRectangle().getWidth(),
+//                    rect.getRectangle().getHeight());
+//            shapeRenderer.end();
+//        }
+
+    }
+
+    public static float clampValue(float min, float max, float value){
+        return Math.max(min, Math.min(max, value));
     }
 }

@@ -36,7 +36,7 @@ public class HUDComponent implements Component {
     public Label hintTitle;
     public Label hintContent;
     public Label hintCost;
-    public Skin skin = AssetsMapper.tracerSkin;
+    public Skin skin = AssetsMapper.hudSkin;
 
     public Label selectedObjectLabel;
     public Label resourcesLabel;
@@ -137,12 +137,12 @@ public class HUDComponent implements Component {
         topTable.setBackground(t);
         bottomTable.setBackground(t2);
 
-        hintTitle = new Label("",skin, "title");
+        hintTitle = new Label("",AssetsMapper.tracerSkin, "title");
         hintTitle.setColor(new Color(1,1,0.2f, 1 ));
         hintTitle.setWrap(true);
-        hintContent = new Label("",skin);
+        hintContent = new Label("",AssetsMapper.tracerSkin);
         hintContent.setWrap(true);
-        hintCost = new Label("", skin, "title");
+        hintCost = new Label("", AssetsMapper.tracerSkin, "title");
         hintCost.setWrap(true);
         hintCost.setColor(new Color(0.3f, 1, 0.2f, 1));
         midTable2.add(hintTitle).right().bottom().expandX().width(384);

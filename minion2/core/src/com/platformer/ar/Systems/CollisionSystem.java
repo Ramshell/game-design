@@ -40,8 +40,8 @@ public class CollisionSystem extends EntitySystem{
             SolidComponent sc = scm.get(e);
             TextureComponent tex = textureM.get(e);
 
-            float width = tex.region.getRegionWidth() * tc.scale.x / 2;
-            float height = tex.region.getRegionHeight() * tc.scale.y;
+            float width = tex.region.getRegionWidth() * Math.abs(tc.scale.x) / 2;
+            float height = tex.region.getRegionHeight() * Math.abs(tc.scale.y);
 
             float originX = width/2f;
             float originY = height/2f;
@@ -57,7 +57,7 @@ public class CollisionSystem extends EntitySystem{
                     break;
                 }
             }
-            sc.rectangle.setPosition(tc.position.x, tc.position.y);
+            sc.rectangle.setPosition(tc.position.x - originX, tc.position.y - originY);
             sc.rectangle.y = v.y - originY;
             for(RectangleMapObject rmo : mrc.renderer.getMap().getLayers().get("collision").getObjects().getByType(RectangleMapObject.class)){
                 if(sc.rectangle.overlaps(rmo.getRectangle())){

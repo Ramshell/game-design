@@ -4,11 +4,8 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.platformer.ar.Components.TextureComponent;
 import com.platformer.ar.Components.TransformComponent;
@@ -16,7 +13,7 @@ import com.platformer.ar.Components.World.PlayerComponent;
 
 import java.util.Comparator;
 
-public class RenderingSystem extends SortedIteratingSystem {
+public class OnTopRenderingSystem extends SortedIteratingSystem {
     private SpriteBatch batch;
     private Array<Entity> renderQueue;
     private Comparator<Entity> comparator;
@@ -25,9 +22,9 @@ public class RenderingSystem extends SortedIteratingSystem {
     private ComponentMapper<TextureComponent> textureM;
     private ComponentMapper<TransformComponent> transformM;
 
-    public RenderingSystem(SpriteBatch batch, OrthographicCamera camera) {
+    public OnTopRenderingSystem(SpriteBatch batch, OrthographicCamera camera) {
         super(Family.all(TransformComponent.class, TextureComponent.class)
-                .exclude(PlayerComponent.class).get(), new ZComparator());
+                .one(PlayerComponent.class).get(), new ZComparator());
 
         textureM = ComponentMapper.getFor(TextureComponent.class);
         transformM = ComponentMapper.getFor(TransformComponent.class);

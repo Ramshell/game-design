@@ -33,8 +33,4 @@ public class MovementSystem extends EntitySystem {
             velocity.increment(deltaTime);
         }
     }
-
-    public static boolean outsideWorld(Vector3 check){
-        return check.x < 0 || check.y < 0;
-    }
 }

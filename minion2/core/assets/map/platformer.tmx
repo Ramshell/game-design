@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="128" height="32" tilewidth="64" tileheight="64" nextobjectid="31">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="128" height="32" tilewidth="64" tileheight="64" nextobjectid="45">
  <tileset firstgid="1" source="tileset/floor.tsx"/>
  <layer name="background" width="128" height="32">
   <data encoding="base64" compression="zlib">
-   eJzt1rsKwCAQBEBTpMmDJP//s7EOghG0UGdgwcLiYAUvBAAAAAAAAAAAAAAAenFlEj5nxpHrPvUWGIf+56b7udXof4vZ245JIzX6P2LOtmPSSEn/S8yaiP+hX6X7n/1gLLlO75jnxz399+kF7tUHNg==
+   eJzt0zsKgEAMQMG12ML//W9rCoVFZDtRwgy8JqRIk1IAAAAAAAAAAAAAAAAAyKqeAXmM0RTNnR2/n9cSrdH29SG8Zui0N9Wm+97T7Ip/OwC5bgCs
   </data>
  </layer>
  <objectgroup name="collision">
-  <object id="15" x="639.816" y="1667.94" width="62.877" height="381.511"/>
-  <object id="16" x="704.393" y="1880" width="386.609" height="127.453"/>
-  <object id="17" x="1088.45" y="1796.24" width="126.604" height="205.625"/>
+  <object id="38" x="448.636" y="1930.5" width="192.88" height="118.107"/>
+  <object id="39" x="643.215" y="2025.87" width="892" height="22.73"/>
+  <object id="36" x="0.84969" y="2025.72" width="448.636" height="22.88"/>
+  <object id="42" x="1026.43" y="1885.46" width="124.055" height="35.687"/>
+  <object id="43" x="1091.85" y="1752.91" width="119.806" height="39.0857"/>
  </objectgroup>
- <objectgroup name="spawn" offsetx="0" offsety="1.69938">
-  <object id="21" name="start" x="738.38" y="1774.15" width="45.0336" height="39.9354">
+ <objectgroup name="spawn">
+  <object id="35" name="start" x="41.6348" y="1850.95" width="45.8833" height="36.5367">
    <ellipse/>
-  </object>
-  <object id="30" x="730.39" y="1748.51" width="92.375" height="19">
-   <text wrap="1">Welcome</text>
   </object>
  </objectgroup>
 </map>

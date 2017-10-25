@@ -1,4 +1,4 @@
-package texturepacker;
+package com.platformer.ar.desktop;
 
 import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;

@@ -1,0 +1,728 @@
+
+animations.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Jump/Jump
+  rotate: false
+  xy: 0, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 1
+Jump/Jump
+  rotate: false
+  xy: 0, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 2
+Jump/Jump
+  rotate: false
+  xy: 569, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 3
+Jump/Jump
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 4
+Jump/Jump
+  rotate: false
+  xy: 569, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 5
+Jump/Jump
+  rotate: false
+  xy: 1138, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 6
+Jump/Jump
+  rotate: false
+  xy: 569, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 7
+Jump/Jump
+  rotate: false
+  xy: 1138, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 8
+Jump/Jump
+  rotate: false
+  xy: 1138, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 9
+
+animations2.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Jump/Jump
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 10
+
+animations3.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+JumpShoot/JumpShoot
+  rotate: false
+  xy: 0, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 1
+JumpShoot/JumpShoot
+  rotate: false
+  xy: 0, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 2
+JumpShoot/JumpShoot
+  rotate: false
+  xy: 569, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 3
+JumpShoot/JumpShoot
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 4
+JumpShoot/JumpShoot
+  rotate: false
+  xy: 569, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 5
+
+animations4.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Idle/idle
+  rotate: false
+  xy: 0, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 1
+Idle/idle
+  rotate: false
+  xy: 0, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 2
+Idle/idle
+  rotate: false
+  xy: 569, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 3
+Idle/idle
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 4
+Idle/idle
+  rotate: false
+  xy: 569, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 5
+Idle/idle
+  rotate: false
+  xy: 1138, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 6
+Idle/idle
+  rotate: false
+  xy: 569, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 7
+Idle/idle
+  rotate: false
+  xy: 1138, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 8
+Idle/idle
+  rotate: false
+  xy: 1138, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 9
+
+animations5.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Idle/idle
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 10
+
+animations6.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Run/Run
+  rotate: false
+  xy: 0, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 1
+Run/Run
+  rotate: false
+  xy: 0, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 2
+Run/Run
+  rotate: false
+  xy: 569, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 3
+Run/Run
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 4
+Run/Run
+  rotate: false
+  xy: 569, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 5
+Run/Run
+  rotate: false
+  xy: 1138, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 6
+Run/Run
+  rotate: false
+  xy: 569, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 7
+Run/Run
+  rotate: false
+  xy: 1138, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 8
+
+animations7.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 0, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 1
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 0, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 2
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 569, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 3
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 4
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 569, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 5
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 1138, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 6
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 569, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 7
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 1138, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 8
+
+animations8.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+RunShoot/RunShoot
+  rotate: false
+  xy: 0, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 1
+RunShoot/RunShoot
+  rotate: false
+  xy: 0, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 2
+RunShoot/RunShoot
+  rotate: false
+  xy: 569, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 3
+RunShoot/RunShoot
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 4
+RunShoot/RunShoot
+  rotate: false
+  xy: 569, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 5
+RunShoot/RunShoot
+  rotate: false
+  xy: 1138, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 6
+RunShoot/RunShoot
+  rotate: false
+  xy: 569, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 7
+RunShoot/RunShoot
+  rotate: false
+  xy: 1138, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 8
+RunShoot/RunShoot
+  rotate: false
+  xy: 1138, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 9
+
+animations9.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Dead/Dead01
+  rotate: false
+  xy: 0, 1042
+  size: 562, 519
+  orig: 562, 519
+  offset: 0, 0
+  index: -1
+Dead/Dead02
+  rotate: false
+  xy: 0, 521
+  size: 562, 519
+  orig: 562, 519
+  offset: 0, 0
+  index: -1
+Dead/Dead03
+  rotate: false
+  xy: 564, 1042
+  size: 562, 519
+  orig: 562, 519
+  offset: 0, 0
+  index: -1
+Dead/Dead04
+  rotate: false
+  xy: 0, 0
+  size: 562, 519
+  orig: 562, 519
+  offset: 0, 0
+  index: -1
+Dead/Dead05
+  rotate: false
+  xy: 564, 521
+  size: 562, 519
+  orig: 562, 519
+  offset: 0, 0
+  index: -1
+Dead/Dead06
+  rotate: false
+  xy: 1128, 1042
+  size: 562, 519
+  orig: 562, 519
+  offset: 0, 0
+  index: -1
+Dead/Dead07
+  rotate: false
+  xy: 564, 0
+  size: 562, 519
+  orig: 562, 519
+  offset: 0, 0
+  index: -1
+Dead/Dead08
+  rotate: false
+  xy: 1128, 521
+  size: 562, 519
+  orig: 562, 519
+  offset: 0, 0
+  index: -1
+Dead/Dead09
+  rotate: false
+  xy: 1128, 0
+  size: 562, 519
+  orig: 562, 519
+  offset: 0, 0
+  index: -1
+Dead/Dead10
+  rotate: false
+  xy: 1128, 0
+  size: 562, 519
+  orig: 562, 519
+  offset: 0, 0
+  index: -1
+
+animations10.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Shoot/Shoot
+  rotate: false
+  xy: 0, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 1
+Shoot/Shoot
+  rotate: false
+  xy: 0, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 2
+Shoot/Shoot
+  rotate: false
+  xy: 569, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 3
+Shoot/Shoot
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 4
+
+animations11.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Melee/Melee
+  rotate: false
+  xy: 0, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 1
+Melee/Melee
+  rotate: false
+  xy: 0, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 2
+Melee/Melee
+  rotate: false
+  xy: 569, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 3
+Melee/Melee
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 4
+Melee/Melee
+  rotate: false
+  xy: 569, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 5
+Melee/Melee
+  rotate: false
+  xy: 1138, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 6
+Melee/Melee
+  rotate: false
+  xy: 569, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 7
+Melee/Melee
+  rotate: false
+  xy: 1138, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 8
+
+animations12.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Slide/Slide
+  rotate: false
+  xy: 0, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 1
+Slide/Slide
+  rotate: false
+  xy: 0, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 2
+Slide/Slide
+  rotate: false
+  xy: 569, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 3
+Slide/Slide
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 4
+Slide/Slide
+  rotate: false
+  xy: 569, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 5
+Slide/Slide
+  rotate: false
+  xy: 1138, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 6
+Slide/Slide
+  rotate: false
+  xy: 569, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 7
+Slide/Slide
+  rotate: false
+  xy: 1138, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 8
+Slide/Slide
+  rotate: false
+  xy: 1138, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 9
+
+animations13.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Slide/Slide
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 10
+
+animations14.png
+size: 256,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Objects/Bullet
+  rotate: false
+  xy: 0, 345
+  size: 172, 139
+  orig: 172, 139
+  offset: 0, 0
+  index: 0
+Objects/Bullet
+  rotate: false
+  xy: 0, 345
+  size: 172, 139
+  orig: 172, 139
+  offset: 0, 0
+  index: 1
+Objects/Bullet
+  rotate: false
+  xy: 0, 204
+  size: 172, 139
+  orig: 172, 139
+  offset: 0, 0
+  index: 2
+Objects/Bullet
+  rotate: false
+  xy: 0, 204
+  size: 172, 139
+  orig: 172, 139
+  offset: 0, 0
+  index: 3
+Objects/Bullet
+  rotate: false
+  xy: 0, 63
+  size: 172, 139
+  orig: 172, 139
+  offset: 0, 0
+  index: 4
+Objects/Muzzle
+  rotate: false
+  xy: 174, 243
+  size: 19, 241
+  orig: 19, 241
+  offset: 0, 0
+  index: 0
+Objects/Muzzle
+  rotate: false
+  xy: 174, 243
+  size: 19, 241
+  orig: 19, 241
+  offset: 0, 0
+  index: 1
+Objects/Muzzle
+  rotate: false
+  xy: 195, 243
+  size: 19, 241
+  orig: 19, 241
+  offset: 0, 0
+  index: 2
+Objects/Muzzle
+  rotate: false
+  xy: 216, 243
+  size: 19, 241
+  orig: 19, 241
+  offset: 0, 0
+  index: 3
+Objects/Muzzle
+  rotate: false
+  xy: 174, 0
+  size: 19, 241
+  orig: 19, 241
+  offset: 0, 0
+  index: 4
