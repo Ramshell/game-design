@@ -72,9 +72,6 @@ public class GameScreen extends ScreenAdapter{
         engine.addSystem(new OnTopRenderingSystem(batch, camera));
         engine.addSystem(new BackgroundSystem());
         engine.addSystem(new BulletSystem());
-
-
-
         isInitialized = true;
     }
 
@@ -94,6 +91,7 @@ public class GameScreen extends ScreenAdapter{
 
     private Entity buildMainCharacter() {
         Entity e = engine.createEntity();
+        e.add(new OnTopComponent());
         e.add(new PlayerComponent());
         e.add(new VelocityComponent());
         e.add(new GravityComponent());
@@ -147,6 +145,15 @@ public class GameScreen extends ScreenAdapter{
     private Entity buildCactusBackground(Entity target, Engine engine){
         Entity e = new Entity();
         e.add(new BackgroundComponent(0.8f, Assets.cactusBackground, target, engine, 100, 1.4f, -90));
+        return e;
+    }
+
+    private Entity buildWasp(){
+        Entity e = new Entity();
+        e.add(new OnTopComponent());
+        e.add(new VelocityComponent());
+        e.add(new GravityComponent());
+        MapObject start = map.getLayers().get("spawn").getObjects().get("start");
         return e;
     }
 }

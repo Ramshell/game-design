@@ -58,6 +58,7 @@ public class OnTopRenderingSystem extends SortedIteratingSystem {
             }
 
 
+
             float width = tex.region.getRegionWidth();
             float height = tex.region.getRegionHeight();
 

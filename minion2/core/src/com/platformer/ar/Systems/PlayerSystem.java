@@ -3,6 +3,7 @@ package com.platformer.ar.Systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.platformer.ar.Assets;
 import com.platformer.ar.Components.*;
@@ -125,6 +126,8 @@ public class PlayerSystem extends EntitySystem{
                 textureComponent.region.getRegionWidth() * scale / 2,
                 textureComponent.region.getRegionHeight() * scale));
         e.add(solidComponent);
+        for(Sound s : Assets.shootSounds) s.stop();
+        Assets.shootSounds.random().play();
         return e;
     }
 }

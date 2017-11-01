@@ -1,5 +1,18 @@
 
 animations.png
+size: 128,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+heart
+  rotate: false
+  xy: 0, 0
+  size: 125, 125
+  orig: 125, 125
+  offset: 0, 0
+  index: -1
+
+animations2.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
@@ -68,7 +81,7 @@ Jump/Jump
   offset: 0, 0
   index: 9
 
-animations2.png
+animations3.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -80,53 +93,53 @@ Jump/Jump
   orig: 567, 556
   offset: 0, 0
   index: 10
-
-animations3.png
-size: 2048,2048
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-JumpShoot/JumpShoot
-  rotate: false
-  xy: 0, 1116
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 1
-JumpShoot/JumpShoot
-  rotate: false
-  xy: 0, 558
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 2
-JumpShoot/JumpShoot
-  rotate: false
-  xy: 569, 1116
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 3
-JumpShoot/JumpShoot
-  rotate: false
-  xy: 0, 0
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 4
-JumpShoot/JumpShoot
-  rotate: false
-  xy: 569, 558
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 5
 
 animations4.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+JumpShoot/JumpShoot
+  rotate: false
+  xy: 0, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 1
+JumpShoot/JumpShoot
+  rotate: false
+  xy: 0, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 2
+JumpShoot/JumpShoot
+  rotate: false
+  xy: 569, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 3
+JumpShoot/JumpShoot
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 4
+JumpShoot/JumpShoot
+  rotate: false
+  xy: 569, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 5
+
+animations5.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
 Idle/idle
   rotate: false
   xy: 0, 1116
@@ -191,7 +204,7 @@ Idle/idle
   offset: 0, 0
   index: 9
 
-animations5.png
+animations6.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -204,123 +217,61 @@ Idle/idle
   offset: 0, 0
   index: 10
 
-animations6.png
-size: 2048,2048
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-Run/Run
-  rotate: false
-  xy: 0, 1116
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 1
-Run/Run
-  rotate: false
-  xy: 0, 558
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 2
-Run/Run
-  rotate: false
-  xy: 569, 1116
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 3
-Run/Run
-  rotate: false
-  xy: 0, 0
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 4
-Run/Run
-  rotate: false
-  xy: 569, 558
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 5
-Run/Run
-  rotate: false
-  xy: 1138, 1116
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 6
-Run/Run
-  rotate: false
-  xy: 569, 0
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 7
-Run/Run
-  rotate: false
-  xy: 1138, 558
-  size: 567, 556
-  orig: 567, 556
-  offset: 0, 0
-  index: 8
-
 animations7.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-JumpMelee/JumpMelee
+Run/Run
   rotate: false
   xy: 0, 1116
   size: 567, 556
   orig: 567, 556
   offset: 0, 0
   index: 1
-JumpMelee/JumpMelee
+Run/Run
   rotate: false
   xy: 0, 558
   size: 567, 556
   orig: 567, 556
   offset: 0, 0
   index: 2
-JumpMelee/JumpMelee
+Run/Run
   rotate: false
   xy: 569, 1116
   size: 567, 556
   orig: 567, 556
   offset: 0, 0
   index: 3
-JumpMelee/JumpMelee
+Run/Run
   rotate: false
   xy: 0, 0
   size: 567, 556
   orig: 567, 556
   offset: 0, 0
   index: 4
-JumpMelee/JumpMelee
+Run/Run
   rotate: false
   xy: 569, 558
   size: 567, 556
   orig: 567, 556
   offset: 0, 0
   index: 5
-JumpMelee/JumpMelee
+Run/Run
   rotate: false
   xy: 1138, 1116
   size: 567, 556
   orig: 567, 556
   offset: 0, 0
   index: 6
-JumpMelee/JumpMelee
+Run/Run
   rotate: false
   xy: 569, 0
   size: 567, 556
   orig: 567, 556
   offset: 0, 0
   index: 7
-JumpMelee/JumpMelee
+Run/Run
   rotate: false
   xy: 1138, 558
   size: 567, 556
@@ -333,6 +284,68 @@ size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 0, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 1
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 0, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 2
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 569, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 3
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 0, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 4
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 569, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 5
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 1138, 1116
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 6
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 569, 0
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 7
+JumpMelee/JumpMelee
+  rotate: false
+  xy: 1138, 558
+  size: 567, 556
+  orig: 567, 556
+  offset: 0, 0
+  index: 8
+
+animations9.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
 RunShoot/RunShoot
   rotate: false
   xy: 0, 1116
@@ -397,7 +410,7 @@ RunShoot/RunShoot
   offset: 0, 0
   index: 9
 
-animations9.png
+animations10.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
@@ -473,7 +486,7 @@ Dead/Dead10
   offset: 0, 0
   index: -1
 
-animations10.png
+animations11.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
@@ -507,7 +520,7 @@ Shoot/Shoot
   offset: 0, 0
   index: 4
 
-animations11.png
+animations12.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
@@ -569,7 +582,7 @@ Melee/Melee
   offset: 0, 0
   index: 8
 
-animations12.png
+animations13.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
@@ -638,7 +651,7 @@ Slide/Slide
   offset: 0, 0
   index: 9
 
-animations13.png
+animations14.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -651,7 +664,7 @@ Slide/Slide
   offset: 0, 0
   index: 10
 
-animations14.png
+animations15.png
 size: 256,512
 format: RGBA8888
 filter: Nearest,Nearest
