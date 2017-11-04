@@ -14,7 +14,7 @@ public class Assets{
         robotShootRightAnim, robotShootJumpRightAnim, robotShootRunRightAnim, robotMeleeRightAnim,
         robotJumpMeleeRightAnim, bullet, muzzle, slide, wasp;
     public static TextureAtlas robotAtlas;
-    public static TextureRegion background, cactusFarAwayBackground, cactusBackground;
+    public static TextureRegion background, cactusFarAwayBackground, cactusBackground, heart, heartDown;
     public static Music desertBackground;
     public static Sound potionSound, shootSound;
     public static Array<Sound> shootSounds = new Array<Sound>();
@@ -50,5 +50,7 @@ public class Assets{
         shootSounds.add(Gdx.audio.newSound(Gdx.files.internal("sounds/robot/SHOOT007_01.wav")));
         shootSounds.add(Gdx.audio.newSound(Gdx.files.internal("sounds/robot/SHOOT007_03.wav")));
         shootSounds.add(Gdx.audio.newSound(Gdx.files.internal("sounds/robot/SHOOT007_02.wav")));
+        heart = robotAtlas.findRegion("heart");
+        heartDown = robotAtlas.findRegion("heart_down");
     }
 }

@@ -1,12 +1,19 @@
 
 animations.png
-size: 128,128
+size: 256,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 heart
   rotate: false
   xy: 0, 0
+  size: 125, 125
+  orig: 125, 125
+  offset: 0, 0
+  index: -1
+heart_down
+  rotate: false
+  xy: 127, 0
   size: 125, 125
   orig: 125, 125
   offset: 0, 0

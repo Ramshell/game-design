@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 public class CameraComponent implements Component{
     public OrthographicCamera camera;
     public Entity target;
-    public float boundLeftX = 220, boundRightX = 1000, boundTopY = 180, boundBottomY = 160;
+    public float boundLeftX = 220, boundRightX = 2500, boundTopY = 180, boundBottomY = 160;
 
     public CameraComponent(OrthographicCamera c, Entity t){
         camera = c;

@@ -47,11 +47,17 @@ public class GameScreen extends ScreenAdapter{
         map = loader.load("map/platformer.tmx");
 
         OrthographicCamera camera = new OrthographicCamera(1024, 768);
+        OrthographicCamera hudCamera = new OrthographicCamera(1024, 768);
         camera.position.y += 160;
         camera.zoom = 0.4f;
         OrthogonalTiledMapRenderer renderer = new OrthogonalTiledMapRenderer(map);
 
         Entity e = buildMainCharacter();
+        HudComponent hudComponent = new HudComponent(
+                hudCamera,
+                batch,
+                e.getComponent(PlayerComponent.class));
+        engine.addEntity(new Entity().add(hudComponent));
         engine.addEntity(e);
         Entity cameraEntity = new Entity().add(new CameraComponent(camera, e));
         engine.addEntity(cameraEntity);
@@ -72,6 +78,7 @@ public class GameScreen extends ScreenAdapter{
         engine.addSystem(new OnTopRenderingSystem(batch, camera));
         engine.addSystem(new BackgroundSystem());
         engine.addSystem(new BulletSystem());
+        engine.addSystem(new RenderHudSystem());
         isInitialized = true;
     }
 

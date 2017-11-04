@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.platformer.ar.Components.OnTopComponent;
 import com.platformer.ar.Components.TextureComponent;
 import com.platformer.ar.Components.TransformComponent;
 import com.platformer.ar.Components.World.PlayerComponent;
@@ -24,7 +25,7 @@ public class OnTopRenderingSystem extends SortedIteratingSystem {
 
     public OnTopRenderingSystem(SpriteBatch batch, OrthographicCamera camera) {
         super(Family.all(TransformComponent.class, TextureComponent.class)
-                .one(PlayerComponent.class).get(), new ZComparator());
+                .one(OnTopComponent.class).get(), new ZComparator());
 
         textureM = ComponentMapper.getFor(TextureComponent.class);
         transformM = ComponentMapper.getFor(TransformComponent.class);

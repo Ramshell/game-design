@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="128" height="32" tilewidth="64" tileheight="64" nextobjectid="45">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="128" height="32" tilewidth="64" tileheight="64" nextobjectid="59">
+ <properties>
+  <property name="max_height" type="float" value="300"/>
+  <property name="max_width" type="float" value="2500"/>
+  <property name="min_height" type="float" value="0"/>
+  <property name="min_width" type="float" value="0"/>
+ </properties>
  <tileset firstgid="1" source="tileset/floor.tsx"/>
  <layer name="background" width="128" height="32">
   <data encoding="base64" compression="zlib">
-   eJzt0zsKgEAMQMG12ML//W9rCoVFZDtRwgy8JqRIk1IAAAAAAAAAAAAAAAAAyKqeAXmM0RTNnR2/n9cSrdH29SG8Zui0N9Wm+97T7Ip/OwC5bgCs
+   eJzt0zEKhDAQQNFYpHDVdb3/ZR0hgiAEi7AKvge/S8LAkJQAAAAAAAAAAAAAAAAAgLfqo0803D0Il13ZWS7VbPfHaIq+bUbjD1rsrC/35+gXLQ3mop2u0nwop/Nf38/lyhvj4Q37f54VxYcBgg==
   </data>
  </layer>
  <objectgroup name="collision">
   <object id="38" x="448.636" y="1930.5" width="192.88" height="118.107"/>
-  <object id="39" x="643.215" y="2025.87" width="892" height="22.73"/>
   <object id="36" x="0.84969" y="2025.72" width="448.636" height="22.88"/>
   <object id="42" x="1026.43" y="1885.46" width="124.055" height="35.687"/>
-  <object id="43" x="1091.85" y="1752.91" width="119.806" height="39.0857"/>
+  <object id="45" x="1537.09" y="1996.77" width="63.7267" height="51.8311"/>
+  <object id="46" x="1601.67" y="1932.19" width="61.1777" height="116.408"/>
+  <object id="47" x="1664.54" y="1871.02" width="190.331" height="178.435"/>
+  <object id="56" x="642.366" y="2020.56" width="189.481" height="28.0398"/>
+  <object id="58" x="960.999" y="2015.46" width="574.39" height="33.1379"/>
  </objectgroup>
  <objectgroup name="spawn">
   <object id="35" name="start" x="41.6348" y="1850.95" width="45.8833" height="36.5367">
+   <ellipse/>
+  </object>
+  <object id="50" name="powerUp" x="1073.16" y="1823.43" width="22.0919" height="20.3926">
+   <ellipse/>
+  </object>
+  <object id="52" name="end" x="1761.41" y="1779.25">
+   <ellipse/>
+  </object>
+  <object id="53" name="enemy_wasp" x="1370.55" y="1968.73">
+   <ellipse/>
+  </object>
+  <object id="54" name="enemy_wasp" x="549.749" y="1820.89">
    <ellipse/>
   </object>
  </objectgroup>

@@ -102,6 +102,7 @@ public class PlayerSystem extends EntitySystem{
         SolidComponent sc = shooter.getComponent(SolidComponent.class);
         PlayerComponent pc = shooter.getComponent(PlayerComponent.class);
         Entity e = new Entity();
+        e.add(new OnTopComponent());
         TransformComponent transformComponent = new TransformComponent();
         transformComponent.position.set(tc.position.cpy().add(sc.rectangle.getWidth() * (tc.scale.x < 0 ? -1 : 1), 0, 0));
         transformComponent.scale.set(scale, scale);
