@@ -418,82 +418,144 @@ RunShoot/RunShoot
   index: 9
 
 animations10.png
+size: 512,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Coin/coin
+  rotate: false
+  xy: 0, 0
+  size: 45, 48
+  orig: 45, 48
+  offset: 0, 0
+  index: 1
+Coin/coin
+  rotate: false
+  xy: 47, 0
+  size: 45, 48
+  orig: 45, 48
+  offset: 0, 0
+  index: 2
+Coin/coin
+  rotate: false
+  xy: 94, 0
+  size: 45, 48
+  orig: 45, 48
+  offset: 0, 0
+  index: 8
+Coin/coin
+  rotate: false
+  xy: 141, 0
+  size: 39, 48
+  orig: 39, 48
+  offset: 0, 0
+  index: 3
+Coin/coin
+  rotate: false
+  xy: 182, 0
+  size: 39, 48
+  orig: 39, 48
+  offset: 0, 0
+  index: 7
+Coin/coin
+  rotate: false
+  xy: 223, 0
+  size: 33, 48
+  orig: 33, 48
+  offset: 0, 0
+  index: 4
+Coin/coin
+  rotate: false
+  xy: 258, 0
+  size: 33, 48
+  orig: 33, 48
+  offset: 0, 0
+  index: 6
+Coin/coin
+  rotate: false
+  xy: 293, 0
+  size: 15, 48
+  orig: 15, 48
+  offset: 0, 0
+  index: 5
+
+animations11.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-Dead/Dead01
+Dead/Dead
   rotate: false
   xy: 0, 1042
   size: 562, 519
   orig: 562, 519
   offset: 0, 0
-  index: -1
-Dead/Dead02
+  index: 1
+Dead/Dead
   rotate: false
   xy: 0, 521
   size: 562, 519
   orig: 562, 519
   offset: 0, 0
-  index: -1
-Dead/Dead03
+  index: 2
+Dead/Dead
   rotate: false
   xy: 564, 1042
   size: 562, 519
   orig: 562, 519
   offset: 0, 0
-  index: -1
-Dead/Dead04
+  index: 3
+Dead/Dead
   rotate: false
   xy: 0, 0
   size: 562, 519
   orig: 562, 519
   offset: 0, 0
-  index: -1
-Dead/Dead05
+  index: 4
+Dead/Dead
   rotate: false
   xy: 564, 521
   size: 562, 519
   orig: 562, 519
   offset: 0, 0
-  index: -1
-Dead/Dead06
+  index: 5
+Dead/Dead
   rotate: false
   xy: 1128, 1042
   size: 562, 519
   orig: 562, 519
   offset: 0, 0
-  index: -1
-Dead/Dead07
+  index: 6
+Dead/Dead
   rotate: false
   xy: 564, 0
   size: 562, 519
   orig: 562, 519
   offset: 0, 0
-  index: -1
-Dead/Dead08
+  index: 7
+Dead/Dead
   rotate: false
   xy: 1128, 521
   size: 562, 519
   orig: 562, 519
   offset: 0, 0
-  index: -1
-Dead/Dead09
+  index: 8
+Dead/Dead
   rotate: false
   xy: 1128, 0
   size: 562, 519
   orig: 562, 519
   offset: 0, 0
-  index: -1
-Dead/Dead10
+  index: 9
+Dead/Dead
   rotate: false
   xy: 1128, 0
   size: 562, 519
   orig: 562, 519
   offset: 0, 0
-  index: -1
+  index: 10
 
-animations11.png
+animations12.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
@@ -527,7 +589,7 @@ Shoot/Shoot
   offset: 0, 0
   index: 4
 
-animations12.png
+animations13.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
@@ -589,7 +651,7 @@ Melee/Melee
   offset: 0, 0
   index: 8
 
-animations13.png
+animations14.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
@@ -658,7 +720,7 @@ Slide/Slide
   offset: 0, 0
   index: 9
 
-animations14.png
+animations15.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
@@ -671,7 +733,7 @@ Slide/Slide
   offset: 0, 0
   index: 10
 
-animations15.png
+animations16.png
 size: 256,512
 format: RGBA8888
 filter: Nearest,Nearest

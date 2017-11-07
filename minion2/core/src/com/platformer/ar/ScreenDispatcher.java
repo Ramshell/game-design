@@ -37,4 +37,10 @@ public class ScreenDispatcher implements IScreenDispatcher {
             return screens.get(0);
         }
     }
+
+    public void win(Screen screen){
+        screens.clear();
+        isCurrenScreenEnded = true;
+        screens.add(screen);
+    }
 }

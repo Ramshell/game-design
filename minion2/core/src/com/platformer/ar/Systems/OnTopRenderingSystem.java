@@ -66,6 +66,7 @@ public class OnTopRenderingSystem extends SortedIteratingSystem {
             float originX = width/2f;
             float originY = height/2f;
 
+            batch.setColor(1f,1f,1f, t.fadeOut);
             batch.draw(tex.region,
                     t.position.x - originX, t.position.y - originY,
                     originX, originY,

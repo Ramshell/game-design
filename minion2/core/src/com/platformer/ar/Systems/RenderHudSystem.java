@@ -30,6 +30,6 @@ public class RenderHudSystem extends EntitySystem {
     }
 
     public void heal(){
-        hud.hearts.get(hud.playerComponent.health - 2).setDrawable(new TextureRegionDrawable(Assets.heart));
+        hud.hearts.get(hud.playerComponent.health).setDrawable(new TextureRegionDrawable(Assets.heart));
     }
 }

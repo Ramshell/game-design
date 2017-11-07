@@ -1,13 +1,18 @@
 package com.platformer.ar;
 
+import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.EllipseMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -28,12 +33,12 @@ public class GameScreen extends ScreenAdapter{
     private PooledEngine engine;
 
     private SpriteBatch batch;
-    private IScreenDispatcher dispatcher;
+    private ScreenDispatcher dispatcher;
     private OrthogonalTiledMapRenderer renderer;
     private TiledMap map;
 
 
-    public GameScreen(SpriteBatch batch, IScreenDispatcher dispatcher){
+    public GameScreen(SpriteBatch batch, ScreenDispatcher dispatcher){
         super();
         this.batch = batch;
         this.dispatcher = dispatcher;
@@ -66,8 +71,15 @@ public class GameScreen extends ScreenAdapter{
         engine.addEntity(buildFarAwayCactusBackground(e, engine));
         engine.addEntity(buildCactusBackground(e, engine));
 
+        for(MapObject o: map.getLayers().get("spawn").getObjects().getByType(EllipseMapObject.class)) if(o.getName().contains("enemy_wasp")){
+            engine.addEntity(buildWasp(
+                    (Float) o.getProperties().get("x"),
+                    (Float) o.getProperties().get("y")));
+        }
+
+        RectangleMapObject end = (RectangleMapObject) map.getLayers().get("spawn").getObjects().get("end");
         RenderingSystem renderingSystem = new RenderingSystem(batch, camera);
-        engine.addSystem(new PlayerSystem());
+        engine.addSystem(new PlayerSystem(batch, dispatcher, end.getRectangle()));
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new StateSystem());
         engine.addSystem(new GravitySystem());
@@ -78,6 +90,9 @@ public class GameScreen extends ScreenAdapter{
         engine.addSystem(new OnTopRenderingSystem(batch, camera));
         engine.addSystem(new BackgroundSystem());
         engine.addSystem(new BulletSystem());
+        engine.addSystem(new EnemySystem());
+        engine.addSystem(new TargetSystem());
+        engine.addSystem(new ParticleSystem(batch));
         engine.addSystem(new RenderHudSystem());
         isInitialized = true;
     }
@@ -137,30 +152,91 @@ public class GameScreen extends ScreenAdapter{
         return e;
     }
 
-    private Entity buildBackground(Entity target, Engine engine) {
+    private static Entity buildBackground(Entity target, Engine engine) {
         Entity e = new Entity();
         e.add(new BackgroundComponent(1.5f, Assets.background, target, engine, 1, 2, 20));
         return e;
     }
 
-    private Entity buildFarAwayCactusBackground(Entity target, Engine engine){
+    private static Entity buildFarAwayCactusBackground(Entity target, Engine engine){
         Entity e = new Entity();
         e.add(new BackgroundComponent(0.6f, Assets.cactusFarAwayBackground, target, engine, 4, 1.5f, -40));
         return e;
     }
 
-    private Entity buildCactusBackground(Entity target, Engine engine){
+    private static Entity buildCactusBackground(Entity target, Engine engine){
         Entity e = new Entity();
         e.add(new BackgroundComponent(0.8f, Assets.cactusBackground, target, engine, 100, 1.4f, -90));
         return e;
     }
 
-    private Entity buildWasp(){
+    public static Entity buildWasp(float x, float y){
         Entity e = new Entity();
+        e.add(new OnTopComponent());
+        VelocityComponent velocityComponent = new VelocityComponent();
+        velocityComponent.maxSpeed = 300;
+        velocityComponent.accelF = 30;
+        e.add(velocityComponent);
+        TransformComponent transformComponent = new TransformComponent();
+        transformComponent.position.x = x;
+        transformComponent.position.y = y;
+        transformComponent.scale.set(0.8f, 0.8f);
+        e.add(transformComponent);
+        AnimationComponent a = new AnimationComponent();
+        a.animations.put("IDLE", Assets.wasp);
+        StateComponent state = new StateComponent();
+        state.set("IDLE");
+        TextureComponent textureComponent = new TextureComponent();
+        textureComponent.region = a.animations.get("IDLE").getKeyFrame(0);
+        e.add(textureComponent);
+        e.add(a);
+        e.add(state);
+
+        e.add(new SolidComponent(new Rectangle(
+                x,
+                y,
+                textureComponent.region.getRegionWidth() * 0.50f,
+                textureComponent.region.getRegionHeight() * 0.8f)));
+        EnemyComponent enemyComponent = new EnemyComponent();
+        enemyComponent.damage = 1;
+        e.add(enemyComponent);
+        return e;
+    }
+
+    public static Entity buildHealthPotion(float x, float y){
+        return buildPowerUp(x, y, new HealthComponent(), 0.6f, Assets.healthPotion);
+    }
+
+    public static Entity buildCoin(float x, float y){
+        return buildPowerUp(x, y, new CoinComponent(), 0.6f, Assets.coin);
+    }
+
+    public static Entity buildPowerUp(float x, float y, Component c, float scale, Animation<TextureRegion> anim){
+        Entity e = new Entity();
+        e.add(c);
         e.add(new OnTopComponent());
         e.add(new VelocityComponent());
         e.add(new GravityComponent());
-        MapObject start = map.getLayers().get("spawn").getObjects().get("start");
+        TransformComponent transformComponent = new TransformComponent();
+        transformComponent.position.x = x;
+        transformComponent.position.y = y;
+        transformComponent.scale.set(scale, scale);
+        e.add(transformComponent);
+        AnimationComponent a = new AnimationComponent();
+        a.animations.put("IDLE", anim);
+        StateComponent state = new StateComponent();
+        state.set("IDLE");
+        TextureComponent textureComponent = new TextureComponent();
+        textureComponent.region = a.animations.get("IDLE").getKeyFrame(0);
+        e.add(textureComponent);
+        e.add(a);
+        e.add(state);
+
+        e.add(new SolidComponent(new Rectangle(
+                x - textureComponent.region.getRegionWidth() * scale / 2,
+                y - textureComponent.region.getRegionHeight() * scale / 2,
+                textureComponent.region.getRegionWidth() * scale,
+                textureComponent.region.getRegionHeight() * scale)));
         return e;
     }
 }

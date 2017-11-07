@@ -4,8 +4,12 @@ import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
-import com.platformer.ar.Assets;
+import com.platformer.ar.*;
 import com.platformer.ar.Components.*;
 import com.platformer.ar.Components.World.*;
 
@@ -17,12 +21,27 @@ public class PlayerSystem extends EntitySystem{
     ComponentMapper<VelocityComponent> vcm = ComponentMapper.getFor(VelocityComponent.class);
     ComponentMapper<TransformComponent> transformM = ComponentMapper.getFor(TransformComponent.class);
     ComponentMapper<AnimationComponent> am = ComponentMapper.getFor(AnimationComponent.class);
+    CameraComponent cameraComponent;
+    ScreenDispatcher screenDispatcher;
+    Interpolation interploation = Interpolation.elastic;
+    Rectangle end;
+    SpriteBatch batch;
+    long startTime;
+    int heartsLost = 0;
+
+    public PlayerSystem(SpriteBatch batch, ScreenDispatcher screenDispatcher, Rectangle end){
+        this.screenDispatcher = screenDispatcher;
+        this.end = end;
+        this.batch = batch;
+    }
 
 
 
     @Override
     public void addedToEngine(Engine engine) {
         super.addedToEngine(engine);
+        cameraComponent = ComponentMapper.getFor(CameraComponent.class).get(getEngine().getEntitiesFor(Family.all(CameraComponent.class).get()).first());
+        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -32,24 +51,39 @@ public class PlayerSystem extends EntitySystem{
         VelocityComponent vc = vcm.get(entity);
         PlayerComponent rc = rcm.get(entity);
         String state = scm.get(entity).get();
+        TransformComponent tc = transformM.get(entity);
+        if( rc.health <= 0 ||
+            tc.position.x < cameraComponent.boundLeftX - cameraComponent.camera.viewportWidth / 2 ||
+            tc.position.x > cameraComponent.boundRightX + cameraComponent.camera.viewportWidth / 2 ||
+            tc.position.y < cameraComponent.boundBottomY - cameraComponent.camera.viewportHeight / 2 ||
+            tc.position.y > cameraComponent.boundTopY + cameraComponent.camera.viewportHeight / 2 ) {
+            System.out.println("entre");
+            screenDispatcher.win(new GameOverScreen(batch, screenDispatcher));
+            return;
+        }
+        if(solidCM.get(entity).rectangle.overlaps(end)){
+            screenDispatcher.win(new VictoryScreen(batch, screenDispatcher, startTime, rc.coins, heartsLost));
+        }
+        if(vc.pos.y == 0) rc.jump = 0;
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             vc.pos.set(-rc.maxSpeed, vc.pos.y);
             scm.get(entity).set(idleState(vc, scm.get(entity), am.get(entity)));
-            vc.pos.x *= state.length() >= 5 && state.substring(state.length()-5).equals("MELEE") ? 0.5f : 1;
+            vc.pos.x *= isHitting(state) ? 0.5f : 1;
             transformM.get(entity).scale.x *= transformM.get(entity).scale.x < 0 ? 1 : -1;
         }else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
             vc.pos.set(rc.maxSpeed, vc.pos.y);
             scm.get(entity).set(idleState(vc, scm.get(entity), am.get(entity)));
-            vc.pos.x *= state.length() >= 5 && state.substring(state.length()-5).equals("MELEE") ? 0.5f : 1;
+            vc.pos.x *= isHitting(state) ? 0.5f : 1;
             transformM.get(entity).scale.x *= transformM.get(entity).scale.x < 0 ? -1 : 1;
         }else{
             scm.get(entity).set(idleState(vc, scm.get(entity), am.get(entity)));
             vc.pos.x = 0f;
 
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !scm.get(entity).get().equals("JUMP")){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && rc.jump < rc.maxJumps){
             scm.get(entity).set("JUMP");
             vc.pos.set(vc.pos.x, rc.jumpSpeed);
+            rc.jump += 1;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.Z)){
             scm.get(entity).set("SHOOT");
@@ -71,6 +105,48 @@ public class PlayerSystem extends EntitySystem{
         }else{
             solidComponent.rectangle.height = transformM.get(entity).scale.y * entity.getComponent(TextureComponent.class).region.getRegionWidth();
         }
+        if(rc.vulnerability || rc.hittedElapsed >= rc.invulnerabilityTime) {
+            rc.vulnerability = true;
+            for (Entity e : getEngine().getEntitiesFor(Family.all(SolidComponent.class).get())) {
+                if (solidCM.get(e).rectangle.overlaps(solidComponent.rectangle)) {
+                    if(e.getComponent(EnemyComponent.class) != null) {
+                        rc.vulnerability = false;
+                        rc.hittedElapsed = 0;
+                        for (int i = 0; i < e.getComponent(EnemyComponent.class).damage; ++i) {
+                            getEngine().getSystem(RenderHudSystem.class).damage();
+                        }
+                        rc.health -= e.getComponent(EnemyComponent.class).damage;
+                        heartsLost += e.getComponent(EnemyComponent.class).damage;
+                        for (Sound s : Assets.hittedSounds) s.stop();
+                        Assets.hittedSounds.random().play();
+                        interploation = Interpolation.elastic;
+                        break;
+                    }else if(e.getComponent(HealthComponent.class) != null && rc.health < rc.maxHealth){
+                        getEngine().getSystem(RenderHudSystem.class).heal();
+                        rc.health += 1;
+                        Assets.potionSound.stop();
+                        Assets.potionSound.play();
+                        getEngine().removeEntity(e);
+                    }else if(e.getComponent(CoinComponent.class) != null){
+                        rc.coins += 1;
+                        Assets.coinSound.stop();
+                        Assets.coinSound.play();
+                        getEngine().removeEntity(e);
+                    }
+                }
+
+            }
+        }
+        else{
+            rc.hittedElapsed += deltaTime;
+            tc.fadeOut = interploation.apply(rc.hittedElapsed);
+        }
+    }
+
+    private boolean isHitting(String state) {
+        return  state.length() >= 5 &&
+                        (state.substring(state.length()-5).equals("MELEE") ||
+                        state.substring(state.length()-5).equals("SHOOT"));
     }
 
     private String idleState(VelocityComponent vc, StateComponent sc, AnimationComponent ac) {
@@ -125,7 +201,7 @@ public class PlayerSystem extends EntitySystem{
                 transformComponent.position.x,
                 transformComponent.position.y,
                 textureComponent.region.getRegionWidth() * scale / 2,
-                textureComponent.region.getRegionHeight() * scale));
+                textureComponent.region.getRegionHeight() * scale > 0 ? textureComponent.region.getRegionHeight() * scale : - textureComponent.region.getRegionHeight() * scale));
         e.add(solidComponent);
         for(Sound s : Assets.shootSounds) s.stop();
         Assets.shootSounds.random().play();

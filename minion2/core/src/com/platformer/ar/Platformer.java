@@ -19,7 +19,9 @@ public class Platformer extends Game {
 		batch = new SpriteBatch();
         screenDispatcher = new ScreenDispatcher();
         Screen gameScreen = new GameScreen(batch, screenDispatcher);
+
         screenDispatcher.addScreen(gameScreen);
+        screenDispatcher.addScreen(new GameOverScreen(batch, screenDispatcher));
         setScreen(gameScreen);
     }
 
