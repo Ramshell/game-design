@@ -67,11 +67,13 @@ public class HarlandWorkerBuilder extends UnitBuilder{
         craft.button = AssetsMapper.craftButton;
         craft.listener = new ClickListener(){
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
-                play.hudComponent.hintTitle.setText("Craft");
+                play.hudComponent.hintTitle.setText("Craft Harlanding Center");
+                play.hudComponent.hintCost.setText(String.valueOf(MainBuildingBuilder.COST));
                 play.hudComponent.hintContent.setText("Left click on this button, and then left click to choose where you want to build");
             }
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
                 play.hudComponent.hintTitle.setText("");
+                play.hudComponent.hintCost.setText("");
                 play.hudComponent.hintContent.setText("");
             }
             public void clicked (InputEvent event, float x, float y) {

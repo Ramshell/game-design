@@ -18,6 +18,7 @@ import com.mygdx.game.Components.CellComponent;
 import com.mygdx.game.Components.CellsComponent;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Components.WorldObjects.ActionComponent;
+import com.mygdx.game.Components.WorldObjects.Buildings.TasksComponent;
 import com.mygdx.game.Components.WorldObjects.HealthComponent;
 import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
 import com.mygdx.game.Entities.BuildingEntity;
@@ -31,6 +32,7 @@ import java.util.Iterator;
 
 
 public class MainBuildingBuilder {
+    public static int COST = 600;
     private Play play;
     private TiledMapTileLayer background;
     private TiledMapTileLayer foreground;
@@ -90,7 +92,7 @@ public class MainBuildingBuilder {
                 play.hudComponent.hintContent.setText("");
             }
             public void clicked (InputEvent event, float x, float y) {
-                playerComponent.selectedObject.act(new CreateHarlandWorkerAction(play.mapGraph, playerComponent, play));
+                playerComponent.selectedObject.act(new AddToBuildQueueAction(new CreateHarlandWorkerAction(play.mapGraph, playerComponent, play)));
             }
         };
         ActionComponent craftHarlandSoldier = new ActionComponent();
@@ -107,7 +109,7 @@ public class MainBuildingBuilder {
                 play.hudComponent.hintContent.setText("");
             }
             public void clicked (InputEvent event, float x, float y) {
-                playerComponent.selectedObject.act(new CreateHarlandSoldierAction(play.mapGraph, playerComponent, play));
+                playerComponent.selectedObject.act(new AddToBuildQueueAction(new CreateHarlandSoldierAction(play.mapGraph, playerComponent, play)));
             }
         };
 
@@ -151,7 +153,7 @@ public class MainBuildingBuilder {
         CellsComponent cellsComponent = new CellsComponent(cells, 4, 2);
         WorldObjectComponent wo = new WorldObjectComponent();
         wo.actions = actions;
-        wo.cost = 600;
+        wo.cost = COST;
         wo.objectName = "Harlanding's Center";
         wo.sellValue = 900;
         wo.bounds = new RectangleMapObject(
@@ -160,7 +162,10 @@ public class MainBuildingBuilder {
                 ResourceMapper.tileWidth *  cellsComponent.width,
                 ResourceMapper.tileHeight * cellsComponent.height);
         wo.visibility = 1024f;
-        return new BuildingEntity(playerComponent, new Vector2(x, y), cellsComponent, new HealthComponent(600), wo, play, 1024f);
+        return new BuildingEntity(playerComponent, new Vector2(x, y),
+                cellsComponent, new HealthComponent(600),
+                wo, play, 1024f,
+                20, 1);
     }
 
     private CellComponent create_cell(TiledMapTile t, TiledMapTileLayer layer,

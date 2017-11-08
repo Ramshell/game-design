@@ -9,6 +9,7 @@ import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.Matches.DefeatComponent;
 import com.mygdx.game.Components.Matches.GoalComponent;
 import com.mygdx.game.Components.WorldObjects.*;
+import com.mygdx.game.Components.WorldObjects.Buildings.TasksComponent;
 import com.mygdx.game.Components.WorldObjects.Buildings.TryingBuildingComponent;
 
 public class Mappers {
@@ -46,5 +47,6 @@ public class Mappers {
     public static final ComponentMapper<AnimationSpawnComponent> animationSpawnComponentMapper = ComponentMapper.getFor(AnimationSpawnComponent.class);
     public static final ComponentMapper<LightComponent> lightComponentMapper = ComponentMapper.getFor(LightComponent.class);
     public static final ComponentMapper<MatchComponent> matchComponentMapper = ComponentMapper.getFor(MatchComponent.class);
+    public static final ComponentMapper<TasksComponent> tasksComponentMapper = ComponentMapper.getFor(TasksComponent.class);
 
 }

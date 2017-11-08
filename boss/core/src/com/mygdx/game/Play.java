@@ -181,6 +181,7 @@ public class Play implements Screen {
         engine.addSystem(new MapGraphUpdaterSystem());
         engine.addSystem(new ToBuildMakingSystem());
         engine.addSystem(new BuildingMakingSystem());
+        engine.addSystem(new TasksSystem());
         engine.addSystem(new ClickFeedbackSystem(mapComponent.camera));
         engine.addSystem(new ResourcesSystem());
         engine.addSystem(new GatheringStarterSystem());
