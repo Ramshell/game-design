@@ -28,10 +28,11 @@ public class CreateHarlandSoldierAction extends Action<Entity>{
     public void act(Entity e) {
         if(e.getClass() != BuildingEntity.class) return;
         SpawnComponent sc = Mappers.spawn.get(e);
-        WorldObjectComponent wo = Mappers.world.get(e);
         Vector2 v = sc.nextSpawnTile(mapGraph);
-        if(v == null || player.resources < HarlandSoldierBuilder.COST) return;
-        player.resources -= HarlandSoldierBuilder.COST;
+        if(v == null){
+            player.resources += HarlandSoldierBuilder.COST;
+            return;
+        }
         play.engine.addEntity(play.soldierBuilder.getSoldier(player, (int)v.x,(int) v.y));
     }
 }

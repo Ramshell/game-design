@@ -31,8 +31,10 @@ public class CreateHarlandWorkerAction extends Action<Entity>{
         SpawnComponent sc = Mappers.spawn.get(e);
         WorldObjectComponent wo = Mappers.world.get(e);
         Vector2 v = sc.nextSpawnTile(mapGraph);
-        if(v == null || player.resources < HarlandWorkerBuilder.COST) return;
-        player.resources -= HarlandWorkerBuilder.COST;
+        if(v == null){
+            player.resources += HarlandWorkerBuilder.COST;
+            return;
+        }
         play.engine.addEntity(play.workerBuilder.getWorker(player, (int)v.x,(int) v.y));
     }
 }

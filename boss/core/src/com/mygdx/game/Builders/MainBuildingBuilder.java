@@ -92,7 +92,7 @@ public class MainBuildingBuilder {
                 play.hudComponent.hintContent.setText("");
             }
             public void clicked (InputEvent event, float x, float y) {
-                playerComponent.selectedObject.act(new AddToBuildQueueAction(new CreateHarlandWorkerAction(play.mapGraph, playerComponent, play)));
+                playerComponent.selectedObject.act(new AddToBuildQueueAction(new CreateHarlandWorkerAction(play.mapGraph, playerComponent, play), HarlandWorkerBuilder.COST));
             }
         };
         ActionComponent craftHarlandSoldier = new ActionComponent();
@@ -109,7 +109,7 @@ public class MainBuildingBuilder {
                 play.hudComponent.hintContent.setText("");
             }
             public void clicked (InputEvent event, float x, float y) {
-                playerComponent.selectedObject.act(new AddToBuildQueueAction(new CreateHarlandSoldierAction(play.mapGraph, playerComponent, play)));
+                playerComponent.selectedObject.act(new AddToBuildQueueAction(new CreateHarlandSoldierAction(play.mapGraph, playerComponent, play), HarlandSoldierBuilder.COST));
             }
         };
 
