@@ -43,7 +43,7 @@ public class DamageSpawnSystem extends EntitySystem{
                     damageSpawnComponent.y);
 
             damageSpawnComponent.current += deltaTime;
-            damageSpawnComponent.y += damageSpawnComponent.speed * deltaTime;
+            damageSpawnComponent.y += damageSpawnComponent.speed * 2 * deltaTime;
             if(damageSpawnComponent.current >= damageSpawnComponent.lifeSpan){
                 getEngine().removeEntity(e);
             }

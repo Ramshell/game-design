@@ -7,6 +7,7 @@ public class VelocityComponent implements Component {
     public Vector2 pos = new Vector2(0.0f, 0.0f);
     public Vector2 accel = new Vector2(0.0f,0.0f);
     public float maxSpeed = 3000f;
+    public boolean oneFrame = true;
 
     public VelocityComponent(){}
     public VelocityComponent(float posx, float posy){
