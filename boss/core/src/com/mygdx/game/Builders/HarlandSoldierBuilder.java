@@ -1,6 +1,7 @@
 package com.mygdx.game.Builders;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
@@ -37,8 +38,15 @@ public class HarlandSoldierBuilder extends UnitBuilder{
      * **/
     public Entity getSoldier(final PlayerComponent player, int posX, int posY){
         WOSoundComponent ws = new WOSoundComponent();
-        ws.sounds.add(AssetsMapper.harlandSoldier1);
-        ws.sounds.add(AssetsMapper.harlandSoldier2);
+        ws.sounds.put("action", new Array<Sound>());
+        ws.sounds.put("attack", new Array<Sound>());
+        Array<Sound> sounds = ws.sounds.get("action");
+        sounds.add(AssetsMapper.harlandSoldier1);
+        sounds.add(AssetsMapper.harlandSoldier2);
+        sounds = ws.sounds.get("attack");
+        sounds.add(AssetsMapper.harlandSoldierShoot1);
+        sounds.add(AssetsMapper.harlandSoldierShoot2);
+        sounds.add(AssetsMapper.harlandSoldierShoot3);
 
         Array<ActionComponent> actions = new Array<ActionComponent>();
         ActionComponent move = new ActionComponent();

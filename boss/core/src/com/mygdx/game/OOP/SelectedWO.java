@@ -83,7 +83,16 @@ public class SelectedWO {
             if(Mappers.woSoundComponentMapper.get(entity).lastSound != null){
                 Mappers.woSoundComponentMapper.get(entity).lastSound.stop();
             }
-            entity.add(new PlaySoundComponent());
+            entity.add(new PlaySoundComponent("action"));
+        }
+    }
+
+    private void playSound(Entity entity, String stringSound) {
+        if( Mappers.woSoundComponentMapper.get(entity)  != null) {
+            if(Mappers.woSoundComponentMapper.get(entity).lastSound != null){
+                Mappers.woSoundComponentMapper.get(entity).lastSound.stop();
+            }
+            entity.add(new PlaySoundComponent(stringSound));
         }
     }
 
@@ -107,7 +116,8 @@ public class SelectedWO {
     public void act(Action<Entity> action){
         if(gotEnemy()) return;
         for(Entity e : selectedObjects){
-            playSound(e);
+            if(action.stringSound == null) playSound(e);
+            else playSound(e, action.stringSound);
             action.act(e);
         }
     }

@@ -23,7 +23,7 @@ public class WOSoundSystem extends EntitySystem{
                         PlaySoundComponent.class
                 ).get())){
             WOSoundComponent ws = Mappers.woSoundComponentMapper.get(e);
-            Sound s = ws.sounds.random();
+            Sound s = ws.sounds.get(Mappers.playSoundComponentMapper.get(e).mappingSound).random();
             s.play();
             ws.lastSound = s;
             e.remove(PlaySoundComponent.class);

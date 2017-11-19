@@ -1,6 +1,7 @@
 package com.mygdx.game.Builders;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -35,10 +36,12 @@ public class HarlandWorkerBuilder extends UnitBuilder{
      * **/
     public Entity getWorker(final PlayerComponent player, int posX, int posY){
         WOSoundComponent ws = new WOSoundComponent();
-        ws.sounds.add(AssetsMapper.harlandWorker1);
-        ws.sounds.add(AssetsMapper.harlandWorker2);
-        ws.sounds.add(AssetsMapper.harlandWorker3);
-        ws.sounds.add(AssetsMapper.harlandWorker4);
+        ws.sounds.put("action", new Array<Sound>());
+        Array<Sound> sounds = ws.sounds.get("action");
+        sounds.add(AssetsMapper.harlandWorker1);
+        sounds.add(AssetsMapper.harlandWorker2);
+        sounds.add(AssetsMapper.harlandWorker3);
+        sounds.add(AssetsMapper.harlandWorker4);
 
         Array<ActionComponent> actions = new Array<ActionComponent>();
         ActionComponent move = new ActionComponent();
