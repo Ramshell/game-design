@@ -154,7 +154,7 @@ public class HarlandSoldierBuilder extends UnitBuilder{
         rangedWeaponComponent.minDamage = 3;
         rangedWeaponComponent.maxDamage = 10;
         return new UnitEntity(player, wo, posX, posY,
-                IDLE, anim, new HealthComponent(70), id++, play, 512f)
+                IDLE, anim, new HealthComponent(70), id++, play, 512f, 60)
                 .add(rangedWeaponComponent).add(ws);
     }
 }

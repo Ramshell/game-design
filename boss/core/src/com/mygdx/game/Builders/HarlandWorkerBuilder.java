@@ -143,6 +143,6 @@ public class HarlandWorkerBuilder extends UnitBuilder{
         wo.actions = actions;
         wo.visibility = 384f;
         return new UnitEntity(player, wo, posX, posY,
-                IDLE, anim, new HealthComponent(45), id++, play, 384f).add(gPower).add(ws);
+                IDLE, anim, new HealthComponent(45), id++, play, 384f, 60).add(gPower).add(ws);
     }
 }
