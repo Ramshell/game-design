@@ -25,6 +25,7 @@ public class CollisionSystem extends EntitySystem{
     MapGraph mapGraph;
     Circle c1 = new Circle(0,0,9);
     Circle c2 = new Circle(0,0,9);
+//    Vector2 vectorAux = new Vector2();
 
     public void addedToEngine(Engine e) {
         this.engine = e;
@@ -66,6 +67,13 @@ public class CollisionSystem extends EntitySystem{
                 for(Entity e : mapGraph.getNode(i, j).entities){
                     c2.setPosition(Mappers.world.get(e).bounds.getRectangle().getX() + ResourceMapper.tileWidth / 2, Mappers.world.get(e).bounds.getRectangle().getY() + ResourceMapper.tileHeight / 2);
                     if(!e.equals(dynamicEntity) && Intersector.overlaps(c1, c2) && Mappers.target.get(dynamicEntity) != null) {
+                        VelocityComponent velocityComponent2 = Mappers.velocity.get(e);
+                        if(velocityComponent2 != null){
+                            velocityComponent2.pos.set(c2.x - c1.x, c2.y - c1.y);
+                            velocityComponent2.pos.nor();
+                            velocityComponent2.pos.scl(velocityComponent2.maxSpeed);
+                            velocityComponent2.oneFrame = true;
+                        }
                         velocity.pos.setZero();
                         velocity.accel.setZero();
                         break;

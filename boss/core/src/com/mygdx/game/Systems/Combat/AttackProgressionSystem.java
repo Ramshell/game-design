@@ -8,6 +8,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Components.Combat.AttackProgressionComponent;
 import com.mygdx.game.Components.MapGraphComponent;
+import com.mygdx.game.Components.WorldObjects.PlaySoundComponent;
 import com.mygdx.game.Components.WorldObjects.TargetComponent;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
@@ -64,6 +65,11 @@ public class AttackProgressionSystem extends EntitySystem{
             if(attackProgressionComponent.currentAttack < attackProgressionComponent.attackDuration &&
                 attackProgressionComponent.currentAttack + deltaTime >= attackProgressionComponent.attackDuration){
                 Mappers.healthComponentMapper.get(attackProgressionComponent.target).damageTaken += (int) (rand.nextFloat() * (attackProgressionComponent.maxDamage - attackProgressionComponent.minDamage) + attackProgressionComponent.minDamage);
+                if(Mappers.playSoundComponentMapper.get(e) != null){
+                    Mappers.playSoundComponentMapper.get(e).mappingSound = "attack";
+                }else{
+                    e.add(new PlaySoundComponent("attack"));
+                }
             }
             attackProgressionComponent.currentAttack +=
                     deltaTime;

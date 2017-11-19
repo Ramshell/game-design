@@ -33,13 +33,16 @@ public class CombatSystem extends EntitySystem{
             rangedWeaponComponent.range.setPosition(
                     worldPositionComponent.position.x + ResourceMapper.tileWidth / 2,
                     worldPositionComponent.position.y + ResourceMapper.tileHeight / 2);
+            rangedWeaponComponent.visionRange.setPosition(
+                    worldPositionComponent.position.x + ResourceMapper.tileWidth / 2,
+                    worldPositionComponent.position.y + ResourceMapper.tileHeight / 2);
             ////////////////////// ignore non idle objects ////////////////////////////
             if(Mappers.patrolComponentMapper.get(e) == null &&
                     (Mappers.stateComponentMapper.get(e).state != UnitBuilder.IDLE ||
                     Mappers.target.get(e) != null)) continue;
             ///////////////////////////////////////////////////////////////////////////
             AttackProgressionComponent attackProgressionComponent = Mappers.attackProgressionComponentMapper.get(e);
-            if(attackProgressionComponent != null && atRange(rangedWeaponComponent, attackProgressionComponent.target)) continue;
+            if(attackProgressionComponent != null && atVision(rangedWeaponComponent, attackProgressionComponent.target)) continue;
             calculateAttack(e, rangedWeaponComponent);
         }
     }
@@ -48,15 +51,19 @@ public class CombatSystem extends EntitySystem{
         return Intersector.overlaps(rangedWeaponComponent.range, Mappers.world.get(target).bounds.getRectangle());
     }
 
+    public static boolean atVision(RangedWeaponComponent rangedWeaponComponent, Entity target) {
+        return Intersector.overlaps(rangedWeaponComponent.visionRange, Mappers.world.get(target).bounds.getRectangle());
+    }
+
     private void calculateAttack(Entity e, RangedWeaponComponent rangedWeaponComponent) {
-        int fromX = (int) (rangedWeaponComponent.range.x - rangedWeaponComponent.range.radius) / ResourceMapper.tileWidth;
-        int fromY = (int) (rangedWeaponComponent.range.y - rangedWeaponComponent.range.radius) / ResourceMapper.tileHeight;
-        int toX = (int) (rangedWeaponComponent.range.x + rangedWeaponComponent.range.radius) / ResourceMapper.tileWidth + 1;
-        int toY = (int) (rangedWeaponComponent.range.y + rangedWeaponComponent.range.radius) / ResourceMapper.tileHeight + 1;
+        int fromX = (int) (rangedWeaponComponent.visionRange.x - rangedWeaponComponent.visionRange.radius) / ResourceMapper.tileWidth;
+        int fromY = (int) (rangedWeaponComponent.visionRange.y - rangedWeaponComponent.visionRange.radius) / ResourceMapper.tileHeight;
+        int toX = (int) (rangedWeaponComponent.visionRange.x + rangedWeaponComponent.visionRange.radius) / ResourceMapper.tileWidth + 1;
+        int toY = (int) (rangedWeaponComponent.visionRange.y + rangedWeaponComponent.visionRange.radius) / ResourceMapper.tileHeight + 1;
         for(int i = Math.max(0, fromX); i < Math.min(mapGraph.width, toX); ++i){
             for(int j = Math.max(0, fromY); j < Math.min(mapGraph.height, toY); ++j){
                 for(Entity entity: mapGraph.getNode(i, j).entities)
-                    if(!entity.equals(e) && !Mappers.player.get(entity).equals(Mappers.player.get(e)) && atRange(rangedWeaponComponent, entity)){
+                    if(!entity.equals(e) && !Mappers.player.get(entity).equals(Mappers.player.get(e)) && atVision(rangedWeaponComponent, entity)){
                         e.add(new AttackProgressionComponent(entity, rangedWeaponComponent.minDamage, rangedWeaponComponent.maxDamage, rangedWeaponComponent.attackSpeed, rangedWeaponComponent.attackDuration));
                         return;
                     }

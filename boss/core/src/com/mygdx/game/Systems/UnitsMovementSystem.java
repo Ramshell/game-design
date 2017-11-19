@@ -45,6 +45,11 @@ public class UnitsMovementSystem extends EntitySystem{
             pos.position = v;
             r.setPosition(v);
             velocity.increment(deltaTime);
+            if(velocity.oneFrame) {
+                velocity.pos.setZero();
+                velocity.accel.setZero();
+                velocity.oneFrame = false;
+            }
         }
     }
 }

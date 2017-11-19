@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -33,12 +34,23 @@ public class AnimationSpawnSystem extends EntitySystem {
         renderer.getBatch().begin();
         for(Entity e : getEngine().getEntitiesFor(Family.all(AnimationSpawnComponent.class).get())){
             animationSpawnComponent = Mappers.animationSpawnComponentMapper.get(e);
-            renderer.getBatch().draw(animationSpawnComponent.anim.getKeyFrame(animationSpawnComponent.time),
-                    animationSpawnComponent.x + animationSpawnComponent.offsetX,
-                    animationSpawnComponent.y + animationSpawnComponent.offsetY);
-            animationSpawnComponent.time += deltaTime;
-            if(animationSpawnComponent.anim.isAnimationFinished(animationSpawnComponent.time)){
-                getEngine().removeEntity(e);
+            if(!animationSpawnComponent.anim.isAnimationFinished(animationSpawnComponent.time)) {
+                renderer.getBatch().draw(animationSpawnComponent.anim.getKeyFrame(animationSpawnComponent.time),
+                        animationSpawnComponent.x + animationSpawnComponent.offsetX,
+                        animationSpawnComponent.y + animationSpawnComponent.offsetY);
+                animationSpawnComponent.time += deltaTime;
+            }else {
+                if(animationSpawnComponent.fadeTime >= 1) {
+                    getEngine().removeEntity(e);
+                }else{
+                    Color c = renderer.getBatch().getColor();
+                    renderer.getBatch().setColor(c.r, c.g, c.b, 1 - animationSpawnComponent.interpolation.apply(animationSpawnComponent.fadeTime));
+                    renderer.getBatch().draw(animationSpawnComponent.anim.getKeyFrame(animationSpawnComponent.time),
+                            animationSpawnComponent.x + animationSpawnComponent.offsetX,
+                            animationSpawnComponent.y + animationSpawnComponent.offsetY);
+                    animationSpawnComponent.fadeTime += deltaTime;
+                    renderer.getBatch().setColor(c);
+                }
             }
         }
         renderer.getBatch().end();

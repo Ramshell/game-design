@@ -71,6 +71,7 @@ public class AssetsMapper {
     public static Sound harlandWorker4;
     public static Sound harlandSoldier1;
     public static Sound harlandSoldier2;
+    public static Sound harlandSoldierShoot1, harlandSoldierShoot2, harlandSoldierShoot3;
     public static Skin damageSkin;
     public static Skin tracerSkin;
 
@@ -277,6 +278,9 @@ public class AssetsMapper {
         harlandWorker4 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_worker_4_16b.wav"));
         harlandSoldier1 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_soldier_1_16b.wav"));
         harlandSoldier2 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_soldier_2_16b.wav"));
+        harlandSoldierShoot1 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/sounds/soldier/soldierAttack_01.wav"));
+        harlandSoldierShoot2 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/sounds/soldier/soldierAttack_02.wav"));
+        harlandSoldierShoot3 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/sounds/soldier/soldierAttack_03.wav"));
 
     }
 

@@ -156,9 +156,9 @@ public class Play implements Screen {
             new PatrolAction(i * ResourceMapper.tileWidth,12  * ResourceMapper.tileHeight).act(soldierEnemy);
         }
 
-        engine.addEntity(eolBuilder.getEoL(3,4,2000));
-        engine.addEntity(eolBuilder.getEoL(4,6,2000));
-        engine.addEntity(eolBuilder.getEoL(5,8,2000));
+        engine.addEntity(eolBuilder.getEoL(3,4,20000));
+        engine.addEntity(eolBuilder.getEoL(4,6,20000));
+        engine.addEntity(eolBuilder.getEoL(5,8,20000));
 
         engine.addEntity(player);
         engine.addEntity(rendererEntity);
@@ -166,9 +166,6 @@ public class Play implements Screen {
         engine.addEntity(mapGraphEntity);
         engine.addSystem(new SetUpSystem());
         engine.addSystem(new MapRendererSystem());
-        engine.addSystem(new UnitStateSystem());
-        engine.addSystem(new AnimationSystem());
-        engine.addSystem(new StateSystem());
         engine.addSystem(new CameraSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(new UnitsVelocitySystem());
@@ -178,6 +175,9 @@ public class Play implements Screen {
         engine.addSystem(new DamageSystem());
         engine.addSystem(new CollisionSystem());
         engine.addSystem(new UnitsMovementSystem());
+        engine.addSystem(new UnitStateSystem());
+        engine.addSystem(new AnimationSystem());
+        engine.addSystem(new StateSystem());
         engine.addSystem(new MapGraphUpdaterSystem());
         engine.addSystem(new ToBuildMakingSystem());
         engine.addSystem(new BuildingMakingSystem());
