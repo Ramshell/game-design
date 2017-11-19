@@ -34,7 +34,6 @@ public class Mappers {
     public static final ComponentMapper<HealthComponent> healthComponentMapper = ComponentMapper.getFor(HealthComponent.class);
     public static final ComponentMapper<DynamicWOComponent> dynamicWOComponentMapper = ComponentMapper.getFor(DynamicWOComponent.class);
     public static final ComponentMapper<TryingBuildingComponent> tryingBuildingComponentMapper = ComponentMapper.getFor(TryingBuildingComponent.class);
-    public static final ComponentMapper<IdComponent> idComponentMapper = ComponentMapper.getFor(IdComponent.class);
     public static final ComponentMapper<AttackProgressionComponent> attackProgressionComponentMapper = ComponentMapper.getFor(AttackProgressionComponent.class);
     public static final ComponentMapper<RangedWeaponComponent> rangedWeaponComponentMapper = ComponentMapper.getFor(RangedWeaponComponent.class);
     public static final ComponentMapper<WOSoundComponent> woSoundComponentMapper = ComponentMapper.getFor(WOSoundComponent.class);
@@ -48,5 +47,4 @@ public class Mappers {
     public static final ComponentMapper<LightComponent> lightComponentMapper = ComponentMapper.getFor(LightComponent.class);
     public static final ComponentMapper<MatchComponent> matchComponentMapper = ComponentMapper.getFor(MatchComponent.class);
     public static final ComponentMapper<TasksComponent> tasksComponentMapper = ComponentMapper.getFor(TasksComponent.class);
-
 }

@@ -42,6 +42,7 @@ public class SelectedWO {
 
 
     public void add(Entity entity){
+        if(gotEnemy()) deselect();
         WorldObjectComponent wo = Mappers.world.get(entity);
         DynamicWOComponent dyn = Mappers.dynamicWOComponentMapper.get(entity);
         if(dyn != null && !onlyDyn){

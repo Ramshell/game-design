@@ -26,8 +26,7 @@ import com.mygdx.game.Play;
 
 
 public class HUDComponent implements Component {
-    public TextButton missionButton;
-    public Dialog missionDialog;
+    public Table missionTable;
     public Label matchTime;
     public MiniMap miniMap;
     public Stage stage;
@@ -39,6 +38,8 @@ public class HUDComponent implements Component {
     public Skin skin = AssetsMapper.hudSkin;
 
     public Label selectedObjectLabel;
+    public Label creatingBuildQueue;
+    public ProgressBar buildQueue;
     public Label resourcesLabel;
     public Array<Array<ImageButton>> actionButtons = new Array<Array<ImageButton>>();
     public Array<Array<ImageButton>> selectedObjects = new Array<Array<ImageButton>>();
@@ -67,7 +68,7 @@ public class HUDComponent implements Component {
         }
 
         this.player = player;
-        selectedObjectLabel = new Label(player.selectedObject.getName(),skin);
+        selectedObjectLabel = new Label(player.selectedObject.getName(),skin, "subtitle");
         resourcesLabel = new Label(Integer.toString(player.resources),skin);
         OrthographicCamera camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport = new FitViewport(camera.viewportWidth, camera.viewportHeight, camera);
@@ -86,26 +87,23 @@ public class HUDComponent implements Component {
         rootTable.add(midTable2).fill().expand();
         rootTable.row();
         rootTable.add(bottomTable).fillX().expandX();
-        matchTime = new Label("00:00",skin, "title");
-        Label resources = new Label("EoL",skin, "title");
+        matchTime = new Label("00:00",skin, "subtitle");
+        Label resources = new Label("EoL",skin, "subtitle");
         HorizontalGroup resourcesBar = new HorizontalGroup();
         resourcesBar.expand().addActor(resources);
         resourcesBar.addActor(resourcesLabel);
-        topTable.add(matchTime).expandX().left();
-        topTable.add(resourcesBar).expandX();
+        topTable.add(matchTime).expandX().top().center().pad(10);
+        topTable.add(resourcesBar).expandX().pad(10);
         topTable.row();
-        missionButton = new TextButton("Missions", skin);
-        missionDialog = new Dialog("Missions", skin);
-        missionDialog.button("ok");
-        missionButton.addListener(new ClickListener(){
-            public void clicked (InputEvent event, float x, float y) {
-                missionDialog.show(stage);
-            }
-        });
+        missionTable = new Table();
+        missionTable.top().left();
+        missionTable.add(new Label("Missions", skin, "subtitle")).top().left().padLeft(10).padTop(5);
+        missionTable.setFillParent(true);
+
+        stage.addActor(missionTable);
         Table minimapTable = new Table(skin).left();
-        minimapTable.add(missionButton);
 //        minimapTable.add(AssetsMapper.moveButton);
-        Table statsTable = new Table(skin).center();
+        Table statsTable = new Table(skin).top();
         actionsTable = new Table(skin).right();
         for(int i = 0; i < 3; i++)
             actionsTable.add(actionButtons.get(0).get(i)).center().expandX();
@@ -117,8 +115,16 @@ public class HUDComponent implements Component {
             actionsTable.add(actionButtons.get(2).get(i)).center().expandX();
         HorizontalGroup topMostBottomBar = new HorizontalGroup();
         topMostBottomBar.addActor(selectedObjectLabel);
+        HorizontalGroup centerBottomBar = new HorizontalGroup();
+        buildQueue = new ProgressBar(0f, 100f, 1f, false, skin);
+        buildQueue.setVisible(false);
+        creatingBuildQueue = new Label("", skin);
+        centerBottomBar.addActor(buildQueue);
         statsTable.add(topMostBottomBar).top();
         statsTable.row();
+        statsTable.add(creatingBuildQueue).padTop(10);
+        statsTable.row();
+        statsTable.add(centerBottomBar);
         for(int i = 0; i < 3; i++)
             statsTable.add(selectedObjects.get(0).get(i)).center().expandX();
         statsTable.row();
@@ -130,11 +136,8 @@ public class HUDComponent implements Component {
         bottomTable.add(minimapTable).expandX();
         bottomTable.add(statsTable).expandX();
         bottomTable.add(actionsTable).expandX();
-        TextureRegionDrawable t = new TextureRegionDrawable();
-        t.setRegion(new TextureRegion(new Texture("HUD/resourceBar.png")));
         TextureRegionDrawable t2 = new TextureRegionDrawable();
-        t2.setRegion(new TextureRegion(new Texture("HUD/ordersBar.png")));
-        topTable.setBackground(t);
+        t2.setRegion(new TextureRegion(new Texture("HUD/bottomhud.png")));
         bottomTable.setBackground(t2);
 
         hintTitle = new Label("",AssetsMapper.tracerSkin, "title");

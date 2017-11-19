@@ -164,8 +164,7 @@ public class MainBuildingBuilder {
         wo.visibility = 1024f;
         return new BuildingEntity(playerComponent, new Vector2(x, y),
                 cellsComponent, new HealthComponent(600),
-                wo, play, 1024f,
-                20, 1);
+                wo, play, 1024f);
     }
 
     private CellComponent create_cell(TiledMapTile t, TiledMapTileLayer layer,

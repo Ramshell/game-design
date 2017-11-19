@@ -49,7 +49,7 @@ public class GoalSystem extends IntervalSystem{
     }
 
     private void showVictoryDialog() {
-        final EntitySystem that = this;
+        final EntitySystem self = this;
         new Dialog("You won", hudComponent.skin) {
 
             {
@@ -60,7 +60,7 @@ public class GoalSystem extends IntervalSystem{
             @Override
             protected void result(final Object object) {
                 System.out.println("Deberia volver a la pantalla de campanias");
-                for(EntitySystem system : getEngine().getSystems()) if(!system.equals(that)){
+                for(EntitySystem system : getEngine().getSystems()) if(!system.equals(self)){
                     system.setProcessing(true);
                 }
             }

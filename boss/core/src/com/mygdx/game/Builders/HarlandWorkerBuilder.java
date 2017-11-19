@@ -21,6 +21,8 @@ import com.mygdx.game.Play;
 
 public class HarlandWorkerBuilder extends UnitBuilder{
 
+    public static final float BUILD_SPEED = 8;
+    public static final float MAX_BUILD_SPEED = 100;
     public static int COST = 90;
 
     public HarlandWorkerBuilder(Play p, MapGraph mapGraph){

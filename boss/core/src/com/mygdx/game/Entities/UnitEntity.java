@@ -14,7 +14,8 @@ import com.mygdx.game.Play;
 public class UnitEntity extends Entity{
     public UnitEntity(PlayerComponent player, WorldObjectComponent wo,
                       float posX, float posY, int initialState,
-                      AnimationComponent anim, HealthComponent healthComponent, int id, Play play, float visibility){
+                      AnimationComponent anim, HealthComponent healthComponent,
+                      int id, Play play, float visibility){
         VelocityComponent velocityComponent = new VelocityComponent();
         velocityComponent.maxSpeed = 60;
         StateComponent state = new StateComponent();
@@ -29,6 +30,6 @@ public class UnitEntity extends Entity{
         t.region = anim.animations.get(initialState).getKeyFrame(0);
         add(wo).add(t).add(anim).add(state).add(new WorldPositionComponent(posX * ResourceMapper.tileWidth,posY * ResourceMapper.tileHeight))
         .add(velocityComponent).add(player).add(healthComponent).add(new DynamicWOComponent(wo.bounds, posX * ResourceMapper.tileWidth, posY * ResourceMapper.tileHeight))
-        .add(new IdComponent(id)).add(lightComponent);
+        .add(lightComponent);
     }
 }

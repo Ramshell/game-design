@@ -20,13 +20,13 @@ public class BuildingEntity extends Entity {
 
     public BuildingEntity(PlayerComponent p, Vector2 pos, CellsComponent cellsComponent,
                           HealthComponent healthComponent, WorldObjectComponent wo, Play play,
-                          float visibility, float maxProgress, float buildSpeed){
+                          float visibility){
         SpawnComponent spawnComponent =
                 new SpawnComponent((int)pos.x, (int)pos.y, cellsComponent.width, cellsComponent.height);
 
 
         add(wo).add(p).add(cellsComponent).add(new RenderableComponent()).add(spawnComponent)
         .add(new WorldPositionComponent(pos.x * ResourceMapper.tileWidth, pos.y * ResourceMapper.tileHeight))
-        .add(healthComponent).add(new TasksComponent(maxProgress, buildSpeed));
+        .add(healthComponent).add(new TasksComponent());
     }
 }

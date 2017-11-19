@@ -12,13 +12,14 @@ import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Play;
 
-public class CreateHarlandSoldierAction extends Action<Entity>{
+public class CreateHarlandSoldierAction extends BuildAction{
 
     private PlayerComponent player;
     private MapGraph mapGraph;
     private Play play;
 
     public CreateHarlandSoldierAction(MapGraph mapGraph, PlayerComponent player, final Play play){
+        super(HarlandSoldierBuilder.BUILD_SPEED, HarlandSoldierBuilder.MAX_BUILD_SPEED, "Harland Soldier");
         this.mapGraph = mapGraph;
         this.player = player;
         this.play = play;

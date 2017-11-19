@@ -94,9 +94,9 @@ public class Play implements Screen {
         eolBuilder = new EoLBuilder(this, mapGraph);
         RTSCamera rtsCamera = new RTSCamera();
         PlayerComponent playerComponent = new PlayerComponent();
-        playerComponent.resources = 900;
+        playerComponent.resources = 1200;
         PlayerComponent playerComponentEnemy = new PlayerComponent();
-        playerComponentEnemy.resources = 900;
+        playerComponentEnemy.resources = 1200;
         RendererEntity rendererEntity =
                 new RendererEntity(
                         new MapComponent(map, Mappers.camera.get(rtsCamera).getCamera()),

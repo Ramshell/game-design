@@ -8,10 +8,10 @@ import javafx.util.Pair;
 
 public class AddToBuildQueueAction extends Action<Entity>{
 
-    public Action<Entity> action;
+    public BuildAction action;
     public float cost;
 
-    public AddToBuildQueueAction(Action<Entity> action, float cost){
+    public AddToBuildQueueAction(BuildAction action, float cost){
         this.action = action;
         this.cost = cost;
     }
@@ -21,6 +21,6 @@ public class AddToBuildQueueAction extends Action<Entity>{
         PlayerComponent player = Mappers.player.get(e);
         if(player.resources < cost) return;
         player.resources -= cost;
-        Mappers.tasksComponentMapper.get(e).createUnit(new Pair<Action<Entity>, Entity>(action,e));
+        Mappers.tasksComponentMapper.get(e).createUnit(new Pair<BuildAction, Entity>(action,e));
     }
 }

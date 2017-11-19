@@ -21,6 +21,7 @@ import com.mygdx.game.Entities.RTSCamera;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.OOP.Actions.AttackAction;
+import com.mygdx.game.OOP.Actions.DeleteAction;
 import com.mygdx.game.OOP.Actions.MoveAction;
 import com.mygdx.game.OOP.Actions.ResourceGatheringAction;
 import com.mygdx.game.PathfindingUtils.MapGraph;
@@ -113,6 +114,8 @@ public class UserInputHandler extends InputAdapter implements GestureDetector.Ge
                 velocityComponent.pos.y = 0;
                 velocityComponent.accel.y = 0;
                 break;
+            case Input.Keys.FORWARD_DEL:
+                Mappers.player.get(player).selectedObject.act(new DeleteAction());
         }
         return true;
     }
@@ -154,7 +157,7 @@ public class UserInputHandler extends InputAdapter implements GestureDetector.Ge
     }
 
     public boolean touchDragged (int screenX, int screenY, int pointer) {
-        if(selection.selection != null) {
+        if(selection.selection != null && Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             Vector3 v = Mappers.camera.get(camera).getCamera().unproject(new Vector3(screenX, screenY, 0));
             selection.selection.width = v.x - selection.selection.x;
             selection.selection.height = v.y - selection.selection.y;
@@ -200,11 +203,11 @@ public class UserInputHandler extends InputAdapter implements GestureDetector.Ge
                         Intersector.overlaps(
                                 selection.selection,
                                 wo.bounds.getRectangle())){
-                    if(checkPlayer != null && !checkPlayer.equals(pm.get(player))){
+                    if(checkPlayer != null && !checkPlayer.equals(pm.get(player)) && pm.get(player).selectedObject.getSelectedObjects().size == 0){
                         pm.get(player).selectedObject.addEnemy(e);
-                        break;
+                    }else if(!(checkPlayer != null && !checkPlayer.equals(pm.get(player)))){
+                        pm.get(player).selectedObject.add(e);
                     }
-                    pm.get(player).selectedObject.add(e);
                 }
             }
             selection.selection = null;
@@ -237,7 +240,7 @@ public class UserInputHandler extends InputAdapter implements GestureDetector.Ge
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        if(count != 2 || pm.get(player).selectedObject.getSelectedObjects().size != 1 ||
+        if(count != 2 || button != Input.Buttons.LEFT || pm.get(player).selectedObject.getSelectedObjects().size != 1 ||
                 !Mappers.player.get(pm.get(player).selectedObject.getSelectedObjects().first()).equals(Mappers.player.get(player))) return false;
         Rectangle rectangle = new Rectangle(
                 Mappers.camera.get(camera).getCamera().position.x - Mappers.camera.get(camera).getCamera().viewportWidth / 2,

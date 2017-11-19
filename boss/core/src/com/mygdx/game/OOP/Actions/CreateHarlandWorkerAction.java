@@ -14,12 +14,13 @@ import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Play;
 
-public class CreateHarlandWorkerAction extends Action<Entity>{
+public class CreateHarlandWorkerAction extends BuildAction{
     private PlayerComponent player;
     private MapGraph mapGraph;
     private Play play;
 
     public CreateHarlandWorkerAction(MapGraph mapGraph, PlayerComponent player, final Play play){
+        super(HarlandWorkerBuilder.BUILD_SPEED, HarlandWorkerBuilder.MAX_BUILD_SPEED, "Harland Worker");
         this.mapGraph = mapGraph;
         this.player = player;
         this.play = play;
