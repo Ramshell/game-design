@@ -3,6 +3,7 @@ package com.mygdx.game.Mappers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.mygdx.game.OOP.RTSSound;
 
 public class AssetsMapper {
     public static Pixmap nm;
@@ -17,6 +19,8 @@ public class AssetsMapper {
     public static Pixmap bm;
     public static Pixmap lm;
     public static Pixmap tm;
+
+    public static Texture nLogo;
 
     public static Texture harlandWorker;
     public static Animation<TextureRegion> harlandWorkerIdleAnim;
@@ -79,15 +83,20 @@ public class AssetsMapper {
     public static Animation<TextureRegion> waterGatheringAnim;
 
     //sound assets
-    public static Music harlandDesertBackground;
-    public static Sound harlandWorker1;
-    public static Sound harlandWorker2;
-    public static Sound harlandWorker3;
-    public static Sound harlandWorker4;
-    public static Sound harlandSoldier1;
-    public static Sound harlandSoldier2;
-    public static Sound harlandSoldierShoot1, harlandSoldierShoot2, harlandSoldierShoot3;
-    public static Sound harlandAmablesFlattererAttack1, harlandAmablesFlattererAttack2, harlandAmablesFlattererAttack3;
+    public static Music harlandDesertBackground, logoMusic;
+    public static FileHandle harlandWorker1;
+    public static FileHandle harlandWorker2;
+    public static FileHandle harlandWorker3;
+    public static FileHandle harlandWorker4, harlandWorkerDeath, harlandWorkerSpawn;
+    public static FileHandle harlandSoldier1;
+    public static FileHandle harlandSoldier2;
+    public static FileHandle harlandSoldierShoot1, harlandSoldierShoot2, harlandSoldierShoot3;
+    public static FileHandle harlandAmablesFlatterer1;
+    public static FileHandle harlandAmablesFlatterer2;
+    public static FileHandle harlandAmablesFlatterer3;
+    public static FileHandle harlandAmablesFlattererAttack1, harlandAmablesFlattererAttack2, harlandAmablesFlattererAttack3;
+    public static FileHandle harlandAmablesFlattererSpawn, harlandAmablesFlattererDeath;
+
     public static Skin damageSkin;
     public static Skin tracerSkin;
     public static Texture craftHarlandAmablesFlattererAction;
@@ -108,6 +117,7 @@ public class AssetsMapper {
         bm = new Pixmap(Gdx.files.internal("cursor/bottom_movement.png"));
         lm = new Pixmap(Gdx.files.internal("cursor/left_movement.png"));
         tm = new Pixmap(Gdx.files.internal("cursor/top_movement.png"));
+        nLogo = loadTexture("N-logo.png");
         harlandWorker = loadTexture("characters/harland_worker.png");
         harlandWorkerIdleAnim = new Animation<TextureRegion>(0.8f,
                 new TextureRegion(harlandWorker, 14, 0, 36, 64),
@@ -250,29 +260,77 @@ public class AssetsMapper {
                 new TextureRegion(harlandAmablesFlatterer, 128, 320, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 192, 320, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 256, 320, 64, 64));
-        harlandAmablesFlattererAttackLeftBottomAnim = new Animation<TextureRegion>(0.2f,
+        harlandAmablesFlattererAttackLeftBottomAnim = new Animation<TextureRegion>(0.05f,
+                new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 128, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 128, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 128, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 192, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 192, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64));
-        harlandAmablesFlattererAttackRightBottomAnim = new Animation<TextureRegion>(0.2f,
+        harlandAmablesFlattererAttackRightBottomAnim = new Animation<TextureRegion>(0.05f,
+                new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 128, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 128, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 128, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 192, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 192, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64));
-        harlandAmablesFlattererAttackLeftTopAnim = new Animation<TextureRegion>(0.2f,
+        harlandAmablesFlattererAttackLeftTopAnim = new Animation<TextureRegion>(0.05f,
+                new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 128, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 128, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 128, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 192, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 192, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64));
-        harlandAmablesFlattererAttackRightTopAnim = new Animation<TextureRegion>(0.2f,
+        harlandAmablesFlattererAttackRightTopAnim = new Animation<TextureRegion>(0.05f,
+                new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 0, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 64, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 128, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 128, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 128, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 192, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 192, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64),
+                new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64),
                 new TextureRegion(harlandAmablesFlatterer, 256, 64, 64, 64));
         harlandAmablesFlattererDeathAnim = new Animation<TextureRegion>(0.1f,
                 new TextureRegion(harlandAmablesFlatterer, 0, 384, 64, 64),
@@ -371,20 +429,28 @@ public class AssetsMapper {
 
         harlandDesertBackground = Gdx.audio.newMusic(Gdx.files.internal("soundtrack/background.mp3"));
         harlandDesertBackground.setLooping(true);
-        harlandDesertBackground.setVolume(0.2f);
-        harlandWorker1 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_worker_1_16b.wav"));
-        harlandWorker2 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_worker_2_16b.wav"));
-        harlandWorker3 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_worker_3_16b.wav"));
-        harlandWorker4 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_worker_4_16b.wav"));
-        harlandSoldier1 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_soldier_1_16b.wav"));
-        harlandSoldier2 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/voices/characters/harland_soldier_2_16b.wav"));
-        harlandSoldierShoot1 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/sounds/soldier/soldierAttack_01.wav"));
-        harlandSoldierShoot2 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/sounds/soldier/soldierAttack_02.wav"));
-        harlandSoldierShoot3 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/sounds/soldier/soldierAttack_03.wav"));
+        harlandDesertBackground.setVolume(0.3f);
+        logoMusic = Gdx.audio.newMusic(Gdx.files.internal("soundtrack/starting_of_the_universes.mp3"));
+        harlandWorker1 = Gdx.files.internal("soundtrack/voices/characters/harland_worker_1_16b.wav");
+        harlandWorker2 = Gdx.files.internal("soundtrack/voices/characters/harland_worker_2_16b.wav");
+        harlandWorker3 = Gdx.files.internal("soundtrack/voices/characters/harland_worker_3_16b.wav");
+        harlandWorker4 = Gdx.files.internal("soundtrack/voices/characters/harland_worker_4_16b.wav");
+        harlandWorkerDeath = Gdx.files.internal("soundtrack/voices/characters/harland_worker_limpio_death.wav");
+        harlandWorkerSpawn = Gdx.files.internal("soundtrack/voices/characters/harland_worker_limpio_spawn.wav");
+        harlandSoldier1 = Gdx.files.internal("soundtrack/voices/characters/harland_soldier_1_16b.wav");
+        harlandSoldier2 = Gdx.files.internal("soundtrack/voices/characters/harland_soldier_2_16b.wav");
+        harlandSoldierShoot1 = Gdx.files.internal("soundtrack/sounds/soldier/soldierAttack_01.wav");
+        harlandSoldierShoot2 = Gdx.files.internal("soundtrack/sounds/soldier/soldierAttack_02.wav");
+        harlandSoldierShoot3 = Gdx.files.internal("soundtrack/sounds/soldier/soldierAttack_03.wav");
 
-        harlandAmablesFlattererAttack1 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/sounds/amables_flatter/attack_flatterer_1.wav"));
-        harlandAmablesFlattererAttack2 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/sounds/amables_flatter/attack_flatterer_2.wav"));
-        harlandAmablesFlattererAttack3 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/sounds/amables_flatter/attack_flatterer_3.wav"));
+        harlandAmablesFlatterer1 = Gdx.files.internal("soundtrack/voices/characters/harland_amables_flatterer_1_limpio.wav");
+        harlandAmablesFlatterer2 = Gdx.files.internal("soundtrack/voices/characters/harland_amables_flatterer_2_limpio.wav");
+        harlandAmablesFlatterer3 = Gdx.files.internal("soundtrack/voices/characters/harland_amables_flatterer_3_limpio.wav");
+        harlandAmablesFlattererSpawn = Gdx.files.internal("soundtrack/voices/characters/harland_amables_flatterer_limpio_spawn.wav");
+        harlandAmablesFlattererDeath = Gdx.files.internal("soundtrack/voices/characters/harland_amables_flatterer_limpio_death.wav");
+        harlandAmablesFlattererAttack1 = Gdx.files.internal("soundtrack/sounds/amables_flatter/attack_flatterer_1.wav");
+        harlandAmablesFlattererAttack2 = Gdx.files.internal("soundtrack/sounds/amables_flatter/attack_flatterer_2.wav");
+        harlandAmablesFlattererAttack3 = Gdx.files.internal("soundtrack/sounds/amables_flatter/attack_flatterer_3.wav");
     }
 
     public static void playMusic(){

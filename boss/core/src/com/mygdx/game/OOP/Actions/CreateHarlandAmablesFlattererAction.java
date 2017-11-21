@@ -32,6 +32,8 @@ public class CreateHarlandAmablesFlattererAction extends BuildAction{
             player.resources += HarlandAmablesFlattererBuilder.COST;
             return;
         }
-        play.engine.addEntity(play.amablesFlattererBuilder.getAmablesFlatterer(player, (int)v.x,(int) v.y));
+        Entity createdEntity = play.amablesFlattererBuilder.getAmablesFlatterer(player, (int)v.x,(int) v.y);
+        play.engine.addEntity(createdEntity);
+        super.act(createdEntity);
     }
 }

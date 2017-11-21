@@ -20,6 +20,7 @@ import com.mygdx.game.Entities.UnitEntity;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.OOP.Actions.*;
+import com.mygdx.game.OOP.RTSSound;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Play;
 
@@ -38,15 +39,15 @@ public class HarlandSoldierBuilder extends UnitBuilder{
      * **/
     public Entity getSoldier(final PlayerComponent player, int posX, int posY){
         WOSoundComponent ws = new WOSoundComponent();
-        ws.sounds.put("action", new Array<Sound>());
-        ws.sounds.put("attack", new Array<Sound>());
-        Array<Sound> sounds = ws.sounds.get("action");
-        sounds.add(AssetsMapper.harlandSoldier1);
-        sounds.add(AssetsMapper.harlandSoldier2);
+        ws.sounds.put("action", new Array<RTSSound>());
+        ws.sounds.put("attack", new Array<RTSSound>());
+        Array<RTSSound> sounds = ws.sounds.get("action");
+        sounds.add(new RTSSound(AssetsMapper.harlandSoldier1, 3f));
+        sounds.add(new RTSSound(AssetsMapper.harlandSoldier2, 2f));
         sounds = ws.sounds.get("attack");
-        sounds.add(AssetsMapper.harlandSoldierShoot1);
-        sounds.add(AssetsMapper.harlandSoldierShoot2);
-        sounds.add(AssetsMapper.harlandSoldierShoot3);
+        sounds.add(new RTSSound(AssetsMapper.harlandSoldierShoot1, 0.9f, RTSSound.DONT_WAIT));
+        sounds.add(new RTSSound(AssetsMapper.harlandSoldierShoot2, 0.9f, RTSSound.DONT_WAIT));
+        sounds.add(new RTSSound(AssetsMapper.harlandSoldierShoot3, 0.9f, RTSSound.DONT_WAIT));
 
         Array<ActionComponent> actions = new Array<ActionComponent>();
         ActionComponent move = new ActionComponent();

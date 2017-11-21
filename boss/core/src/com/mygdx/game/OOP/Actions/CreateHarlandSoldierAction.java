@@ -34,6 +34,8 @@ public class CreateHarlandSoldierAction extends BuildAction{
             player.resources += HarlandSoldierBuilder.COST;
             return;
         }
-        play.engine.addEntity(play.soldierBuilder.getSoldier(player, (int)v.x,(int) v.y));
+        Entity createdEntity = play.soldierBuilder.getSoldier(player, (int)v.x,(int) v.y);
+        play.engine.addEntity(createdEntity);
+        super.act(createdEntity);
     }
 }

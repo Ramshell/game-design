@@ -20,6 +20,7 @@ import com.mygdx.game.Entities.UnitEntity;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.OOP.Actions.*;
+import com.mygdx.game.OOP.RTSSound;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Play;
 
@@ -38,15 +39,22 @@ public class HarlandAmablesFlattererBuilder extends UnitBuilder{
      * **/
     public Entity getAmablesFlatterer(final PlayerComponent player, int posX, int posY){
         WOSoundComponent ws = new WOSoundComponent();
-        ws.sounds.put("action", new Array<Sound>());
-        ws.sounds.put("attack", new Array<Sound>());
-        Array<Sound> sounds = ws.sounds.get("action");
-        sounds.add(AssetsMapper.harlandSoldier1);
-        sounds.add(AssetsMapper.harlandSoldier2);
-        sounds = ws.sounds.get("attack");
-        sounds.add(AssetsMapper.harlandAmablesFlattererAttack1);
-        sounds.add(AssetsMapper.harlandAmablesFlattererAttack2);
-        sounds.add(AssetsMapper.harlandAmablesFlattererAttack3);
+        ws.sounds.put("action", new Array<RTSSound>());
+        ws.sounds.put("before_attack", new Array<RTSSound>());
+        ws.sounds.put("spawn", new Array<RTSSound>());
+        ws.sounds.put("death", new Array<RTSSound>());
+        Array<RTSSound> sounds = ws.sounds.get("action");
+        sounds.add(new RTSSound(AssetsMapper.harlandAmablesFlatterer1, 1.9f));
+        sounds.add(new RTSSound(AssetsMapper.harlandAmablesFlatterer2, 3f));
+        sounds.add(new RTSSound(AssetsMapper.harlandAmablesFlatterer3, 7f));
+        sounds = ws.sounds.get("before_attack");
+        sounds.add(new RTSSound(AssetsMapper.harlandAmablesFlattererAttack1, 0.6f, RTSSound.DONT_WAIT));
+        sounds.add(new RTSSound(AssetsMapper.harlandAmablesFlattererAttack2, 0.6f, RTSSound.DONT_WAIT));
+        sounds.add(new RTSSound(AssetsMapper.harlandAmablesFlattererAttack3, 0.6f, RTSSound.DONT_WAIT));
+        sounds = ws.sounds.get("spawn");
+        sounds.add(new RTSSound(AssetsMapper.harlandAmablesFlattererSpawn, 1.9f, RTSSound.STOP_AND_PLAY));
+        sounds = ws.sounds.get("death");
+        sounds.add(new RTSSound(AssetsMapper.harlandAmablesFlattererDeath, 0.8f, RTSSound.STOP_AND_PLAY));
 
         Array<ActionComponent> actions = new Array<ActionComponent>();
         ActionComponent move = new ActionComponent();
@@ -150,10 +158,11 @@ public class HarlandAmablesFlattererBuilder extends UnitBuilder{
         RangedWeaponComponent rangedWeaponComponent = new RangedWeaponComponent();
         rangedWeaponComponent.range = new Circle(0, 0, 32);
         rangedWeaponComponent.visionRange = new Circle(0, 0, 128);
-        rangedWeaponComponent.attackDuration = 0.5f;
-        rangedWeaponComponent.attackSpeed = 0.6f;
-        rangedWeaponComponent.minDamage = 1;
-        rangedWeaponComponent.maxDamage = 6;
+        rangedWeaponComponent.attackDuration = 0.7f;
+        rangedWeaponComponent.attackSpeed = 1.5f;
+        rangedWeaponComponent.minDamage = 10;
+        rangedWeaponComponent.maxDamage = 25;
+        rangedWeaponComponent.area = true;
         return new UnitEntity(player, wo, posX, posY,
                 IDLE, anim, new HealthComponent(100), id++, play, 416f, 90)
                 .add(rangedWeaponComponent).add(ws);

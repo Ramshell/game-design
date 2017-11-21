@@ -9,10 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.mygdx.game.Builders.UnitBuilder;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.Combat.DamageSpawnComponent;
-import com.mygdx.game.Components.WorldObjects.AnimationSpawnComponent;
-import com.mygdx.game.Components.WorldObjects.HealthComponent;
-import com.mygdx.game.Components.WorldObjects.WorldObjectComponent;
-import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
+import com.mygdx.game.Components.WorldObjects.*;
 import com.mygdx.game.Entities.UnitEntity;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
@@ -55,6 +52,11 @@ public class DamageSystem extends EntitySystem{
                                     Mappers.animation.get(e).animations.get(UnitBuilder.DEAD),
                                     Mappers.animation.get(e).offsetsX.get(UnitBuilder.DEAD),
                                     Mappers.animation.get(e).offsetsY.get(UnitBuilder.DEAD))));
+                }
+                if(e.getComponent(WOSoundComponent.class) != null){
+                    WOSoundComponent woSoundComponent = e.getComponent(WOSoundComponent.class);
+                    woSoundComponent.residual = true;
+                    getEngine().addEntity(new Entity().add(woSoundComponent).add(new PlaySoundComponent("death")));
                 }
                 getEngine().removeEntity(e);
                 WorldObjectComponent worldObjectComponent = Mappers.world.get(e);

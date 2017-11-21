@@ -6,7 +6,9 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.OrderedSet;
 import com.mygdx.game.Components.Combat.AttackProgressionComponent;
+import com.mygdx.game.Components.Combat.RangedWeaponComponent;
 import com.mygdx.game.Components.MapGraphComponent;
 import com.mygdx.game.Components.WorldObjects.PlaySoundComponent;
 import com.mygdx.game.Components.WorldObjects.TargetComponent;
@@ -22,6 +24,7 @@ public class AttackProgressionSystem extends EntitySystem{
     Random rand = new Random();
     MoveAction m;
     MapGraph mapGraph;
+    OrderedSet<Entity> areaUnits = new OrderedSet<Entity>();
 
     @Override
     public void addedToEngine(Engine engine) {
@@ -39,7 +42,8 @@ public class AttackProgressionSystem extends EntitySystem{
                 e.remove(AttackProgressionComponent.class);
                 continue;
             }
-            if(!CombatSystem.atRange(Mappers.rangedWeaponComponentMapper.get(e), attackProgressionComponent.target)){
+            RangedWeaponComponent rangedWeaponComponent = Mappers.rangedWeaponComponentMapper.get(e);
+            if(!CombatSystem.atRange(rangedWeaponComponent, attackProgressionComponent.target)){
                 if(attackProgressionComponent.timeOutOfRange == 0) {
                     if(Mappers.spawn.get(attackProgressionComponent.target) == null) {
                         m.x = (int) (Mappers.worldPosition.get(attackProgressionComponent.target).position.x / ResourceMapper.tileWidth);
@@ -62,9 +66,22 @@ public class AttackProgressionSystem extends EntitySystem{
                     attackProgressionComponent.attackSpeed){
                 attackProgressionComponent.currentAttack = 0;
             }
+            if(attackProgressionComponent.currentAttack == 0){
+                if(Mappers.playSoundComponentMapper.get(e) != null){
+                    Mappers.playSoundComponentMapper.get(e).mappingSound = "before_attack";
+                }else{
+                    e.add(new PlaySoundComponent("before_attack"));
+                }
+                Mappers.stateComponentMapper.get(e).time = 0;
+            }
+
             if(attackProgressionComponent.currentAttack < attackProgressionComponent.attackDuration &&
                 attackProgressionComponent.currentAttack + deltaTime >= attackProgressionComponent.attackDuration){
-                Mappers.healthComponentMapper.get(attackProgressionComponent.target).damageTaken += (int) (rand.nextFloat() * (attackProgressionComponent.maxDamage - attackProgressionComponent.minDamage) + attackProgressionComponent.minDamage);
+                if(!rangedWeaponComponent.area)
+                    Mappers.healthComponentMapper.get(attackProgressionComponent.target).damageTaken += (int) (rand.nextFloat() * (attackProgressionComponent.maxDamage - attackProgressionComponent.minDamage) + attackProgressionComponent.minDamage);
+                else {
+                    calculateAttack(e, rangedWeaponComponent, attackProgressionComponent);
+                }
                 if(Mappers.playSoundComponentMapper.get(e) != null){
                     Mappers.playSoundComponentMapper.get(e).mappingSound = "attack";
                 }else{
@@ -80,6 +97,25 @@ public class AttackProgressionSystem extends EntitySystem{
                     attackProgressionComponent.attackDuration){
                 Mappers.velocity.get(e).pos.setZero();
                 Mappers.velocity.get(e).accel.setZero();
+            }
+        }
+    }
+
+
+    private void calculateAttack(Entity e, RangedWeaponComponent rangedWeaponComponent,
+                                 AttackProgressionComponent attackProgressionComponent) {
+        areaUnits.clear();
+        int fromX = (int) (rangedWeaponComponent.range.x - rangedWeaponComponent.range.radius) / ResourceMapper.tileWidth;
+        int fromY = (int) (rangedWeaponComponent.range.y - rangedWeaponComponent.range.radius) / ResourceMapper.tileHeight;
+        int toX = (int) (rangedWeaponComponent.range.x + rangedWeaponComponent.range.radius) / ResourceMapper.tileWidth + 1;
+        int toY = (int) (rangedWeaponComponent.range.y + rangedWeaponComponent.range.radius) / ResourceMapper.tileHeight + 1;
+        for(int i = Math.max(0, fromX); i < Math.min(mapGraph.width, toX); ++i){
+            for(int j = Math.max(0, fromY); j < Math.min(mapGraph.height, toY); ++j){
+                for(Entity entity: mapGraph.getNode(i, j).entities)
+                    if(!entity.equals(e) && !Mappers.player.get(entity).equals(Mappers.player.get(e)) && CombatSystem.atRange(rangedWeaponComponent, entity) && !areaUnits.contains(entity)){
+                        Mappers.healthComponentMapper.get(entity).damageTaken += (int) (rand.nextFloat() * (attackProgressionComponent.maxDamage - attackProgressionComponent.minDamage) + attackProgressionComponent.minDamage);
+                        areaUnits.add(entity);
+                    }
             }
         }
     }

@@ -14,6 +14,7 @@ import com.mygdx.game.Components.WorldObjects.TargetComponent;
 import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Mappers.Mappers;
 import com.mygdx.game.Mappers.ResourceMapper;
+import com.mygdx.game.OOP.Actions.Action;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 
 public class CombatSystem extends EntitySystem{
@@ -64,7 +65,21 @@ public class CombatSystem extends EntitySystem{
             for(int j = Math.max(0, fromY); j < Math.min(mapGraph.height, toY); ++j){
                 for(Entity entity: mapGraph.getNode(i, j).entities)
                     if(!entity.equals(e) && !Mappers.player.get(entity).equals(Mappers.player.get(e)) && atVision(rangedWeaponComponent, entity)){
-                        e.add(new AttackProgressionComponent(entity, rangedWeaponComponent.minDamage, rangedWeaponComponent.maxDamage, rangedWeaponComponent.attackSpeed, rangedWeaponComponent.attackDuration));
+                        if(!rangedWeaponComponent.area)
+                            e.add(new AttackProgressionComponent(
+                                    entity,
+                                    rangedWeaponComponent.minDamage,
+                                    rangedWeaponComponent.maxDamage,
+                                    rangedWeaponComponent.attackSpeed,
+                                    rangedWeaponComponent.attackDuration));
+                        else
+                            e.add(new AttackProgressionComponent(
+                                    entity,
+                                    rangedWeaponComponent.minDamage,
+                                    rangedWeaponComponent.maxDamage,
+                                    rangedWeaponComponent.attackSpeed,
+                                    rangedWeaponComponent.attackDuration,
+                                    true));
                         return;
                     }
             }

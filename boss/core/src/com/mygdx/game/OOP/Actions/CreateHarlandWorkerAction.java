@@ -36,6 +36,8 @@ public class CreateHarlandWorkerAction extends BuildAction{
             player.resources += HarlandWorkerBuilder.COST;
             return;
         }
-        play.engine.addEntity(play.workerBuilder.getWorker(player, (int)v.x,(int) v.y));
+        Entity createdEntity = play.workerBuilder.getWorker(player, (int)v.x,(int) v.y);
+        play.engine.addEntity(createdEntity);
+        super.act(createdEntity);
     }
 }

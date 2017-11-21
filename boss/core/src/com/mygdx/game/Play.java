@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.*;
@@ -59,7 +60,10 @@ public class Play implements Screen {
     public RayHandler rayHandler;
     public HUDComponent hudComponent;
 
-    public Play(Engine engine, Game game) { this.engine = engine; this.game=game;}
+    public Play(Engine engine, Game game) {
+        this.engine = engine;
+        this.game = game;
+    }
 
     @Override
     public void show() {
