@@ -5,8 +5,11 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.OrderedSet;
+import com.mygdx.game.Components.MapComponent;
 import com.mygdx.game.Components.MapGraphComponent;
 import com.mygdx.game.Components.StartGatheringComponent;
 import com.mygdx.game.Components.VelocityComponent;
@@ -23,6 +26,7 @@ public class CollisionSystem extends EntitySystem{
     Engine engine;
     private ImmutableArray<Entity> dynamicEntities;
     MapGraph mapGraph;
+    TiledMap map;
     Circle c1 = new Circle(0,0,9);
     Circle c2 = new Circle(0,0,9);
 //    Vector2 vectorAux = new Vector2();
@@ -30,6 +34,7 @@ public class CollisionSystem extends EntitySystem{
     public void addedToEngine(Engine e) {
         this.engine = e;
         mapGraph = Mappers.graph.get(e.getEntitiesFor(Family.all(MapGraphComponent.class).get()).first()).mapGraph;
+        map = Mappers.map.get(e.getEntitiesFor(Family.all(MapComponent.class).get()).first()).map;
     }
 
     public void update(float deltaTime){
@@ -81,5 +86,23 @@ public class CollisionSystem extends EntitySystem{
                 }
             }
         }
+        for(PolygonMapObject p : map.getLayers().get("collision_layer").getObjects().getByType(PolygonMapObject.class))
+            overlaps(p.getPolygon(), c1);
+    }
+
+    public boolean overlaps(Polygon polygon, Circle circle) {
+        float []vertices=polygon.getTransformedVertices();
+        Vector2 center=new Vector2(circle.x, circle.y);
+        float squareRadius=circle.radius*circle.radius;
+        for (int i=0;i<vertices.length;i+=2){
+            if (i==0){
+                if (Intersector.intersectSegmentCircle(new Vector2(vertices[vertices.length-2], vertices[vertices.length-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
+                    return true;
+            } else {
+                if (Intersector.intersectSegmentCircle(new Vector2(vertices[i-2], vertices[i-1]), new Vector2(vertices[i], vertices[i+1]), center, squareRadius))
+                    return true;
+            }
+        }
+        return false;
     }
 }

@@ -85,7 +85,7 @@ public class IntroCutscene extends ScreenAdapter {
         Action moveAction = Actions.run(new Runnable() {
             @Override
             public void run() {
-                new MoveAction(14 * 32, 7 * 32, play.mapGraph).act(play.firstWorker);
+                new MoveAction(play.worker_2.x * 32, play.worker_2.y * 32, play.mapGraph).act(play.firstWorker);
             }
         });
         stage.addAction(Actions.sequence(
@@ -109,7 +109,7 @@ public class IntroCutscene extends ScreenAdapter {
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
-                        new MoveAction(8 * 32, 7 * 32, play.mapGraph).act(play.firstWorker);
+                        new MoveAction(play.worker_3.x * 32, play.worker_3.y * 32, play.mapGraph).act(play.firstWorker);
                     }
                 }),
                 Actions.delay(5),

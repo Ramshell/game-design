@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Interpolation;
@@ -64,6 +66,7 @@ public class Play implements Screen {
     public HUDComponent hudComponent;
     public InputMultiplexer multiplexer;
     public Entity firstWorker;
+    public Vector2 worker_1, worker_2, worker_3;
 
     public Play(Engine engine, Game game) {
         this.engine = engine;
@@ -83,7 +86,7 @@ public class Play implements Screen {
         engine.addEntity(new Entity().add(matchComponent));
 
         TmxMapLoader loader = new TmxMapLoader();
-        map = loader.load("ortho_map/harland_desert.tmx");
+        map = loader.load("characters/lava2.tmx");
         ResourceMapper.width = map.getProperties().get("width", Integer.class);
         ResourceMapper.height = map.getProperties().get("height", Integer.class);
         ResourceMapper.tileWidth = map.getProperties().get("tilewidth", Integer.class);
@@ -136,15 +139,12 @@ public class Play implements Screen {
         defeatComponent2.condition = new DeadLineDefeatCondition(engine, playerComponent, 600);
         engine.addEntity(new Entity().add(defeatComponent2));
 
-        firstWorker = workerBuilder.getWorker(playerComponent,14, 4);
-        engine.addEntity(firstWorker);
-
-        Entity worker = workerBuilder.getWorker(playerComponentEnemy,30, 0);
-        engine.addEntity(worker);
-        final TryingBuildingComponent tryingBuildingComponent = new TryingBuildingComponent();
-        tryingBuildingComponent.building = mainBuildingBuilder.getWall(playerComponentEnemy,30,0);
-        worker.add(tryingBuildingComponent);
-        new CreateBuildingAction(30 * ResourceMapper.tileWidth, 0, engine, playerComponentEnemy, mapGraph).act(worker);
+//        Entity worker = workerBuilder.getWorker(playerComponentEnemy,30, 0);
+//        engine.addEntity(worker);
+//        final TryingBuildingComponent tryingBuildingComponent = new TryingBuildingComponent();
+//        tryingBuildingComponent.building = mainBuildingBuilder.getWall(playerComponentEnemy,30,0);
+//        worker.add(tryingBuildingComponent);
+//        new CreateBuildingAction(30 * ResourceMapper.tileWidth, 0, engine, playerComponentEnemy, mapGraph).act(worker);
 
         for(int i = 20; i < 26; i += 2){
             Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, 16, i);
@@ -153,7 +153,7 @@ public class Play implements Screen {
         }
 
 
-        for(int i = 40; i < 40; ++i){
+        for(int i = 45; i < 50; ++i){
             Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, 32, i);
             engine.addEntity(soldierEnemy);
             new PatrolAction(12 * ResourceMapper.tileWidth, i * ResourceMapper.tileHeight).act(soldierEnemy);
@@ -165,9 +165,27 @@ public class Play implements Screen {
             new PatrolAction(i * ResourceMapper.tileWidth,12  * ResourceMapper.tileHeight).act(soldierEnemy);
         }
 
-        engine.addEntity(eolBuilder.getEoL(3,4,20000));
-        engine.addEntity(eolBuilder.getEoL(4,6,20000));
-        engine.addEntity(eolBuilder.getEoL(5,8,20000));
+
+        for(MapObject c : map.getLayers().get("set_up_lvl").getObjects()){
+            float cX = (Float)c.getProperties().get("x");
+            float cY = (Float)c.getProperties().get("y");
+            int x = MapGraph.toTile(cX, false);
+            int y = MapGraph.toTile(cY, true);
+            if(c.getName().equals("EOL"))
+                engine.addEntity(eolBuilder.getEoL(x,y,20000));
+            if(c.getName().equals("worker_1"))
+                worker_1 = new Vector2(MapGraph.toTile(cX, false),
+                                       MapGraph.toTile(cY, true));
+            if(c.getName().equals("worker_2"))
+                worker_2 = new Vector2(MapGraph.toTile(cX, false),
+                        MapGraph.toTile(cY, true));
+            if(c.getName().equals("worker_3"))
+                worker_3 = new Vector2(MapGraph.toTile(cX, false),
+                        MapGraph.toTile(cY, true));
+        }
+
+        firstWorker = workerBuilder.getWorker(playerComponent,(int)worker_1.x, (int)worker_1.y);
+        engine.addEntity(firstWorker);
 
         engine.addEntity(player);
         engine.addEntity(rendererEntity);

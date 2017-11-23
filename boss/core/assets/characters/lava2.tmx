@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="30" tilewidth="32" tileheight="32" nextobjectid="91">
+ <tileset firstgid="1" source="lava2_asst.tsx"/>
+ <tileset firstgid="257" name="piso" tilewidth="32" tileheight="32" tilecount="32" columns="8">
+  <image source="piso.png" width="256" height="128"/>
+ </tileset>
+ <tileset firstgid="289" source="mergepiso2.tsx"/>
+ <layer name="lava" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt0cENACAIBEEaxg60dq1CEpjHZf83GRHrLYd0v51Brf6bL1++fPny5du/1X/z5cuXL1++fPu3+m++fPny5cuXb/9W//27F93gOlo=
+  </data>
+ </layer>
+ <layer name="ultrabasic" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eJy12XdwFUUcwPG7JGpeiCVFIIn/CCQk6OhICNhFimAFBYUAauwmoAJKSUAxCIEAKr1YaQp2QQXEFhsg9gaKY+8Ze9exfXduf5PNvnuPu5eXPz5z2bnLvf29vd/9dveVOI7TG32sYxjm/3bWfxejo49OWhlGoBzDMNxqH+g6Tgd0RCcUogidUYwSdMFBOBiH4FC4SEEq0tATx+BYHKfuw70HYbB1DMP83x4Yg7Eo1TGWahuwEZswEqNQiSqf9mH0rStK0Q1l6I4eOBxH4EgchaONeCLIQBtkYiBOxWkY4Hrfcw0mYTKqk9CuxVR0wzRM139vwVZsC3C/4+lbL/RGH/TFCeiH/jgRJ+FknGLEk4Vs5CAXFTgb5+BcPb6zMBtzUJ+E9jzMxwIsxCIsDnm/0+nbGRiEwTgTZ2EIhqIcwzAcI4x48pCPAhyA0bgMl+MKPb5++dOS9gqsxCqsTvB+59G383EBLsRFuBiX4FJUogojMcqIR8V3Na7BFFyr2zLehTHypyXtdViPteiH/gncbwx9G4srcRXGYTwmYCKqUYNJmGzFdz1uwI2Yq9sy3oUx8idZ7SEYmsD/19K3qbgO0zAddZiBmajHLMzGHNd7L0t8t+I23I7lVrs18tevLeMc9Pp59G0+FmAhFmExlmApluEm3IxbXO+9LPHdh/vxAB602q2Rv35tGeeg16+gbyuxCqtxB+7EGqzFXbgb9+p4soz4nsCTeMptXnt7tlL++rVlfO1jrOvX0bf1eAgP4xFswEZswqPYjMfd5jW3AS/jFbzqNq+9A93Wqb9+bRlf+1htxG5e/zR9ewbP4jk8jy3Yim14AdvxkhXfa3gfH+BDt6n2qu+kIoH8TUWazzFo/trHeiN28/rX6dsbeBNv4W3swE68g3f18ywkvo9cr/aoOeX3bvPaOzqB/M1Brs9xAibq8YmXv/ZR4rav/5i+fYJP8Rk+xxf4El/ha/08CzP2AuNvuxYHyd+2aIf2jjeP8DMDM/X4hMlvO245/yN9+wk/4xf8it/wO/7An/p5FpstEX2UWqzGfG7A/C1yvHWPUhwj3iVYimUB7hcvv6XtpvBMIhVp2AN7Yi+kI4JdbvR6aLtFaq8a8+Uh8zfeGK9xvPlUsupzFvFkIwe52B9t0Q7tkYdGN3o9tMui5pBmLQ6Sv9mOl6exnmVF1nnJqM9h5pL2eqjRouaQUosbAuRvLdJ94jPXenXYgZ1OdL0NUp/lWmmHmUva6yFVY+05hlmrdjd/9nuGVaxqL8Nc68m5CDKc6HyMl79yrbTDzCXVWtBc31b4xGvvb8TKrw4xnl0Va1/jevP7kHiD5q+MrXk+6FzyHtdbC9o1VuKz32UDdLyST+WWrjHiLXSa8s8ee4k3aP7K2JrndzeXVHGoWvOY660F7Ror8drvMtnfqNKfU2kojzG+EaNffnkt8QapvzK29vmgc8kXXW8taK93JV77XSb7GzX6c6oNlXp81T6byleZT5j9ihdvkPorY2ufDzKXVLXmPddbC9rrXYnXfpdN0eNbpD+n3qDavZym96/MJ8x+xYs3bP6a9TfIXLLRJz+lxtrvq4gx/ire7nH6Je9fmU/I+Vhzj0Tz16y/QeaSf/nkp4q9wSdee3+jyCdeeW4lT835RLbTtKesYixBF029t1u6Xg4yl8xIic5PqbF2vOb+ht/42s+Y3Z8ORqzyfcn5ZKyXg8wl81Oi81PWg3a85n6H9LcNMp3m69FY7xN5j6l4y/T3JeeTsd8V5reUb/AtvnO99e4PPvGa+wGFOt8KHO83kHEY73jr2bQY/Uk3nmf5vuR8Mva7wvyW8jf+wb/4D05KdLzmfkcel+Q7Te+fOk3VH7+1vVwn8cr4JnO/K8xvKZnEtzf2wb7YT8drxmyO///O0wMF
+  </data>
+ </layer>
+ <layer name="basic" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztwQEBAAAAgiD/r25IQAEAAAAAAAAvBhwgAAE=
+  </data>
+ </layer>
+ <layer name="background" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1tsJgDAMheEu4GUBLwvoBrr/WOahD1KKKIa0xv+DAz6VNEKTEAAAAOq2SNb4vZcsxMgWfNyzk/SlizA0SeaXZ3j47940krZ0EYYGyah0VvoGeO9l+gZo9hK4ct6T/uDpfb8+W632Qi97W65XufmjsbfVivkDALjrALNoBRw=
+  </data>
+ </layer>
+ <objectgroup name="collision_layer">
+  <object id="22" x="674" y="102" width="67" height="53"/>
+  <object id="24" x="707" y="159" width="60" height="34"/>
+  <object id="25" x="745" y="64" width="122" height="34"/>
+  <object id="28" x="739" y="4" width="189" height="56"/>
+  <object id="31" x="931" y="3" width="62" height="31"/>
+  <object id="32" x="708" y="64" width="31" height="30"/>
+  <object id="33" x="704" y="2" width="34" height="31"/>
+  <object id="34" x="320" y="420" width="266" height="36"/>
+  <object id="35" x="416" y="464" width="224" height="45"/>
+  <object id="36" x="578" y="422" width="30" height="31"/>
+  <object id="39" x="544" y="512" width="65" height="64"/>
+  <object id="40" x="354" y="510" width="188" height="36"/>
+  <object id="43" x="319" y="549" width="225" height="29"/>
+  <object id="46" x="259" y="580" width="188" height="28"/>
+  <object id="48" x="258" y="612" width="161" height="62"/>
+  <object id="49" x="259" y="679" width="128" height="25"/>
+  <object id="52" x="258" y="708" width="64" height="59"/>
+  <object id="53" x="288" y="776" width="64" height="53"/>
+  <object id="54" x="325" y="708" width="24" height="29"/>
+  <object id="55" x="324" y="741" width="62" height="30"/>
+  <object id="56" x="359" y="777" width="26" height="23"/>
+  <object id="57" x="386" y="390" width="192" height="28"/>
+  <object id="58" x="548" y="579" width="98" height="28"/>
+  <object id="59" x="548" y="612" width="92" height="187"/>
+  <object id="60" x="516" y="641" width="27" height="158"/>
+  <object id="62" x="451" y="801" width="94" height="29"/>
+  <object id="63" x="448" y="839" width="71" height="116"/>
+  <object id="64" x="124" y="930" width="68" height="30"/>
+  <object id="65" x="165" y="841" width="114" height="50"/>
+  <object id="66" x="703" y="547" width="69" height="65"/>
+  <object id="68" x="771" y="161" width="56" height="59"/>
+  <object id="70" x="836" y="228" width="59" height="189"/>
+  <object id="71" x="899" y="291" width="127" height="122"/>
+  <object id="72" x="1058" y="325" width="58" height="61"/>
+  <object id="73" x="1025" y="383" width="56" height="60"/>
+  <object id="74" x="1086" y="418" width="63" height="122"/>
+  <object id="75" x="1060" y="546" width="63" height="63"/>
+  <object id="76" x="1028" y="610" width="59" height="66"/>
+  <object id="77" x="994" y="680" width="61" height="58"/>
+  <object id="78" x="1026" y="741" width="65" height="61"/>
+  <object id="79" x="1092" y="743" width="58" height="59"/>
+ </objectgroup>
+ <layer name="foreground" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztwQEBAAAAgiD/r25IQAEAAAAAAAAvBhwgAAE=
+  </data>
+ </layer>
+ <layer name="trying_building" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztwQEBAAAAgiD/r25IQAEAAAAAAAAvBhwgAAE=
+  </data>
+ </layer>
+ <layer name="wrong_layer" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztwQEBAAAAgiD/r25IQAEAAAAAAAAvBhwgAAE=
+  </data>
+ </layer>
+ <layer name="selection_layer" width="60" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztwQEBAAAAgiD/r25IQAEAAAAAAAAvBhwgAAE=
+  </data>
+ </layer>
+ <objectgroup name="set_up_lvl">
+  <object id="84" name="EOL" x="1875" y="682">
+   <ellipse/>
+  </object>
+  <object id="85" name="EOL" x="1839" y="821">
+   <ellipse/>
+  </object>
+  <object id="86" name="EOL" x="1794" y="588">
+   <ellipse/>
+  </object>
+  <object id="87" name="worker_3" x="1819" y="517">
+   <ellipse/>
+  </object>
+  <object id="89" name="worker_1" x="1644" y="341">
+   <ellipse/>
+  </object>
+  <object id="90" name="worker_2" x="1770" y="349">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

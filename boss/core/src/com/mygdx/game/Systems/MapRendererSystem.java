@@ -22,8 +22,8 @@ public class MapRendererSystem extends EntitySystem {
     private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
     private ComponentMapper<PlayerComponent> playerMapper = ComponentMapper.getFor(PlayerComponent.class);
     private Engine engine;
-    private int[] before_units = {0, 1};
-    private int[] after_units = {2,3,4,5};
+    private int[] before_units = {0, 1, 2, 3};
+    private int[] after_units = {4, 5, 6, 7};
     private Array<Entity> renderQueue;
     private Comparator<Entity> comparator;
 

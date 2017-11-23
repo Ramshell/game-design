@@ -4,10 +4,13 @@ package com.mygdx.game.PathfindingUtils;
 import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedGraph;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.Mappers.ResourceMapper;
 
 import java.util.BitSet;
 
@@ -118,7 +121,8 @@ public class MapGraph implements IndexedGraph<TiledNode>{
                     t.getCell(x / multiplier, y / multiplier).getTile().getProperties().containsKey("blocked")
             );
         for(RectangleMapObject r : map.getLayers().get("collision_layer").getObjects().getByType(RectangleMapObject.class))
-            colide = colide || r.getRectangle().contains(x / multiplier, y / multiplier);
+            colide = colide || r.getRectangle().contains(x / multiplier * ResourceMapper.tileWidth + ResourceMapper.tileWidth / multiplier / 2,
+                    y * ResourceMapper.tileHeight / multiplier + ResourceMapper.tileHeight / multiplier / 2);
         return colide;
     }
 
@@ -146,5 +150,13 @@ public class MapGraph implements IndexedGraph<TiledNode>{
     public boolean colideO1Building(int x, int y) {
         return (x < 0 || y < 0 || x >= width || y >=  height) ||
                 (colideBuilding.get(getNode(x, y).getIndex())) || getNode(x, y).entities.size > 0;
+    }
+
+    public static int toTile(float integer, boolean vertical){
+        if(vertical){
+            return (int) integer / ResourceMapper.tileHeight;
+        }else{
+            return (int) integer / ResourceMapper.tileWidth;
+        }
     }
 }
