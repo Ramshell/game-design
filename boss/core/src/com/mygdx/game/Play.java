@@ -4,6 +4,7 @@ import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -11,11 +12,13 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.game.Builders.*;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
@@ -42,7 +45,7 @@ import com.mygdx.game.Systems.Fog.FogSystem;
 public class Play implements Screen {
 
     public TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
+    public OrthogonalTiledMapRenderer renderer;
     public OrthographicCamera camera;
     private Stage stage;
     private CameraComponent cameraComponent;
@@ -59,14 +62,12 @@ public class Play implements Screen {
     public Box2DDebugRenderer box2DRenderer;
     public RayHandler rayHandler;
     public HUDComponent hudComponent;
+    public InputMultiplexer multiplexer;
+    public Entity firstWorker;
 
     public Play(Engine engine, Game game) {
         this.engine = engine;
         this.game = game;
-    }
-
-    @Override
-    public void show() {
         world = new World(new Vector2(0, -9.81f), true);
         RayHandler.setGammaCorrection(true);
         RayHandler.useDiffuseLight(true);
@@ -113,16 +114,20 @@ public class Play implements Screen {
         matchComponent.camera = camera;
 
         GoalComponent goalComponent = new GoalComponent();
-        goalComponent.condition = new TutorialVictoryCondition(engine, playerComponent, 1);
-        engine.addEntity(new Entity().add(goalComponent));
         GoalComponent goalComponent2 = new GoalComponent();
-        goalComponent2.condition = new CollectResourcesVictoryCondition(engine, playerComponent, 1200);
-        engine.addEntity(new Entity().add(goalComponent2));
         GoalComponent goalComponent3 = new GoalComponent();
+        GoalComponent goalComponent4 = new GoalComponent();
+        goalComponent.condition = new TutorialVictoryCondition(engine, playerComponent, 1);
+        goalComponent.displayFromBeginning = true;
+        goalComponent2.condition = new CollectResourcesVictoryCondition(engine, playerComponent, 1500);
+        goalComponent.nextConditions.add(goalComponent2);
+        engine.addEntity(new Entity().add(goalComponent));
+        engine.addEntity(new Entity().add(goalComponent2));
         goalComponent3.condition = new DestroyEnemiesVictoryCondition(engine, playerComponentEnemy);
         engine.addEntity(new Entity().add(goalComponent3));
-        GoalComponent goalComponent4 = new GoalComponent();
         goalComponent4.condition = new DeadLineVictoryCondition(engine, playerComponentEnemy, 600);
+        goalComponent2.nextConditions.add(goalComponent3);
+        goalComponent2.nextConditions.add(goalComponent4);
         engine.addEntity(new Entity().add(goalComponent4));
         DefeatComponent defeatComponent = new DefeatComponent();
         defeatComponent.condition = new NormalDefeatCondition(engine, playerComponent);
@@ -131,29 +136,30 @@ public class Play implements Screen {
         defeatComponent2.condition = new DeadLineDefeatCondition(engine, playerComponent, 600);
         engine.addEntity(new Entity().add(defeatComponent2));
 
-        engine.addEntity(workerBuilder.getWorker(playerComponent,0, 0));
+        firstWorker = workerBuilder.getWorker(playerComponent,14, 4);
+        engine.addEntity(firstWorker);
 
-        Entity worker = workerBuilder.getWorker(playerComponentEnemy,16, 0);
+        Entity worker = workerBuilder.getWorker(playerComponentEnemy,30, 0);
         engine.addEntity(worker);
         final TryingBuildingComponent tryingBuildingComponent = new TryingBuildingComponent();
-        tryingBuildingComponent.building = mainBuildingBuilder.getWall(playerComponentEnemy,16,0);
+        tryingBuildingComponent.building = mainBuildingBuilder.getWall(playerComponentEnemy,30,0);
         worker.add(tryingBuildingComponent);
-        new CreateBuildingAction(16 * ResourceMapper.tileWidth, 0, engine, playerComponentEnemy, mapGraph).act(worker);
+        new CreateBuildingAction(30 * ResourceMapper.tileWidth, 0, engine, playerComponentEnemy, mapGraph).act(worker);
 
-        for(int i = 16; i < 21; i += 2){
+        for(int i = 20; i < 26; i += 2){
             Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, 16, i);
             engine.addEntity(soldierEnemy);
             new PatrolAction(2 * ResourceMapper.tileWidth, i * ResourceMapper.tileHeight).act(soldierEnemy);
         }
 
 
-        for(int i = 32; i < 39; ++i){
+        for(int i = 40; i < 40; ++i){
             Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, 32, i);
             engine.addEntity(soldierEnemy);
             new PatrolAction(12 * ResourceMapper.tileWidth, i * ResourceMapper.tileHeight).act(soldierEnemy);
         }
 
-        for(int i = 32; i < 39; ++i){
+        for(int i = 45; i < 50; ++i){
             Entity soldierEnemy = soldierBuilder.getSoldier(playerComponentEnemy, i, 32);
             engine.addEntity(soldierEnemy);
             new PatrolAction(i * ResourceMapper.tileWidth,12  * ResourceMapper.tileHeight).act(soldierEnemy);
@@ -197,7 +203,7 @@ public class Play implements Screen {
         engine.addSystem(new DefeatSystem(game));
         engine.addSystem(new FogSystem(playerComponent));
         stage = hudComponent.stage;
-        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer = new InputMultiplexer();
         UserInputHandler userInputHandler = new UserInputHandler(rtsCamera, player,mapComponent, engine, mapGraph);
 
         multiplexer.addProcessor(stage);
@@ -205,10 +211,18 @@ public class Play implements Screen {
         multiplexer.addProcessor(new ActionsInputHandler(playerComponent, engine, mapGraph));
         multiplexer.addProcessor(userInputHandler);
 
-        Gdx.input.setInputProcessor(multiplexer);
         engine.addSystem(new SelectionRenderSystem(userInputHandler.selection, mapComponent.camera));
         engine.addSystem(new MatchTimeSystem());
         engine.addSystem(new RenderHudSystem());
+    }
+
+
+    @Override
+    public void show() {
+        for(EntitySystem es : engine.getSystems()){
+            es.setProcessing(true);
+        }
+        Gdx.input.setInputProcessor(multiplexer);
         AssetsMapper.playMusic();
     }
 
@@ -239,7 +253,11 @@ public class Play implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+        for(EntitySystem es : engine.getSystems()){
+            es.setProcessing(false);
+        }
+        Gdx.input.setInputProcessor(null);
+        AssetsMapper.pauseMusic();
     }
 
     @Override
@@ -247,5 +265,6 @@ public class Play implements Screen {
         map.dispose();
         renderer.dispose();
         rayHandler.dispose();
+        Gdx.input.setInputProcessor(null);
     }
 }

@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -26,12 +27,14 @@ public class NLogo extends ScreenAdapter {
     float b = 0/255f;
 
     private Image logo;
-
+//    private final Play play;
+    private IntroCutscene play;
     private float duration = 6;
 
     public NLogo(final Game game, final SpriteBatch batch){
         this.batch = batch;
         this.game = game;
+        play = new IntroCutscene(game, batch);
         stage = new Stage(new FitViewport(1366, 768));
         skin = AssetsMapper.hudSkin;
         logo = new Image(AssetsMapper.nLogo);
@@ -52,7 +55,7 @@ public class NLogo extends ScreenAdapter {
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
-                        game.setScreen(new Play(new Engine(), game));
+                        game.setScreen(play);
                         AssetsMapper.logoMusic.stop();
                     }
                 })));
@@ -75,6 +78,11 @@ public class NLogo extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+            game.setScreen(play);
+            AssetsMapper.logoMusic.stop();
+            return;
+        }
         Gdx.gl.glClearColor(r, g, b, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         duration -= delta;

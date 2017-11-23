@@ -40,8 +40,11 @@ public class SelectedWO {
         return actions;
     }
 
-
     public void add(Entity entity){
+        add(entity, true);
+    }
+
+    public void add(Entity entity, boolean sound){
         if(gotEnemy()) deselect();
         WorldObjectComponent wo = Mappers.world.get(entity);
         DynamicWOComponent dyn = Mappers.dynamicWOComponentMapper.get(entity);
@@ -75,7 +78,7 @@ public class SelectedWO {
         this.actions = actions;
         selectedObjects.add(entity);
         entity.add(new SelectionComponent());
-        playSound(entity);
+        if(sound && selectedObjects.size == 1) playSound(entity);
     }
 
     private void playSound(Entity entity) {
@@ -91,7 +94,7 @@ public class SelectedWO {
 
     public void addEnemy(Entity e) {
         deselect();
-        add(e);
+        add(e, false);
         e.getComponent(SelectionComponent.class).selectedByEnemy = true;
         name = name + " - Enemy";
     }
@@ -108,10 +111,14 @@ public class SelectedWO {
 
     public void act(Action<Entity> action){
         if(gotEnemy()) return;
+        boolean first = true;
         for(Entity e : selectedObjects){
-            if(action.stringSound == null) playSound(e);
-            else playSound(e, action.stringSound);
+            if(first) {
+                if (action.stringSound == null) playSound(e);
+                else playSound(e, action.stringSound);
+            }
             action.act(e);
+            first = false;
         }
     }
 

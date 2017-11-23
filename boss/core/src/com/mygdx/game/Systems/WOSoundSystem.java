@@ -38,7 +38,7 @@ public class WOSoundSystem extends EntitySystem{
             float volume = 1;
             if(Mappers.world.get(e) != null){
                 float distance = cameraComponent.getCamera().position.cpy().sub(Mappers.world.get(e).bounds.getRectangle().getX(), Mappers.world.get(e).bounds.getRectangle().getY(), 0).len();
-                if(distance > cameraComponent.getCamera().viewportHeight || distance > cameraComponent.getCamera().viewportWidth)
+                if(distance > cameraComponent.getCamera().viewportHeight * 0.6f || distance > cameraComponent.getCamera().viewportWidth * 0.6f)
                     volume = 0.3f;
             }
             float start = System.nanoTime();

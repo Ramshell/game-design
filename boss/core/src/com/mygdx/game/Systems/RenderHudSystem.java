@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -54,7 +55,12 @@ public class RenderHudSystem extends EntitySystem implements EntityListener{
         updateBuildBar(hud);
         updateResources(hud);
         updateButtons(hud);
-        updateMissions(hud);
+        updateMissions();
+    }
+
+    private void updateMissions() {
+        for(Map.Entry<GoalComponent, Label> pair : missions.entrySet())
+            pair.getValue().setText(pair.getKey().condition.getDescription());
     }
 
     private void updateBuildBar(HUDComponent hud) {
@@ -86,12 +92,6 @@ public class RenderHudSystem extends EntitySystem implements EntityListener{
             hud.buildQueue.setValue(0);
             hud.buildQueue.setAnimateDuration(0f);
             hud.buildQueue.setVisible(false);
-        }
-    }
-
-    private void updateMissions(HUDComponent hud) {
-        for(Map.Entry<GoalComponent, Label> p : missions.entrySet()){
-            p.getValue().setText(p.getKey().condition.getDescription());
         }
     }
 
@@ -134,16 +134,44 @@ public class RenderHudSystem extends EntitySystem implements EntityListener{
     @Override
     public void entityAdded(Entity entity) {
         if(Mappers.goalComponentMapper.get(entity) != null){
-            Label label = new Label(Mappers.goalComponentMapper.get(entity).condition.getDescription(), hud.skin);
-            hud.missionTable.row();
-            hud.missionTable.add(label).top().left().padLeft(10).padTop(5);
+            GoalComponent goalComponent = Mappers.goalComponentMapper.get(entity);
+            Label label = new Label(goalComponent.condition.getDescription(), hud.skin);
+            if(goalComponent.displayFromBeginning) {
+                label.addAction(goalComponent.actionBeforeShow);
+                hud.missionTable.row();
+                hud.missionTable.add(label).top().left().padLeft(10).padTop(5);
+            }
             missions.put(Mappers.goalComponentMapper.get(entity), label);
         }
     }
 
     @Override
     public void entityRemoved(Entity entity) {
-        missions.get(Mappers.goalComponentMapper.get(entity)).setColor(com.badlogic.gdx.graphics.Color.GREEN);
-//        missions.remove(Mappers.goalComponentMapper.get(entity));
+        final GoalComponent goalComponent = Mappers.goalComponentMapper.get(entity);
+        final Label label = missions.get(goalComponent);
+        missions.remove(goalComponent);
+        label.addAction(Actions.sequence(
+                goalComponent.actionBeforeCompletion,
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(goalComponent.nextConditions.size > 0){
+                            missions.put(goalComponent.nextConditions.get(0), label);
+                        }else label.setText("");
+                    }
+                }),
+                goalComponent.nextConditions.size > 0 ?
+                        goalComponent.nextConditions.get(0).actionBeforeShow :
+                        Actions.delay(0)
+        ));
+        if(goalComponent.nextConditions.size > 1){
+            for(int i = 1; i < goalComponent.nextConditions.size; ++i){
+                Label label2 = new Label(goalComponent.nextConditions.get(i).condition.getDescription(), hud.skin);
+                label2.addAction(goalComponent.nextConditions.get(i).actionBeforeShow);
+                hud.missionTable.row();
+                hud.missionTable.add(label2).top().left().padLeft(10).padTop(5);
+                missions.put(goalComponent.nextConditions.get(i), label2);
+            }
+        }
     }
 }

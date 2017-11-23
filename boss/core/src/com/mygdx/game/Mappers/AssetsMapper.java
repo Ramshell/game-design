@@ -96,6 +96,7 @@ public class AssetsMapper {
     public static FileHandle harlandAmablesFlatterer3;
     public static FileHandle harlandAmablesFlattererAttack1, harlandAmablesFlattererAttack2, harlandAmablesFlattererAttack3;
     public static FileHandle harlandAmablesFlattererSpawn, harlandAmablesFlattererDeath;
+    public static Sound missionComplete;
 
     public static Skin damageSkin;
     public static Skin tracerSkin;
@@ -451,6 +452,7 @@ public class AssetsMapper {
         harlandAmablesFlattererAttack1 = Gdx.files.internal("soundtrack/sounds/amables_flatter/attack_flatterer_1.wav");
         harlandAmablesFlattererAttack2 = Gdx.files.internal("soundtrack/sounds/amables_flatter/attack_flatterer_2.wav");
         harlandAmablesFlattererAttack3 = Gdx.files.internal("soundtrack/sounds/amables_flatter/attack_flatterer_3.wav");
+        missionComplete = Gdx.audio.newSound(Gdx.files.internal("soundtrack/sounds/missions/snare.wav"));
     }
 
     public static void playMusic(){
