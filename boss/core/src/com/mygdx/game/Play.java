@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.*;
@@ -15,10 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.mygdx.game.Builders.EoLBuilder;
-import com.mygdx.game.Builders.HarlandSoldierBuilder;
-import com.mygdx.game.Builders.HarlandWorkerBuilder;
-import com.mygdx.game.Builders.MainBuildingBuilder;
+import com.mygdx.game.Builders.*;
 import com.mygdx.game.Components.*;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.Matches.DefeatComponent;
@@ -52,6 +50,7 @@ public class Play implements Screen {
     public MainBuildingBuilder mainBuildingBuilder;
     public HarlandWorkerBuilder workerBuilder;
     public HarlandSoldierBuilder soldierBuilder;
+    public HarlandAmablesFlattererBuilder amablesFlattererBuilder;
     public MapGraph mapGraph;
     private ParticleEffect effect;
     private Game game;
@@ -61,7 +60,10 @@ public class Play implements Screen {
     public RayHandler rayHandler;
     public HUDComponent hudComponent;
 
-    public Play(Engine engine, Game game) { this.engine = engine; this.game=game;}
+    public Play(Engine engine, Game game) {
+        this.engine = engine;
+        this.game = game;
+    }
 
     @Override
     public void show() {
@@ -91,6 +93,7 @@ public class Play implements Screen {
         mainBuildingBuilder = new MainBuildingBuilder(renderer, this);
         workerBuilder = new HarlandWorkerBuilder(this, mapGraph);
         soldierBuilder = new HarlandSoldierBuilder(this, mapGraph);
+        amablesFlattererBuilder = new HarlandAmablesFlattererBuilder(this, mapGraph);
         eolBuilder = new EoLBuilder(this, mapGraph);
         RTSCamera rtsCamera = new RTSCamera();
         PlayerComponent playerComponent = new PlayerComponent();

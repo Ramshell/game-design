@@ -2,6 +2,7 @@ package com.mygdx.game.Components.Combat;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.utils.Array;
 
 public class AttackProgressionComponent implements Component{
     public float damage, attackSpeed,
@@ -9,7 +10,7 @@ public class AttackProgressionComponent implements Component{
             minDamage, maxDamage,
             timeOutOfRange = 0;
     public Entity target;
-    public boolean atRange = false;
+    public boolean atRange = false, areaDamage = false;
 
     public AttackProgressionComponent(Entity e, float damage, float attackSpeed,
                                       float attackDuration){
@@ -18,6 +19,19 @@ public class AttackProgressionComponent implements Component{
         this.damage = damage;
         this.attackDuration = attackDuration;
     }
+
+    public AttackProgressionComponent(Entity e, float damage, float attackSpeed,
+                                      float attackDuration, boolean areaDamage){
+        this(e, damage, attackSpeed, attackDuration);
+        this.areaDamage = areaDamage;
+    }
+
+    public AttackProgressionComponent(Entity e, float minDamage, float maxDamage, float attackSpeed,
+                                      float attackDuration, boolean areaDamage){
+        this(e, minDamage, maxDamage, attackSpeed, attackDuration);
+        this.areaDamage = areaDamage;
+    }
+
     public AttackProgressionComponent(Entity e, float minDamage, float maxDamage, float attackSpeed,
                                       float attackDuration){
         target = e;

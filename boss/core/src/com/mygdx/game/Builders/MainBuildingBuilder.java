@@ -95,6 +95,7 @@ public class MainBuildingBuilder {
                 playerComponent.selectedObject.act(new AddToBuildQueueAction(new CreateHarlandWorkerAction(play.mapGraph, playerComponent, play), HarlandWorkerBuilder.COST));
             }
         };
+
         ActionComponent craftHarlandSoldier = new ActionComponent();
         craftHarlandSoldier.button = AssetsMapper.craftHarlandSoldierButton;;
         craftHarlandSoldier.listener = new ClickListener(){
@@ -113,9 +114,31 @@ public class MainBuildingBuilder {
             }
         };
 
+        ActionComponent craftHarlandAmablesFlatterer = new ActionComponent();
+        craftHarlandAmablesFlatterer.button = AssetsMapper.craftHarlandAmablesFlattererButton;;
+        craftHarlandAmablesFlatterer.listener = new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                play.hudComponent.hintTitle.setText("Train Harlanding Amable's Flatterer");
+                play.hudComponent.hintCost.setText("Cost: " + HarlandAmablesFlattererBuilder.COST);
+                play.hudComponent.hintContent.setText("This Unit is the main attack for the harlandings");
+            }
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
+                play.hudComponent.hintTitle.setText("");
+                play.hudComponent.hintCost.setText("");
+                play.hudComponent.hintContent.setText("");
+            }
+            public void clicked (InputEvent event, float x, float y) {
+                playerComponent.selectedObject.act(new AddToBuildQueueAction(new CreateHarlandAmablesFlattererAction(play.mapGraph, playerComponent, play), HarlandAmablesFlattererBuilder.COST));
+            }
+        };
+
+
         craftHarland.key = "craftHarland";
         craftHarlandSoldier.key = "craftHarlandSoldier";
-        actions.add(craftHarland);actions.add(craftHarlandSoldier);
+        craftHarlandAmablesFlatterer.key = "craftHarlandAmablesFlatterer";
+        actions.add(craftHarland);
+        actions.add(craftHarlandSoldier);
+        actions.add(craftHarlandAmablesFlatterer);
         Array<CellComponent> cells = new Array<CellComponent>();
         Vector2 v = new Vector2(x, y);
         CellComponent cellComponent = create_cell(wallTile9, background, v, 0 ,1);

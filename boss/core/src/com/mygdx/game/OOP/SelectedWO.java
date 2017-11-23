@@ -79,19 +79,12 @@ public class SelectedWO {
     }
 
     private void playSound(Entity entity) {
-        if( Mappers.woSoundComponentMapper.get(entity)  != null) {
-            if(Mappers.woSoundComponentMapper.get(entity).lastSound != null){
-                Mappers.woSoundComponentMapper.get(entity).lastSound.stop();
-            }
-            entity.add(new PlaySoundComponent("action"));
-        }
+        playSound(entity, "action");
     }
 
     private void playSound(Entity entity, String stringSound) {
+        if(gotEnemy()) return;
         if( Mappers.woSoundComponentMapper.get(entity)  != null) {
-            if(Mappers.woSoundComponentMapper.get(entity).lastSound != null){
-                Mappers.woSoundComponentMapper.get(entity).lastSound.stop();
-            }
             entity.add(new PlaySoundComponent(stringSound));
         }
     }

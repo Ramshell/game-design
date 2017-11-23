@@ -17,6 +17,7 @@ import com.mygdx.game.Entities.UnitEntity;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.ResourceMapper;
 import com.mygdx.game.OOP.Actions.*;
+import com.mygdx.game.OOP.RTSSound;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Play;
 
@@ -36,12 +37,18 @@ public class HarlandWorkerBuilder extends UnitBuilder{
      * **/
     public Entity getWorker(final PlayerComponent player, int posX, int posY){
         WOSoundComponent ws = new WOSoundComponent();
-        ws.sounds.put("action", new Array<Sound>());
-        Array<Sound> sounds = ws.sounds.get("action");
-        sounds.add(AssetsMapper.harlandWorker1);
-        sounds.add(AssetsMapper.harlandWorker2);
-        sounds.add(AssetsMapper.harlandWorker3);
-        sounds.add(AssetsMapper.harlandWorker4);
+        ws.sounds.put("action", new Array<RTSSound>());
+        ws.sounds.put("death", new Array<RTSSound>());
+        ws.sounds.put("spawn", new Array<RTSSound>());
+        Array<RTSSound> sounds = ws.sounds.get("action");
+        sounds.add(new RTSSound(AssetsMapper.harlandWorker1, 3f));
+        sounds.add(new RTSSound(AssetsMapper.harlandWorker2, 3f));
+        sounds.add(new RTSSound(AssetsMapper.harlandWorker3, 4f));
+        sounds.add(new RTSSound(AssetsMapper.harlandWorker4, 5f));
+        sounds = ws.sounds.get("death");
+        sounds.add(new RTSSound(AssetsMapper.harlandWorkerDeath, 1.8f, RTSSound.STOP_AND_PLAY));
+        sounds = ws.sounds.get("spawn");
+        sounds.add(new RTSSound(AssetsMapper.harlandWorkerSpawn, 2.2f, RTSSound.STOP_AND_PLAY));
 
         Array<ActionComponent> actions = new Array<ActionComponent>();
         ActionComponent move = new ActionComponent();
@@ -143,6 +150,6 @@ public class HarlandWorkerBuilder extends UnitBuilder{
         wo.actions = actions;
         wo.visibility = 384f;
         return new UnitEntity(player, wo, posX, posY,
-                IDLE, anim, new HealthComponent(45), id++, play, 384f).add(gPower).add(ws);
+                IDLE, anim, new HealthComponent(45), id++, play, 384f, 60).add(gPower).add(ws);
     }
 }

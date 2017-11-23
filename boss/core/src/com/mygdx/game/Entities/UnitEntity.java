@@ -15,9 +15,9 @@ public class UnitEntity extends Entity{
     public UnitEntity(PlayerComponent player, WorldObjectComponent wo,
                       float posX, float posY, int initialState,
                       AnimationComponent anim, HealthComponent healthComponent,
-                      int id, Play play, float visibility){
+                      int id, Play play, float visibility, float maxSpeed){
         VelocityComponent velocityComponent = new VelocityComponent();
-        velocityComponent.maxSpeed = 60;
+        velocityComponent.maxSpeed = maxSpeed;
         StateComponent state = new StateComponent();
         state.set(initialState);
         TextureComponent t = new TextureComponent();
