@@ -453,6 +453,7 @@ public class AssetsMapper {
         harlandAmablesFlattererAttack2 = Gdx.files.internal("soundtrack/sounds/amables_flatter/attack_flatterer_2.wav");
         harlandAmablesFlattererAttack3 = Gdx.files.internal("soundtrack/sounds/amables_flatter/attack_flatterer_3.wav");
         missionComplete = Gdx.audio.newSound(Gdx.files.internal("soundtrack/sounds/missions/snare.wav"));
+
     }
 
     public static void playMusic(){

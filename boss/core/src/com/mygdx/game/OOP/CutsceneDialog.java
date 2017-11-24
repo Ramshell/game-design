@@ -8,9 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class CutsceneDialog {
     public static Action forDialog(final String s, final Label label){
+        return forDialog(s, label, 0.01f, 0.5f, 3);
+    }
+    public static Action forDialog(final String s, final Label label,
+                                   float speedTransition,
+                                   float commaTransition,
+                                   float endTransition){
         final MutableString currString = new MutableString("");
         final MutableInt curr = new MutableInt(0);
-        float speedTransition = 0.01f;
         SequenceAction res = Actions.sequence();
         res.addAction(Actions.alpha(0));
         res.addAction(Actions.fadeIn(1, Interpolation.pow5));
@@ -49,7 +54,7 @@ public class CutsceneDialog {
                     curr.add();
                 }
             }),
-            Actions.delay(0.5f)));
+            Actions.delay(commaTransition)));
         }
         if(separatedByComma.length > 1){
             res.addAction(Actions.repeat(separatedByComma[separatedByComma.length-1].length(),
@@ -65,8 +70,8 @@ public class CutsceneDialog {
                             Actions.delay(speedTransition)
                     )));
         }
-        res.addAction(Actions.delay(3));
-        res.addAction(Actions.fadeOut(1, Interpolation.pow5));
+        res.addAction(Actions.delay(endTransition / 2));
+        res.addAction(Actions.fadeOut(endTransition / 2, Interpolation.pow5));
         res.addAction(Actions.run(new Runnable() {
             @Override
             public void run() {

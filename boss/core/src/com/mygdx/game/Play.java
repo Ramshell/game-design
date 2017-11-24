@@ -86,7 +86,7 @@ public class Play implements Screen {
         engine.addEntity(new Entity().add(matchComponent));
 
         TmxMapLoader loader = new TmxMapLoader();
-        map = loader.load("characters/lava2.tmx");
+        map = loader.load("characters/lava_3.tmx");
         ResourceMapper.width = map.getProperties().get("width", Integer.class);
         ResourceMapper.height = map.getProperties().get("height", Integer.class);
         ResourceMapper.tileWidth = map.getProperties().get("tilewidth", Integer.class);

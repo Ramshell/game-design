@@ -7,20 +7,20 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.Components.CameraComponent;
 import com.mygdx.game.Components.HUD.HUDComponent;
 import com.mygdx.game.Components.PositionComponent;
+import com.mygdx.game.Components.VelocityComponent;
 import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
@@ -37,14 +37,14 @@ public class IntroCutscene extends ScreenAdapter {
     private SpriteBatch batch;
     private Stage stage;
     private final Label label;
-    private String workerScript;
-    private String currString = "";
-    private int curr;
     private Skin skin;
     private final Play play;
     float r = 0/255f;
     float g = 0/255f;
     float b = 0/255f;
+    Array<Sound> steps = new Array<Sound>();
+    private Sound step1, step2, step3, step4, step5, step6, step7, step8, step9,
+    hurry, i_must_hurry, i_should, for_the_holy, eol, this_is_a_g_spot;
 
 
     public IntroCutscene(final Game game, final SpriteBatch batch){
@@ -53,12 +53,63 @@ public class IntroCutscene extends ScreenAdapter {
         play = new Play(new Engine(), game);
         stage = new Stage(new FitViewport(1366, 768, play.camera), play.renderer.getBatch());
         skin = AssetsMapper.hudSkin;
+        loadSounds();
         label = new Label("", skin);
         label.setWrap(true);
         label.setWidth(150);
-        workerScript = "There must be a good place to setup the basecamp for the company in the nearby, I must hurry.";
-        curr = 0;
-        label.addAction(CutsceneDialog.forDialog(workerScript, label));
+        label.addAction(Actions.sequence(
+            Actions.parallel(
+                CutsceneDialog.forDialog("Hurry...", label, 0.01f, 0, 0.5f),
+                playSoundAction(hurry)
+            ),
+            Actions.parallel(
+                CutsceneDialog.forDialog("I must..... Hurry", label, 0.01f, 0, 0.75f),
+                playSoundAction(i_must_hurry)
+            ),
+            Actions.parallel(
+                CutsceneDialog.forDialog("I should find a good spot in the nearby to setup a basecamp", label, 0.01f, 0, 2f),
+                playSoundAction(i_should)
+            )
+        ));
+    }
+
+    private Action playSoundAction(final Sound sound) {
+        return Actions.sequence(
+                Actions.delay(0.6f),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        sound.play();
+                    }
+                })
+        );
+    }
+
+    private void loadSounds() {
+        step1 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/snow_step_wet-01.wav"));
+        step2 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/snow_step_wet-02.wav"));
+        step3 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/snow_step_wet-03.wav"));
+        step4 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/snow_step_wet-04.wav"));
+        step5 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/snow_step_wet-05.wav"));
+        step6 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/snow_step_wet-06.wav"));
+        step7 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/snow_step_wet-07.wav"));
+        step8 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/snow_step_wet-08.wav"));
+        step9 = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/snow_step_wet-09.wav"));
+        steps.add(step1);
+        steps.add(step2);
+        steps.add(step3);
+        steps.add(step4);
+        steps.add(step5);
+        steps.add(step6);
+        steps.add(step7);
+        steps.add(step8);
+        steps.add(step9);
+        hurry = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/hurry.wav"));
+        i_must_hurry = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/i_must_hurry.wav"));
+        i_should = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/i_should.wav"));
+        for_the_holy = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/for_the_holy.wav"));
+        eol = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/eol.wav"));
+        this_is_a_g_spot = Gdx.audio.newSound(Gdx.files.internal("soundtrack/cutscenes/1/this_is_a_g_spot.wav"));
     }
 
     private void setSystems(boolean b){
@@ -82,6 +133,8 @@ public class IntroCutscene extends ScreenAdapter {
         for(EntitySystem es : play.engine.getSystems()){
             es.setProcessing(false);
         }
+        Mappers.position.get(play.engine.getEntitiesFor(Family.all(PositionComponent.class, CameraComponent.class).get()).first())
+                .pos.set(play.firstWorker.getComponent(WorldPositionComponent.class).position);
         Action moveAction = Actions.run(new Runnable() {
             @Override
             public void run() {
@@ -95,38 +148,47 @@ public class IntroCutscene extends ScreenAdapter {
                         setSystems(true);
                     }
                 }),
-                moveAction,
-                Actions.delay(3),
+                Actions.parallel(
+                        moveAction,
+                        stepsAction(),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                stage.addActor(label);
+                            }
+                        })
+
+                ),
+                Actions.delay(9),
+                Actions.parallel(
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                new MoveAction(play.worker_3.x * 32, play.worker_3.y * 32, play.mapGraph).act(play.firstWorker);
+                            }
+                        }),
+                        stepsAction()
+                ),
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
-                        Rectangle r = Mappers.world.get(play.firstWorker).bounds.getRectangle();
-                        label.setPosition(r.x, r.y + r.height * 3);
-                        stage.addActor(label);
-                    }
-                }),
-                Actions.delay(10),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        new MoveAction(play.worker_3.x * 32, play.worker_3.y * 32, play.mapGraph).act(play.firstWorker);
-                    }
-                }),
-                Actions.delay(5),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        Rectangle r = Mappers.world.get(play.firstWorker).bounds.getRectangle();
-                        label.setPosition(r.x, r.y + r.height * 3);
-                        label.setText("");
                         label.addAction(Actions.sequence(
-                            CutsceneDialog.forDialog("Oh for the holy Esssence!!", label),
-                            CutsceneDialog.forDialog("EoL!!", label),
-                            CutsceneDialog.forDialog("This is a good place to set up the basecamp! Hands up!", label)
+                            Actions.parallel(
+                                    CutsceneDialog.forDialog("Oh for the holy Esssence!!", label, 0.01f, 0, 1.5f),
+                                    playSoundAction(for_the_holy)
+                            ),
+                            Actions.parallel(
+                                    CutsceneDialog.forDialog("EoL!!", label,0.01f, 0, 1f),
+                                    playSoundAction(eol)
+                            ),
+                            Actions.parallel(
+                                    CutsceneDialog.forDialog("This is a good one to setup it! Heads up!", label),
+                                    playSoundAction(this_is_a_g_spot)
+                            )
                         ));
                     }
                 }),
-                Actions.delay(19),
+                Actions.delay(11),
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
@@ -144,14 +206,31 @@ public class IntroCutscene extends ScreenAdapter {
         ));
     }
 
+    private Action stepsAction() {
+        return Actions.sequence(
+                Actions.delay(0.01f),
+                Actions.repeat(12, Actions.sequence(
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                steps.random().play();
+                            }
+                        }),
+                        Actions.delay(0.32f)
+                ))
+        );
+    }
+
     @Override
     public void render(float delta) {
         float time = delta;
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             time = delta * 3;
         }
-        Mappers.position.get(play.engine.getEntitiesFor(Family.all(PositionComponent.class, CameraComponent.class).get()).first())
-        .pos.set(play.firstWorker.getComponent(WorldPositionComponent.class).position);
+        Mappers.velocity.get(play.engine.getEntitiesFor(Family.all(PositionComponent.class, CameraComponent.class).get()).first())
+                .pos.set(play.firstWorker.getComponent(VelocityComponent.class).pos);
+        Rectangle r = Mappers.world.get(play.firstWorker).bounds.getRectangle();
+        label.setPosition(r.x, r.y + r.height * 3);
         play.engine.update(time);
         stage.act(time);
         stage.draw();

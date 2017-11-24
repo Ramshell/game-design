@@ -18,7 +18,7 @@ public class GoalComponent implements Component {
                     Actions.run(new Runnable() {
                         @Override
                         public void run() {
-                            AssetsMapper.missionComplete.play();
+                            AssetsMapper.missionComplete.play(0.5f);
                         }
                     }),
                     Actions.sequence(Actions.color(Color.GREEN, 1, Interpolation.pow2In), Actions.fadeOut(2, Interpolation.pow2Out))
