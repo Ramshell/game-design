@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -133,6 +134,7 @@ public class IntroCutscene extends ScreenAdapter {
         for(EntitySystem es : play.engine.getSystems()){
             es.setProcessing(false);
         }
+        setSystems(true);
         Mappers.position.get(play.engine.getEntitiesFor(Family.all(PositionComponent.class, CameraComponent.class).get()).first())
                 .pos.set(play.firstWorker.getComponent(WorldPositionComponent.class).position);
         Action moveAction = Actions.run(new Runnable() {
@@ -142,15 +144,9 @@ public class IntroCutscene extends ScreenAdapter {
             }
         });
         stage.addAction(Actions.sequence(
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        setSystems(true);
-                    }
-                }),
                 Actions.parallel(
                         moveAction,
-                        stepsAction(),
+                        stepsAction(0.01f, 0.32f, 12),
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {
@@ -159,7 +155,7 @@ public class IntroCutscene extends ScreenAdapter {
                         })
 
                 ),
-                Actions.delay(9),
+                Actions.delay(7),
                 Actions.parallel(
                         Actions.run(new Runnable() {
                             @Override
@@ -167,28 +163,28 @@ public class IntroCutscene extends ScreenAdapter {
                                 new MoveAction(play.worker_3.x * 32, play.worker_3.y * 32, play.mapGraph).act(play.firstWorker);
                             }
                         }),
-                        stepsAction()
+                        stepsAction(0.01f, 0.32f, 16),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                label.addAction(Actions.sequence(
+                                        Actions.parallel(
+                                                CutsceneDialog.forDialog("Oh for the holy Esssence!!", label, 0.01f, 0, 1.5f),
+                                                playSoundAction(for_the_holy)
+                                        ),
+                                        Actions.parallel(
+                                                CutsceneDialog.forDialog("EoL!!", label,0.01f, 0, 1f),
+                                                playSoundAction(eol)
+                                        ),
+                                        Actions.parallel(
+                                                CutsceneDialog.forDialog("This is a good one to setup it! Heads up!", label),
+                                                playSoundAction(this_is_a_g_spot)
+                                        )
+                                ));
+                            }
+                        })
                 ),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        label.addAction(Actions.sequence(
-                            Actions.parallel(
-                                    CutsceneDialog.forDialog("Oh for the holy Esssence!!", label, 0.01f, 0, 1.5f),
-                                    playSoundAction(for_the_holy)
-                            ),
-                            Actions.parallel(
-                                    CutsceneDialog.forDialog("EoL!!", label,0.01f, 0, 1f),
-                                    playSoundAction(eol)
-                            ),
-                            Actions.parallel(
-                                    CutsceneDialog.forDialog("This is a good one to setup it! Heads up!", label),
-                                    playSoundAction(this_is_a_g_spot)
-                            )
-                        ));
-                    }
-                }),
-                Actions.delay(11),
+                Actions.delay(5),
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
@@ -206,17 +202,17 @@ public class IntroCutscene extends ScreenAdapter {
         ));
     }
 
-    private Action stepsAction() {
+    private Action stepsAction(float firstDelay, float betweenSteps, int count) {
         return Actions.sequence(
-                Actions.delay(0.01f),
-                Actions.repeat(12, Actions.sequence(
+                Actions.delay(firstDelay),
+                Actions.repeat(count, Actions.sequence(
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {
                                 steps.random().play();
                             }
                         }),
-                        Actions.delay(0.32f)
+                        Actions.delay(betweenSteps)
                 ))
         );
     }
@@ -227,12 +223,12 @@ public class IntroCutscene extends ScreenAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             time = delta * 3;
         }
-        Mappers.velocity.get(play.engine.getEntitiesFor(Family.all(PositionComponent.class, CameraComponent.class).get()).first())
-                .pos.set(play.firstWorker.getComponent(VelocityComponent.class).pos);
+        Mappers.position.get(play.engine.getEntitiesFor(Family.all(PositionComponent.class, CameraComponent.class).get()).first())
+                .pos.set(play.firstWorker.getComponent(WorldPositionComponent.class).position);
         Rectangle r = Mappers.world.get(play.firstWorker).bounds.getRectangle();
         label.setPosition(r.x, r.y + r.height * 3);
-        play.engine.update(time);
         stage.act(time);
+        play.engine.update(time);
         stage.draw();
     }
 

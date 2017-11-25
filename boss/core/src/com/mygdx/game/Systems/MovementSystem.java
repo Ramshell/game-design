@@ -28,7 +28,7 @@ public class MovementSystem extends EntitySystem {
 
     public void update(float deltaTime) {
         for (Entity entity : getEngine().getEntitiesFor(Family.all(PositionComponent.class, VelocityComponent.class)
-                .exclude(CameraComponent.class).get())) {
+                .get())) {
             PositionComponent position = pm.get(entity);
             VelocityComponent velocity = vm.get(entity);
             Vector2 v = position.pos.cpy()
@@ -38,24 +38,8 @@ public class MovementSystem extends EntitySystem {
             position.pos = v;
             velocity.increment(deltaTime);
         }
-        for (Entity entity : getEngine().getEntitiesFor(Family.all(PositionComponent.class, VelocityComponent.class)
-                .one(CameraComponent.class).get())) {
-            PositionComponent position = pm.get(entity);
-            VelocityComponent velocity = vm.get(entity);
-            Vector2 v = position.pos.cpy()
-                    .add(velocity.accel.cpy().scl(1/2 * deltaTime * deltaTime)
-                            .add(velocity.pos.cpy().scl(deltaTime)));
-            if(outsideWorldCamera(v, entity)) continue;
-            position.pos = v;
-            velocity.increment(deltaTime);
-        }
     }
 
-    private boolean outsideWorldCamera(Vector2 v, Entity entity) {
-        CameraComponent cameraComponent = Mappers.camera.get(entity);
-        return v.y < cameraComponent.getCamera().viewportHeight / 2 || v.y > ResourceMapper.tileHeight * ResourceMapper.height - cameraComponent.getCamera().viewportHeight / 2 ||
-                v.x < cameraComponent.getCamera().viewportWidth / 2 || v.x > ResourceMapper.tileWidth * ResourceMapper.width - cameraComponent.getCamera().viewportWidth / 2;
-    }
 
     public static Vector2 screenToIso(float screenX, float screenY){
         return new Vector2(- screenY + screenX * 0.5f, screenY + screenX * 0.5f);
