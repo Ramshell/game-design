@@ -15,6 +15,7 @@ public class CreateBuildingAction extends MoveAction{
     PlayerComponent player;
     MapGraph mapGraph;
     private ComponentMapper<CellsComponent> cellsMapper = ComponentMapper.getFor(CellsComponent.class);
+    private int count = 0;
 
     public CreateBuildingAction(float x, float y, Engine engine, PlayerComponent player, MapGraph mapGraph){
         super(x, y, mapGraph);
@@ -25,6 +26,7 @@ public class CreateBuildingAction extends MoveAction{
 
     @Override
     public void act(Entity e) {
+        if(count > 0) return;
         TryingBuildingComponent tryingBuildingComponent = Mappers.tryingBuildingComponentMapper.get(e);
         Vector2 v = Mappers.spawn.get(tryingBuildingComponent.building).nextSpawnTile(mapGraph);
         x = (int) v.x;
@@ -36,6 +38,7 @@ public class CreateBuildingAction extends MoveAction{
         bc.y = y * ResourceMapper.tileHeight;
         e.remove(TryingBuildingComponent.class);
         e.add(bc);
+        count++;
 
     }
 }
