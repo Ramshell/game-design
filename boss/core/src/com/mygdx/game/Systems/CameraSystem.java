@@ -38,16 +38,17 @@ public class CameraSystem extends EntitySystem {
     }
 
     private float cameraUpperBound(CameraComponent cameraComponent, boolean width){
+        float bound = cameraLowerBound(cameraComponent, width);
         if(width)
-            return ResourceMapper.tileWidth * ResourceMapper.width - cameraComponent.getCamera().viewportWidth / 2;
+            return ResourceMapper.tileWidth * ResourceMapper.width - bound;
         else
-            return ResourceMapper.tileHeight * ResourceMapper.height - cameraComponent.getCamera().viewportHeight / 2;
+            return ResourceMapper.tileHeight * ResourceMapper.height - bound;
     }
 
     private float cameraLowerBound(CameraComponent cameraComponent, boolean width){
         if(width)
-            return cameraComponent.getCamera().viewportWidth / 2;
+            return cameraComponent.getCamera().viewportWidth / 2 * cameraComponent.getCamera().zoom;
         else
-            return cameraComponent.getCamera().viewportHeight / 2;
+            return cameraComponent.getCamera().viewportHeight / 2 * cameraComponent.getCamera().zoom;
     }
 }
