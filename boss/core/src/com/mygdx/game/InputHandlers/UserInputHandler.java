@@ -247,7 +247,8 @@ public class UserInputHandler extends InputAdapter implements GestureDetector.Ge
     @Override
     public boolean tap(float x, float y, int count, int button) {
         if(count != 2 || button != Input.Buttons.LEFT || pm.get(player).selectedObject.getSelectedObjects().size != 1 ||
-                !Mappers.player.get(pm.get(player).selectedObject.getSelectedObjects().first()).equals(Mappers.player.get(player))) return false;
+                (Mappers.player.get(pm.get(player).selectedObject.getSelectedObjects().first()) != null &&
+                !Mappers.player.get(pm.get(player).selectedObject.getSelectedObjects().first()).equals(Mappers.player.get(player)))) return false;
         Rectangle rectangle = new Rectangle(
                 Mappers.camera.get(camera).getCamera().position.x - Mappers.camera.get(camera).getCamera().viewportWidth / 2,
                 Mappers.camera.get(camera).getCamera().position.y - Mappers.camera.get(camera).getCamera().viewportHeight / 2,
