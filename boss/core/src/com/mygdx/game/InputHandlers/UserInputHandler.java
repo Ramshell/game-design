@@ -20,10 +20,7 @@ import com.mygdx.game.Entities.PlayerEntity;
 import com.mygdx.game.Entities.RTSCamera;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.Mappers.Mappers;
-import com.mygdx.game.OOP.Actions.AttackAction;
-import com.mygdx.game.OOP.Actions.DeleteAction;
-import com.mygdx.game.OOP.Actions.MoveAction;
-import com.mygdx.game.OOP.Actions.ResourceGatheringAction;
+import com.mygdx.game.OOP.Actions.*;
 import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Systems.MovementSystem;
 
@@ -116,6 +113,15 @@ public class UserInputHandler extends InputAdapter implements GestureDetector.Ge
                 break;
             case Input.Keys.FORWARD_DEL:
                 Mappers.player.get(player).selectedObject.act(new DeleteAction());
+            case Input.Keys.A:
+                Mappers.player.get(player).action = new ActionBuilder() {
+                    @Override
+                    public Action<Entity> getAction(float x, float y) {
+                        OrthographicCamera OCamera = Mappers.camera.get(camera).getCamera();
+                        Vector3 v = OCamera.unproject(new Vector3(x, y, 0));
+                        return new MoveAttackingAction(v.x, v.y, mapGraph);
+                    }
+                };
         }
         return true;
     }

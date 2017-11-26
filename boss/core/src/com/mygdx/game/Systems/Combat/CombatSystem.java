@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.mygdx.game.Builders.UnitBuilder;
 import com.mygdx.game.Components.Combat.AttackProgressionComponent;
 import com.mygdx.game.Components.Combat.RangedWeaponComponent;
+import com.mygdx.game.Components.Combat.WannaAttackComponent;
 import com.mygdx.game.Components.MapGraphComponent;
 import com.mygdx.game.Components.WorldObjects.PatrolComponent;
 import com.mygdx.game.Components.WorldObjects.TargetComponent;
@@ -38,9 +39,9 @@ public class CombatSystem extends EntitySystem{
                     worldPositionComponent.position.x + ResourceMapper.tileWidth / 2,
                     worldPositionComponent.position.y + ResourceMapper.tileHeight / 2);
             ////////////////////// ignore non idle objects ////////////////////////////
-            if(Mappers.patrolComponentMapper.get(e) == null &&
+            if((Mappers.patrolComponentMapper.get(e) == null &&
                     (Mappers.stateComponentMapper.get(e).state != UnitBuilder.IDLE ||
-                    Mappers.target.get(e) != null)) continue;
+                    Mappers.target.get(e) != null)) && !(Mappers.target.get(e) != null && e.getComponent(WannaAttackComponent.class) != null)) continue;
             ///////////////////////////////////////////////////////////////////////////
             AttackProgressionComponent attackProgressionComponent = Mappers.attackProgressionComponentMapper.get(e);
             if(attackProgressionComponent != null && atVision(rangedWeaponComponent, attackProgressionComponent.target)) continue;

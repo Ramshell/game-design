@@ -3,6 +3,7 @@ package com.mygdx.game.OOP.Actions;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.pfa.PathSmoother;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
+import com.mygdx.game.Components.Combat.WannaAttackComponent;
 import com.mygdx.game.Components.WorldObjects.WorldPositionComponent;
 import com.mygdx.game.Components.WorldObjects.TargetComponent;
 import com.mygdx.game.Mappers.Mappers;
@@ -34,6 +35,7 @@ public class MoveAction extends Action<Entity>{
 
     @Override
     public void act(Entity e) {
+        e.remove(WannaAttackComponent.class);
         if(mapGraph.colideO1(x, y)) return;
         path = new TiledSmoothableGraphPath<TiledNode>();
         WorldPositionComponent pos = Mappers.worldPosition.get(e);
