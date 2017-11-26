@@ -148,8 +148,8 @@ public class HarlandSoldierBuilder extends UnitBuilder{
         wo.actions = actions;
         wo.visibility = 512f;
         RangedWeaponComponent rangedWeaponComponent = new RangedWeaponComponent();
-        rangedWeaponComponent.range = new Circle(0, 0, 64);
-        rangedWeaponComponent.visionRange = new Circle(0, 0, 128);
+        rangedWeaponComponent.range = new Circle(0, 0, 128);
+        rangedWeaponComponent.visionRange = new Circle(0, 0, 192);
         rangedWeaponComponent.attackDuration = 0.5f;
         rangedWeaponComponent.attackSpeed = 1;
         rangedWeaponComponent.minDamage = 3;
