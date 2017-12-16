@@ -23,7 +23,7 @@ import com.mygdx.game.Play;
 
 public class HarlandWorkerBuilder extends UnitBuilder{
 
-    public static final float BUILD_SPEED = 8;
+    public static float BUILD_SPEED = 8;
     public static final float MAX_BUILD_SPEED = 100;
     public static int COST = 90;
 
@@ -81,6 +81,11 @@ public class HarlandWorkerBuilder extends UnitBuilder{
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
                 play.hudComponent.hintTitle.setText("Craft Harlanding Center");
                 play.hudComponent.hintCost.setText(String.valueOf(MainBuildingBuilder.COST));
+                if(player.resources < MainBuildingBuilder.COST){
+                    play.hudComponent.hintCost.setColor(play.hudComponent.redColor);
+                }else {
+                    play.hudComponent.hintCost.setColor(play.hudComponent.greenColor);
+                }
                 play.hudComponent.hintContent.setText("Left click on this button, and then left click to choose where you want to build");
             }
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
@@ -150,6 +155,6 @@ public class HarlandWorkerBuilder extends UnitBuilder{
         wo.actions = actions;
         wo.visibility = 384f;
         return new UnitEntity(player, wo, posX, posY,
-                IDLE, anim, new HealthComponent(45), id++, play, 384f, 60).add(gPower).add(ws);
+                IDLE, anim, new HealthComponent(45), id++, play, 512, 60).add(gPower).add(ws);
     }
 }

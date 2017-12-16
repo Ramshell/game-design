@@ -146,7 +146,7 @@ public class IntroCutscene extends ScreenAdapter {
         stage.addAction(Actions.sequence(
                 Actions.parallel(
                         moveAction,
-                        stepsAction(0.01f, 0.32f, 12),
+                        stepsAction(0.01f, 0.32f, 20),
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {

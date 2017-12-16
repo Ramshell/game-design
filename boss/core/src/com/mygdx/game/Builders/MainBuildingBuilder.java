@@ -84,6 +84,11 @@ public class MainBuildingBuilder {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
                 play.hudComponent.hintTitle.setText("Train Harland Worker");
                 play.hudComponent.hintCost.setText("Cost: " + HarlandWorkerBuilder.COST);
+                if(playerComponent.resources < HarlandWorkerBuilder.COST){
+                    play.hudComponent.hintCost.setColor(play.hudComponent.redColor);
+                }else {
+                    play.hudComponent.hintCost.setColor(play.hudComponent.greenColor);
+                }
                 play.hudComponent.hintContent.setText("This unit is useful to gather resources and to build structures");
             }
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
@@ -102,6 +107,11 @@ public class MainBuildingBuilder {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
                 play.hudComponent.hintTitle.setText("Train Harlanding Soldier");
                 play.hudComponent.hintCost.setText("Cost: " + HarlandSoldierBuilder.COST);
+                if(playerComponent.resources < HarlandSoldierBuilder.COST){
+                    play.hudComponent.hintCost.setColor(play.hudComponent.redColor);
+                }else {
+                    play.hudComponent.hintCost.setColor(play.hudComponent.greenColor);
+                }
                 play.hudComponent.hintContent.setText("This Unit is the main defense for the harlandings");
             }
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){
@@ -120,6 +130,11 @@ public class MainBuildingBuilder {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
                 play.hudComponent.hintTitle.setText("Train Harlanding Amable's Flatterer");
                 play.hudComponent.hintCost.setText("Cost: " + HarlandAmablesFlattererBuilder.COST);
+                if(playerComponent.resources < HarlandAmablesFlattererBuilder.COST){
+                    play.hudComponent.hintCost.setColor(play.hudComponent.redColor);
+                }else {
+                    play.hudComponent.hintCost.setColor(play.hudComponent.greenColor);
+                }
                 play.hudComponent.hintContent.setText("This Unit is the main attack for the harlandings");
             }
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor){

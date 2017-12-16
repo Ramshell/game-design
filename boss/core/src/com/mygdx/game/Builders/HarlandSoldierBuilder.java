@@ -25,7 +25,7 @@ import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Play;
 
 public class HarlandSoldierBuilder extends UnitBuilder{
-    public static final float BUILD_SPEED = 5;
+    public static float BUILD_SPEED = 5;
     public static final float MAX_BUILD_SPEED = 100;
     public static int COST = 150;
 
@@ -155,7 +155,7 @@ public class HarlandSoldierBuilder extends UnitBuilder{
         rangedWeaponComponent.minDamage = 3;
         rangedWeaponComponent.maxDamage = 10;
         return new UnitEntity(player, wo, posX, posY,
-                IDLE, anim, new HealthComponent(70), id++, play, 512f, 60)
+                IDLE, anim, new HealthComponent(70), id++, play, 768, 60)
                 .add(rangedWeaponComponent).add(ws);
     }
 }

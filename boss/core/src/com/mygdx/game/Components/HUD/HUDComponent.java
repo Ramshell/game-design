@@ -16,6 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Builders.HarlandAmablesFlattererBuilder;
+import com.mygdx.game.Builders.HarlandSoldierBuilder;
+import com.mygdx.game.Builders.HarlandWorkerBuilder;
+import com.mygdx.game.Builders.MainBuildingBuilder;
 import com.mygdx.game.Components.PlayerComponent;
 import com.mygdx.game.Mappers.AssetsMapper;
 import com.mygdx.game.OOP.Actions.Action;
@@ -35,6 +39,7 @@ public class HUDComponent implements Component {
     public Label hintTitle;
     public Label hintContent;
     public Label hintCost;
+    public Color greenColor, redColor;
     public Skin skin = AssetsMapper.hudSkin;
 
     public Label selectedObjectLabel;
@@ -102,7 +107,23 @@ public class HUDComponent implements Component {
 
         stage.addActor(missionTable);
         Table minimapTable = new Table(skin).left();
-//        minimapTable.add(AssetsMapper.moveButton);
+        TextButton textButton = new TextButton("aegis", AssetsMapper.tracerSkin);
+        textButton.addListener(new ClickListener(){
+            public void clicked (InputEvent event, float x, float y) {
+                HarlandWorkerBuilder.BUILD_SPEED = 8 * 4;
+                HarlandSoldierBuilder.BUILD_SPEED = 5 * 4;
+                HarlandAmablesFlattererBuilder.BUILD_SPEED = 4 * 4;
+            }
+        });
+        TextButton gisGood = new TextButton("greedisgood", AssetsMapper.tracerSkin);
+        gisGood.addListener(new ClickListener(){
+            public void clicked (InputEvent event, float x, float y) {
+                player.resources += 500;
+            }
+        });
+        minimapTable.add(textButton);
+        minimapTable.row();
+        minimapTable.add(gisGood);
         Table statsTable = new Table(skin).top();
         actionsTable = new Table(skin).right();
         for(int i = 0; i < 3; i++)
@@ -141,13 +162,17 @@ public class HUDComponent implements Component {
         bottomTable.setBackground(t2);
 
         hintTitle = new Label("",AssetsMapper.tracerSkin, "title");
-        hintTitle.setColor(new Color(1,1,0.2f, 1 ));
+        hintTitle.setColor(Color.BLUE);
+        hintTitle.setFontScale(0.3f);
         hintTitle.setWrap(true);
         hintContent = new Label("",AssetsMapper.tracerSkin);
         hintContent.setWrap(true);
         hintCost = new Label("", AssetsMapper.tracerSkin, "title");
+        hintCost.setFontScale(0.3f);
         hintCost.setWrap(true);
-        hintCost.setColor(new Color(0.3f, 1, 0.2f, 1));
+        greenColor = new Color(0.3f, 1, 0.2f, 1);
+        redColor = Color.RED;
+        hintCost.setColor(greenColor);
         midTable2.add(hintTitle).right().bottom().expandX().width(384);
         midTable2.row();
         midTable2.add(hintCost).right().bottom().expandX().width(384);

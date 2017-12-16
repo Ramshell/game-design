@@ -39,7 +39,7 @@ public class ResourceGatheringAction extends MoveAction{
 
     public void act(Entity worker){
         super.act(worker);
-        if(!Mappers.world.get(worker).objectName.substring(Mappers.world.get(worker).objectName.length()-6).equals("Worker")) return;
+        if(!Mappers.world.get(worker).objectName.endsWith("Worker")) return;
         worker.add(new StartGatheringComponent(resource, worker));
     }
 }

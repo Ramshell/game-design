@@ -25,7 +25,7 @@ import com.mygdx.game.PathfindingUtils.MapGraph;
 import com.mygdx.game.Play;
 
 public class HarlandAmablesFlattererBuilder extends UnitBuilder{
-    public static final float BUILD_SPEED = 6;
+    public static float BUILD_SPEED = 4;
     public static final float MAX_BUILD_SPEED = 100;
     public static int COST = 180;
 
@@ -164,7 +164,7 @@ public class HarlandAmablesFlattererBuilder extends UnitBuilder{
         rangedWeaponComponent.maxDamage = 25;
         rangedWeaponComponent.area = true;
         return new UnitEntity(player, wo, posX, posY,
-                IDLE, anim, new HealthComponent(100), id++, play, 416f, 90)
+                IDLE, anim, new HealthComponent(100), id++, play, 512, 90)
                 .add(rangedWeaponComponent).add(ws);
     }
 }
