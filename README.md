@@ -1,3 +1,3 @@
-# game-design
+# Essence of Life
 
-This repo is used to upload the three evaluation instances of the game-design subject at UNQ.
+RTS game based on the story of the forgotten land called Harland.
